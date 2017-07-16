@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC  "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"  "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+
+	<!-- Layout1 Content Base Definition -->
+	<definition name="base-definition"
+		template="/WEB-INF/views/layouts/L1/masterlayout.jsp">
+		<put-attribute name="body" value="" />
+	</definition>
+
+	<!-- Layout1 Login Base Definition -->
+	<definition name="login-base-definition" template="/WEB-INF/views/layouts/L1/loginlayout.jsp">
+		<put-attribute name="body" value="" />
+	</definition>
+
+	<!-- Layout1 Info Base Definition -->
+	<definition name="info-base-definition" template="/WEB-INF/views/layouts/L1/infolayout.jsp">
+		<put-attribute name="body" value="" />
+	</definition>
+
+	<!-- Login Page -->
+	<definition name="login" extends="login-base-definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/general/login.jsp" />
+	</definition>
+
+	<!-- Registration Page -->
+	<definition name="registerSystemUser" extends="login-base-definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/user/registerSystemUser.jsp" />
+	</definition>
+
+	<!-- Access Denied Page -->
+	<definition name="accessDenied" extends="info-base-definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/general/accessdenied.jsp" />
+	</definition>
+
+	<!-- Session Expired Page -->
+	<definition name="invalidSession" extends="info-base-definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/general/sessionexpired.jsp" />
+	</definition>
+
+
+	<!-- Home Page -->
+	<definition name="home" extends="base-definition">
+		<put-attribute name="body" value="/WEB-INF/views/pages/home.jsp" />
+	</definition>
+
+
+</tiles-definitions>

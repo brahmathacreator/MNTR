@@ -1,0 +1,7 @@
+menu.administration.menu,menu.administration.menu.desc,#,0,0,0,1,0,2017-07-14 11:45:00,0,2017-07-14 11:45:00
+menu.administration.create.user,menu.administration.create.user.desc,createuser,1,0,1,1,0,2017-07-14 11:45:00,0,2017-07-14 11:45:00
+menu.administration.create.role,menu.administration.create.role.desc,createrole,1,1,1,1,0,2017-07-14 11:45:00,0,2017-07-14 11:45:00
+menu.administration.create.permission,menu.administration.create.permission.desc,createPermission,1,2,1,1,0,2017-07-14 11:45:00,0,2017-07-14 11:45:00
+menu.administration.configuration.menu,menu.administration.configuration.menu.desc,#,0,1,0,1,0,2017-07-14 11:45:00,0,2017-07-14 11:45:00
+menu.configuration.create.catagory,menu.configuration.create.catagory.desc,createCatagory,1,0,5,1,0,2017-07-14 11:45:00,0,2017-07-14 11:45:00
+menu.configuration.create.mechine,menu.configuration.create.mechine.desc,createMachine,1,1,5,1,0,2017-07-14 11:45:00,0,2017-07-14 11:45:00

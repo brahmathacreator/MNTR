@@ -1,0 +1,19 @@
+<htm>
+<head></head>
+<body>
+<p>
+Dear ${userid}
+<br /><br />
+You are registered successfully.
+<br /><br />
+Please click the below link to create your password.
+<br /><br />
+<a href="${regConfirmURL}">Click here to confirm the registration</a>
+<br /><br />
+Application login page : ${appURL}
+<br /><br />
+Regards,<br />
+Ramakrishna.R
+</p>
+</body>
+</html>
