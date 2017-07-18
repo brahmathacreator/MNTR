@@ -14,7 +14,7 @@ public class SSValidationConfig implements Serializable {
 	public final static int passGeneralMax = 16;
 	public final static String textGeneralPattern = "^[A-Za-z0-9 _,\\.\\/\\-]*$";
 	public final static String textGeneralUserIdPatteren = "^[A-Za-z0-9_]*$";
-	public final static String passGeneralPattern = "/^(?=.*[0-9])(?=.*[@#%])[a-zA-Z0-9!@#$%^&*]{8,16}$/";
+	public final static String passGeneralPattern = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#%]).{8,16})";
 	public final static String phnoGeneralPatteren = "^[0-9]{8}$|^[0-9]{10}$";
 
 	// security configuration constants

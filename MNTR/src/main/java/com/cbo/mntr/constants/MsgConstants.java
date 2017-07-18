@@ -22,5 +22,6 @@ public class MsgConstants implements Serializable {
 	public final static Integer passwordCtrlrMsgCode1 = 6;
 	public final static Integer passwordCtrlrMsgCode2 = 7;
 	public final static Integer passwordCtrlrMsgCode3 = 8;
+	public final static Integer passwordCtrlrMsgCode4 = 9;
 
 }

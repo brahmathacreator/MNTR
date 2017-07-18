@@ -65,14 +65,14 @@ public class UserInfo implements Serializable {
 	private Integer status;
 
 	@Column(name = "CREATED_BY", nullable = false)
-	private Integer createdBy;
+	private Long createdBy;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "CREATED_DT", nullable = false)
 	private Date createdDT;
 
 	@Column(name = "MODIFIED_BY", nullable = false)
-	private Integer modifiedBy;
+	private Long modifiedBy;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "MODIFIED_DT", nullable = false)
@@ -196,28 +196,28 @@ public class UserInfo implements Serializable {
 		this.loginType = loginType;
 	}
 
-	public Integer getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setCreatedBy(Integer createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public Integer getModifiedBy() {
-		return modifiedBy;
-	}
-
-	public void setModifiedBy(Integer modifiedBy) {
-		this.modifiedBy = modifiedBy;
-	}
-
 	public PasswordDetails getPasswordDetails() {
 		return passwordDetails;
 	}
 
 	public void setPasswordDetails(PasswordDetails passwordDetails) {
 		this.passwordDetails = passwordDetails;
+	}
+
+	public Long getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(Long createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public Long getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(Long modifiedBy) {
+		this.modifiedBy = modifiedBy;
 	}
 
 }

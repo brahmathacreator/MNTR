@@ -35,6 +35,7 @@ public class PasswordDetailsDTO implements Serializable {
 	private Long passRefId;
 	private String uuid;
 	private Date uuidDT;
+	private Long modifiedBy;
 
 	public String getPassword() {
 		return password;
@@ -74,6 +75,14 @@ public class PasswordDetailsDTO implements Serializable {
 
 	public void setPassRefId(Long passRefId) {
 		this.passRefId = passRefId;
+	}
+
+	public Long getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(Long modifiedBy) {
+		this.modifiedBy = modifiedBy;
 	}
 
 }

@@ -60,52 +60,64 @@
 			</h3>
 		</div>
 		<div class="panel-body">
-			<sf:form action="${actionURL}" commandName="mObject" role="form"
-				autocomplete="false" id="form1" name="form1" method="post"
-				data-parsley-validate="data-parsley-validate">
-				<fieldset>
-					<div class="form-group">
-						<label>${pwd}</label>
-						<sf:input class="form-control convertInputUpperCase"
-							path="password" id="password" type="password" autocomplete="off"
-							required="required" data-parsley-required-message="${ttReqYes}"
-							data-parsley-minlength="${csgPassMin}"
-							data-parsley-minlength-message="${ttMin}${csgPassMin}"
-							data-parsley-maxlength="${csgPassMax}"
-							data-parsley-maxlength-message="${ttMax}${csgPassMax}"
-							data-parsley-pattern="${csgPassPat}"
-							data-parsley-pattern-message="${ttAllow2}" data-toggle="tooltip"
-							data-html="true"
-							title="${ttField}${pwd}${ttDetails}<br>${ttReqYes}<br>${ttMin}${csgPassMin}<br>${ttMax}${csgPassMax}<br>${ttAllow2}" />
-						<sf:errors path="password" class="text-danger" />
-					</div>
-					<div class="form-group">
-						<label>${cpwd}</label>
-						<sf:input class="form-control convertInputUpperCase"
-							path="cPassword" id="cPassword" type="password"
-							autocomplete="off" required="required"
-							data-parsley-required-message="${ttReqYes}"
-							data-parsley-minlength="${csgPassMin}"
-							data-parsley-minlength-message="${ttMin}${csgPassMin}"
-							data-parsley-maxlength="${csgPassMax}"
-							data-parsley-maxlength-message="${ttMax}${csgPassMax}"
-							data-parsley-pattern="${csgPassPat}"
-							data-parsley-pattern-message="${ttAllow2}" data-toggle="tooltip"
-							data-html="true" data-parsley-equalto="#password"
-							data-parsley-equalto-message="${pwdMsg}"
-							title="${ttField}${pwd}${ttDetails}<br>${ttReqYes}<br>${ttMin}${csgPassMin}<br>${ttMax}${csgPassMax}<br>${ttAllow2}" />
-						<sf:errors path="cPassword" class="text-danger" />
-					</div>
-					<div class="form-group">
-						<input type="submit" class="btn btn-lg btn-success btn-block"
-							value="${btnSubmitTxt}" /> <input type="hidden"
-							name="${_csrf.parameterName}" value="${_csrf.token}" /> <input
-							type="hidden" name="CURDOpt" value="${CURDOpt}" />
-						<sf:input type="hidden" path="passRefId" id="passRefId"
-							value="${pwdRefId}" />
-					</div>
-				</fieldset>
-			</sf:form>
+			<c:choose>
+				<c:when test="${succFlg eq 1}">
+					<a href="login" class="btn btn-primary"><spring:message
+							code='page.login.txt4' /></a>
+				</c:when>
+				<c:otherwise>
+					<sf:form action="${actionURL}" commandName="mObject" role="form"
+						autocomplete="false" id="form1" name="form1" method="post"
+						data-parsley-validate="data-parsley-validate">
+						<fieldset>
+							<div class="form-group">
+								<label>${pwd}</label>
+								<sf:input class="form-control convertInputUpperCase"
+									path="password" id="password" type="password"
+									autocomplete="off" required="required"
+									data-parsley-required-message="${ttReqYes}"
+									data-parsley-minlength="${csgPassMin}"
+									data-parsley-minlength-message="${ttMin}${csgPassMin}"
+									data-parsley-maxlength="${csgPassMax}"
+									data-parsley-maxlength-message="${ttMax}${csgPassMax}"
+									data-parsley-pattern="${csgPassPat}"
+									data-parsley-pattern-message="${ttAllow2}"
+									data-toggle="tooltip" data-html="true"
+									title="${ttField}${pwd}${ttDetails}<br>${ttReqYes}<br>${ttMin}${csgPassMin}<br>${ttMax}${csgPassMax}<br>${ttAllow2}" />
+								<sf:errors path="password" class="text-danger" />
+							</div>
+							<div class="form-group">
+								<label>${cpwd}</label>
+								<sf:input class="form-control convertInputUpperCase"
+									path="cPassword" id="cPassword" type="password"
+									autocomplete="off" required="required"
+									data-parsley-required-message="${ttReqYes}"
+									data-parsley-minlength="${csgPassMin}"
+									data-parsley-minlength-message="${ttMin}${csgPassMin}"
+									data-parsley-maxlength="${csgPassMax}"
+									data-parsley-maxlength-message="${ttMax}${csgPassMax}"
+									data-parsley-pattern="${csgPassPat}"
+									data-parsley-pattern-message="${ttAllow2}"
+									data-toggle="tooltip" data-html="true"
+									data-parsley-equalto="#password"
+									data-parsley-equalto-message="${pwdMsg}"
+									title="${ttField}${pwd}${ttDetails}<br>${ttReqYes}<br>${ttMin}${csgPassMin}<br>${ttMax}${csgPassMax}<br>${ttAllow2}" />
+								<sf:errors path="cPassword" class="text-danger" />
+							</div>
+							<div class="form-group">
+								<input type="submit" class="btn btn-lg btn-success btn-block"
+									value="${btnSubmitTxt}" /> <input type="hidden"
+									name="${_csrf.parameterName}" value="${_csrf.token}" /> <input
+									type="hidden" name="key1" value="${key1}" /> <input
+									type="hidden" name="key2" value="${key2}" /> <input
+									type="hidden" name="CURDOpt" value="${CURDOpt}" />
+								<sf:input type="hidden" path="passRefId" id="passRefId"
+									value="${pwdRefId}" />
+							</div>
+						</fieldset>
+					</sf:form>
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</div>
 </body>

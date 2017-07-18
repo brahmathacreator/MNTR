@@ -36,4 +36,17 @@ public class PasswordDetailsDAOImpl extends AbstractDAO<Serializable, PasswordDe
 		update(passwordDetails);
 	}
 
+	@Override
+	public PasswordDetails getPasswordByPwdRefId(Long pwdRefId) throws Exception {
+		Criteria c = null;
+		try {
+			c = createEntityCriteria();
+			c.add(Restrictions.eq("passRefId", pwdRefId));
+			c.add(Restrictions.eq("status", StatusConstants.active));
+			return (PasswordDetails) c.uniqueResult();
+		} finally {
+			c = null;
+		}
+	}
+
 }

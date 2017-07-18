@@ -53,14 +53,14 @@ public class MenuDetails implements Serializable {
 	private Integer status;
 
 	@Column(name = "CREATED_BY", nullable = false)
-	private Integer createdBy;
+	private Long createdBy;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "CREATED_DT", nullable = false)
 	private Date createdDT;
 
 	@Column(name = "MODIFIED_BY", nullable = false)
-	private Integer modifiedBy;
+	private Long modifiedBy;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "MODIFIED_DT", nullable = false)
@@ -157,19 +157,19 @@ public class MenuDetails implements Serializable {
 		this.roleMenuMapping = roleMenuMapping;
 	}
 
-	public Integer getCreatedBy() {
+	public Long getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(Integer createdBy) {
+	public void setCreatedBy(Long createdBy) {
 		this.createdBy = createdBy;
 	}
 
-	public Integer getModifiedBy() {
+	public Long getModifiedBy() {
 		return modifiedBy;
 	}
 
-	public void setModifiedBy(Integer modifiedBy) {
+	public void setModifiedBy(Long modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
 

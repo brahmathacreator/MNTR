@@ -9,6 +9,6 @@ public interface PasswordDetailsService {
 
 	public void savePassword(PasswordDetails passwordDetails) throws Exception;
 
-	public void updatePassword(PasswordDetails passwordDetails) throws Exception;
+	public void updatePassword(PasswordDetailsDTO passwordDetails) throws Exception;
 
 }

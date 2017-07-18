@@ -24,6 +24,8 @@ public class MsgResolver {
 					msgKey = "page.changepassword.txt2";
 				} else if (msgCode.equals(MsgConstants.passwordCtrlrMsgCode3)) {
 					msgKey = "page.changepassword.txt6";
+				} else if (msgCode.equals(MsgConstants.passwordCtrlrMsgCode4)) {
+					msgKey = "page.changepassword.txt8";
 				} else {
 					msgKey = "page.general.txt18";
 				}

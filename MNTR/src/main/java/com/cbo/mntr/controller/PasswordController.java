@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import com.cbo.mntr.constants.MailConstants;
 import com.cbo.mntr.constants.MsgConstants;
 import com.cbo.mntr.constants.NavigationConstants;
@@ -24,6 +25,7 @@ import com.cbo.mntr.constants.SSValidationConfig;
 import com.cbo.mntr.constants.StatusConstants;
 import com.cbo.mntr.constants.ViewConstants;
 import com.cbo.mntr.dto.PasswordDetailsDTO;
+import com.cbo.mntr.exceptions.CustomException;
 import com.cbo.mntr.service.PasswordDetailsService;
 import com.cbo.mntr.service.security.AESWithPBKDFHashCryptoUtil;
 import com.cbo.mntr.utils.MsgResolver;
@@ -57,6 +59,8 @@ public class PasswordController {
 		PasswordDetailsDTO passwordDetails = null;
 		DateTime currentTime = null, generatedTime = null;
 		try {
+			model.addAttribute(ViewConstants.regConfirmationParam1, encryptedData);
+			model.addAttribute(ViewConstants.regConfirmationParam2, userKey);
 			if (encryptedData != null && !encryptedData.trim().isEmpty() && userKey != null && userKey != 0) {
 				passwordDetails = pwdService.getPasswordByUserKey(userKey);
 				if (passwordDetails != null && passwordDetails.getUuid() != null) {
@@ -98,7 +102,13 @@ public class PasswordController {
 				model.addAttribute(NavigationConstants.errmsg, messageSource
 						.getMessage(MsgResolver.getMsgCodeKey(MsgConstants.parameterMismatch), null, locale));
 			}
+		} catch (CustomException c) {
+			model.addAttribute(NavigationConstants.errmsg,
+					messageSource.getMessage(MsgResolver.getMsgCodeKey(c.getMsgCode()), null, locale));
+			logger.error("CTRLR Error : " + c);
 		} catch (Exception ex) {
+			model.addAttribute(NavigationConstants.errmsg, messageSource
+					.getMessage(MsgResolver.getMsgCodeKey(MsgConstants.problemOccouredMsgCode), null, locale));
 			logger.error("CTRLR Error : " + ex);
 		} finally {
 			decryptedData = null;
@@ -112,21 +122,39 @@ public class PasswordController {
 
 	@RequestMapping(value = { ViewConstants.changePasswordURL1 }, method = RequestMethod.POST)
 	public String savePassword(@ModelAttribute(ViewConstants.modelAttribute) @Valid PasswordDetailsDTO pwdDetails,
-			BindingResult result, Locale locale, ModelMap model, @RequestParam("pwdRefId") Long pwdRefId) {
+			BindingResult result, Locale locale, ModelMap model,
+			@RequestParam(ViewConstants.regConfirmationParam1) String encryptedData,
+			@RequestParam(ViewConstants.regConfirmationParam2) Long userKey) {
 		logger.info("Inside [PasswordController][generateDefaultPassword]");
 		try {
 			model.addAttribute(ViewConstants.curdOpt, StatusConstants.insert);
 			model.addAttribute(ViewConstants.modelAttribute, pwdDetails);
 			model.addAttribute(ViewConstants.actionURL, ViewConstants.changePasswordURL1);
-			if (pwdRefId != null && !pwdRefId.equals(0)) {
+			model.addAttribute(ViewConstants.regConfirmationParam1, encryptedData);
+			model.addAttribute(ViewConstants.regConfirmationParam2, userKey);
+			pwdDetails.setModifiedBy(userKey);
+			if (pwdDetails.getPassRefId() != null && !pwdDetails.getPassRefId().equals(0)) {
 				if (result.hasErrors()) {
-					return ViewConstants.regConfirmationURL;
+					return ViewConstants.changePasswordView;
 				}
-
+				pwdService.updatePassword(pwdDetails);
+				logger.info("CTRLR info : Action Completed Successfully.");
+				model.addAttribute("succFlg", 1);
+				model.addAttribute(NavigationConstants.successMsg,
+						messageSource.getMessage(MsgResolver.getMsgCodeKey(MsgConstants.successMsgCode), null, locale));
+				return ViewConstants.changePasswordView;
 			} else {
-
+				logger.error("CTRLR Error : Password Refference Id Not Available.");
+				model.addAttribute(NavigationConstants.errmsg, messageSource
+						.getMessage(MsgResolver.getMsgCodeKey(MsgConstants.problemOccouredMsgCode), null, locale));
 			}
+		} catch (CustomException c) {
+			model.addAttribute(NavigationConstants.errmsg,
+					messageSource.getMessage(MsgResolver.getMsgCodeKey(c.getMsgCode()), null, locale));
+			logger.error("CTRLR Error : " + c);
 		} catch (Exception ex) {
+			model.addAttribute(NavigationConstants.errmsg, messageSource
+					.getMessage(MsgResolver.getMsgCodeKey(MsgConstants.problemOccouredMsgCode), null, locale));
 			logger.error("CTRLR Error : " + ex);
 		}
 

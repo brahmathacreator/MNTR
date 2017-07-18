@@ -42,8 +42,8 @@ public class UserInfoDTO implements Serializable {
 	@Phone
 	private String phno;
 
-	private Integer createdBy;
-	private Integer modifiedBy;
+	private Long createdBy;
+	private Long modifiedBy;
 	private String userLogo;
 	private String pwdUUID;
 	private Long userKey;
@@ -88,22 +88,6 @@ public class UserInfoDTO implements Serializable {
 		this.userLogo = userLogo;
 	}
 
-	public Integer getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setCreatedBy(Integer createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public Integer getModifiedBy() {
-		return modifiedBy;
-	}
-
-	public void setModifiedBy(Integer modifiedBy) {
-		this.modifiedBy = modifiedBy;
-	}
-
 	public String getPwdUUID() {
 		return pwdUUID;
 	}
@@ -118,6 +102,22 @@ public class UserInfoDTO implements Serializable {
 
 	public void setUserKey(Long userKey) {
 		this.userKey = userKey;
+	}
+
+	public Long getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(Long createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public Long getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(Long modifiedBy) {
+		this.modifiedBy = modifiedBy;
 	}
 
 }

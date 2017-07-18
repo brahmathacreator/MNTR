@@ -10,6 +10,7 @@
 	<div class="login-panel panel panel-default">
 		<div class="panel-heading">
 			<h3 class="panel-title">
+				<i class="fa fa-chevron-circle-right"></i>
 				<spring:message code="page.login.txt0" />
 			</h3>
 		</div>
