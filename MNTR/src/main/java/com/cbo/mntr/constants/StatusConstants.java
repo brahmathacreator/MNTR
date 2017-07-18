@@ -15,4 +15,7 @@ public class StatusConstants implements Serializable {
 	public static final int delete = 3;
 	public static final int view = 4;
 
+	public static final String mailDeliverySuccStatus = "DS";
+	public static final String mailDeliveryFailStatus = "DF";
+
 }

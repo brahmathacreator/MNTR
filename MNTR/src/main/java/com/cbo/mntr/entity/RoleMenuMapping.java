@@ -2,6 +2,7 @@ package com.cbo.mntr.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -26,11 +27,11 @@ public class RoleMenuMapping implements Serializable {
 	@Column(name = "RM_MAPPING_ID", unique = true, nullable = false)
 	private Long RMMappingId;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "ROLE_ID")
 	private UserRole userRole;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "MENU_ID")
 	private MenuDetails menuDetails;
 

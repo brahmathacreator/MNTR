@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.cbo.mntr.constants.MsgConstants;
 import com.cbo.mntr.constants.StatusConstants;
 import com.cbo.mntr.constants.UserConstants;
@@ -23,6 +24,7 @@ import com.cbo.mntr.entity.RoleMenuMapping;
 import com.cbo.mntr.entity.UserInfo;
 import com.cbo.mntr.entity.UserRole;
 import com.cbo.mntr.entity.UserRoleMapping;
+import com.cbo.mntr.exceptions.CustomException;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
@@ -50,7 +52,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public UserInfo getUserByName(String userName) {
+	public UserInfo getUserByName(String userName) throws Exception {
 		try {
 			logger.info("Inside [UserServiceImpl][getUserByName]");
 			return userDao.getUserByName(userName);
@@ -62,7 +64,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public Integer getUserCount() {
+	public Long getUserCount() throws Exception {
 		try {
 			logger.info("Inside [UserServiceImpl][getUserByUserType]");
 			return userDao.getUserCount();
@@ -74,18 +76,16 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public Integer saveSystemUser(final UserInfoDTO user) {
+	public void saveSystemUser(final UserInfoDTO user) throws Exception {
 		UserInfo userInfo = null;
 		PasswordDetails passwordDetails = null;
 		UserRole userRole = null;
 		UserRoleMapping urMapping = null;
 		RoleMenuMapping rmMapping = null;
 		Date d = new Date();
-		Integer status = null;
 		List<MenuDetails> menuDetailsList = null;
 		try {
 			logger.info("Inside [UserServiceImpl][saveSuperAdminUser]");
-
 			userInfo = new UserInfo();
 			userInfo.setUserId(user.getUserId());
 			userInfo.setUserName(user.getUserName());
@@ -112,41 +112,40 @@ public class UserServiceImpl implements UserService {
 
 			urMapping = new UserRoleMapping();
 			urMapping.setUserDetails(userInfo);
-			urMapping.setUserRole(userRole);
-
-			status = urMappingDao.saveUserRoleMapping(urMapping);
-
-			if (MsgConstants.successMsgCode.equals(status)) {
+			menuDetailsList = menuDetailsDao.getAllMenuDetails();
+			if (menuDetailsList == null) {
+				throw new CustomException(MsgConstants.menuDetailsMsgCode1);
+			}
+			for (MenuDetails md : menuDetailsList) {
 				rmMapping = new RoleMenuMapping();
 				rmMapping.setUserRole(userRole);
-
-				menuDetailsList = menuDetailsDao.getAllMenuDetails();
-				if (menuDetailsList == null) {
-					return MsgConstants.menuDetailsMsgCode1;
-				}
-
-				passwordDetails = new PasswordDetails();
-				passwordDetails.setUser(userInfo);
-				passwordDetails.setStatus(StatusConstants.active);
-				passwordDetails.setCreatedBy(user.getCreatedBy());
-				passwordDetails.setCreatedDT(d);
-				passwordDetails.setModifiedBy(user.getModifiedBy());
-				passwordDetails.setModifiedDT(d);
-				passwordDetails.setPwdUUID(user.getPwdUUID());
-				passwordDetails.setUuidGenDT(d);
+				rmMapping.setMenuDetails(md);
+				userRole.getRoleMenuMapping().add(rmMapping);
+				rmMapping = null;
 			}
-			return status;
-		} catch (Exception ex) {
-			logger.error("SVCE ERROR: " + ex);
+			urMapping.setUserRole(userRole);
+			userInfo.getURMapSet().add(urMapping);
+
+			passwordDetails = new PasswordDetails();
+			passwordDetails.setUser(userInfo);
+			passwordDetails.setStatus(StatusConstants.active);
+			passwordDetails.setCreatedBy(user.getCreatedBy());
+			passwordDetails.setCreatedDT(d);
+			passwordDetails.setModifiedBy(user.getModifiedBy());
+			passwordDetails.setModifiedDT(d);
+			passwordDetails.setPwdUUID(user.getPwdUUID());
+			passwordDetails.setUuidGenDT(d);
+
+			pwdDetailsDao.savePassword(passwordDetails);
+
+			user.setUserKey(userInfo.getUserKey());
+
 		} finally {
 			userInfo = null;
 			passwordDetails = null;
 			userRole = null;
 			d = null;
-			status = null;
-
 		}
-		return MsgConstants.problemOccouredMsgCode;
 	}
 
 }

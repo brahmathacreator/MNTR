@@ -8,6 +8,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.cbo.mntr.constants.StatusConstants;
+import com.cbo.mntr.constants.UserConstants;
 import com.cbo.mntr.constants.ViewConstants;
 import com.cbo.mntr.service.UserService;
 
@@ -41,14 +43,14 @@ public class LoginController {
 	@RequestMapping(value = { ViewConstants.login }, method = RequestMethod.GET)
 	public String loginPagewithURL(ModelMap model) {
 		logger.info("Inside [LoginController][loginPagewithURL]");
-		Integer suaCount = null;
+		Long suaCount = null;
 		try {
 			model.addAttribute(ViewConstants.actionURL, ViewConstants.registerSystemUser);
 			suaCount = userService.getUserCount();
 			if (suaCount == null || suaCount == 0)
-				model.addAttribute("suaCount", 0);
+				model.addAttribute(UserConstants.suaCount, StatusConstants.inActive);
 			else
-				model.addAttribute("suaCount", suaCount);
+				model.addAttribute(UserConstants.suaCount, StatusConstants.active);
 		} catch (Exception ex) {
 			logger.error("CTRLR Error: " + ex);
 		}

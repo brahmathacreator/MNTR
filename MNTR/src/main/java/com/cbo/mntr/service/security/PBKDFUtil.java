@@ -12,7 +12,9 @@ import org.apache.tomcat.util.codec.binary.Base64;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
+@Component("PBKDFUtil")
 public class PBKDFUtil implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -31,17 +33,6 @@ public class PBKDFUtil implements Serializable {
 	@Autowired
 	@Qualifier("secRandom")
 	private SecureRandom secRandom;
-
-	public static void main(String args[]) {
-		String hashedPassword = null;
-		try {
-			PBKDFUtil p = new PBKDFUtil();
-			hashedPassword = p.hashPassword("Ramakrishna.R");
-		} catch (Exception genSecExc) {
-			System.out.println(genSecExc.getMessage() + " " + genSecExc.getCause());
-		}
-		System.out.println("PDKDF2 = " + hashedPassword);
-	}
 
 	public String hashPassword(String password) throws GeneralSecurityException {
 		logger.info("Inside [PBKDFUtil][hashPassword]");

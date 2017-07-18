@@ -16,17 +16,17 @@ public class UserDAOImpl extends AbstractDAO<Serializable, UserInfo> implements 
 	@Override
 	public UserInfo getUserByName(String userName) {
 		Criteria c = createEntityCriteria();
-		c.add(Restrictions.eq("USER_ID", userName));
-		c.add(Restrictions.eq("STATUS", StatusConstants.active));
+		c.add(Restrictions.eq("userId", userName));
+		c.add(Restrictions.eq("status", StatusConstants.active));
 		return (UserInfo) c.uniqueResult();
 	}
 
 	@Override
-	public Integer getUserCount() {
+	public Long getUserCount() {
 		Criteria c = createEntityCriteria();
-		c.add(Restrictions.eq("STATUS", StatusConstants.active));
+		c.add(Restrictions.eq("status", StatusConstants.active));
 		c.setProjection(Projections.rowCount());
-		return (Integer) c.uniqueResult();
+		return (Long) c.uniqueResult();
 	}
 
 	@Override

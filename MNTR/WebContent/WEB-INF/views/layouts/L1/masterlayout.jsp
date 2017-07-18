@@ -51,7 +51,31 @@
 		$('[data-toggle="tooltip"]').tooltip();
 	});
 </script>
+<!-- Client Side Validation Config -->
+<spring:message code="textGeneralMin" var="csgTxtmin" />
+<spring:message code="textGeneralMax" var="csgTxtmax" />
+<spring:message code="textGeneralPattern" var="csgTxtPat" />
+<spring:message code="textGeneralUserIdPatteren" var="csgTxtUPat" />
+<spring:message code="passGeneralMin" var="csgPassMin" />
+<spring:message code="passGeneralMin" var="csgPassMax" />
+<spring:message code="passGeneralPattern" var="csgPassPat" />
+<spring:message code="phnoGeneralPattern" var="csgPhonePat" />
+<spring:message code="phnoGeneralMin" var="csgPhoneMin" />
+<spring:message code="phnoGeneralMax" var="csgPhoneMax" />
+<!-- Client Side Validation Config -->
 
+<!-- Tool Tip Config -->
+<spring:message code="page.general.txt2" var="ttField" />
+<spring:message code="page.general.txt3" var="ttDetails" />
+<spring:message code="page.general.txt6" var="ttReqYes" />
+<spring:message code="page.general.txt7" var="ttReqNo" />
+<spring:message code="page.general.txt4" var="ttMin" />
+<spring:message code="page.general.txt5" var="ttMax" />
+<spring:message code="page.general.txt8" var="ttAllow1" />
+<spring:message code="page.general.txt9" var="ttAllow2" />
+<spring:message code="page.general.txt10" var="ttAllow3" />
+<spring:message code="page.general.txt11" var="ttAllow4" />
+<!-- Tool Tip  Config -->
 </head>
 
 <body>

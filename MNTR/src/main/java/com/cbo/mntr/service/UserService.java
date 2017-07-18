@@ -5,10 +5,10 @@ import com.cbo.mntr.entity.UserInfo;
 
 public interface UserService {
 
-	public UserInfo getUserByName(String userName);
+	public UserInfo getUserByName(String userName) throws Exception;
 
-	public Integer getUserCount();
+	public Long getUserCount() throws Exception;
 
-	public Integer saveSystemUser(UserInfoDTO user);
+	public void saveSystemUser(UserInfoDTO user) throws Exception;
 
 }

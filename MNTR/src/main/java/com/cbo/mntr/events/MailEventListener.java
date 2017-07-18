@@ -1,6 +1,7 @@
 package com.cbo.mntr.events;
 
 import java.io.StringWriter;
+import java.util.Date;
 import java.util.Properties;
 import org.apache.log4j.Logger;
 import org.apache.velocity.Template;
@@ -13,12 +14,15 @@ import org.springframework.context.MessageSource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
-
 import com.cbo.mntr.constants.MailConstants;
+import com.cbo.mntr.constants.StatusConstants;
 import com.cbo.mntr.constants.ViewConstants;
 import com.cbo.mntr.dto.UserInfoDTO;
+import com.cbo.mntr.entity.MailDetails;
 import com.cbo.mntr.events.eventcaster.AsyncListner;
+import com.cbo.mntr.service.MailDetailsService;
 import com.cbo.mntr.service.UserService;
+import com.cbo.mntr.service.security.AESWithPBKDFHashCryptoUtil;
 
 @AsyncListner
 @Component
@@ -42,23 +46,34 @@ public class MailEventListener implements ApplicationListener<MailEvent> {
 	@Autowired
 	private VelocityEngine velocityEngine;
 
+	@Autowired
+	@Qualifier("AESUtil")
+	private AESWithPBKDFHashCryptoUtil aesUtil;
+
+	@Autowired
+	@Qualifier("mailDetailsService")
+	private MailDetailsService mailService;
+
 	@Override
 	public void onApplicationEvent(final MailEvent event) {
 		logger.info("Inside [MailEventListner][onApplicationEvent]");
 		if (event.getMailType() == MailConstants.regConfirmationMail) {
-			this.sendRegConfirmationMail(event);
+			this.sendSystemUserRegConfirmationMail(event);
 		} else {
 			logger.error("EVNT ERROR : Invalid Mail Type [" + event.getMailType() + "].");
 		}
 	}
 
-	private void sendRegConfirmationMail(final MailEvent event) {
+	private void sendSystemUserRegConfirmationMail(final MailEvent event) {
 		logger.info("Inside [MailEventListner][constructMail]");
 		UserInfoDTO user = null;
 		SimpleMailMessage mail = null;
 		Template template = null;
 		VelocityContext context = null;
 		StringWriter writer = null;
+		StringBuilder sb = null;
+		MailDetails mailDetails = new MailDetails();
+		Date d = new Date();
 		try {
 			user = ((UserInfoDTO) event.getObject());
 			mail = new SimpleMailMessage();
@@ -66,8 +81,17 @@ public class MailEventListener implements ApplicationListener<MailEvent> {
 					+ messageSource.getMessage(MailConstants.velocityTemplateKey, null, event.getLocale()));
 			context = new VelocityContext();
 			context.put(MailConstants.velocityRegTemplatekey1, user.getUserId());
-			context.put(MailConstants.velocityRegTemplatekey2,
-					event.getAppBaseURL() + ViewConstants.regConfirmationURL + user.getPwdUUID());
+			sb = new StringBuilder();
+			sb.append(event.getAppBaseURL()).append(ViewConstants.regConfirmationURL)
+					.append(ViewConstants.rootParemSeperator).append(ViewConstants.regConfirmationParam1)
+					.append(ViewConstants.paremValueSeperator)
+					.append(aesUtil.encryptData(
+							user.getPwdUUID() + ViewConstants.applicationDataSeperator + event.getMailType()
+									+ ViewConstants.applicationDataSeperator + event.getPwdChangeFlag(),
+							user.getPwdUUID()))
+					.append(ViewConstants.paremSeperator).append(ViewConstants.regConfirmationParam2)
+					.append(ViewConstants.paremValueSeperator).append(user.getUserKey());
+			context.put(MailConstants.velocityRegTemplatekey2, sb.toString());
 			context.put(MailConstants.velocityRegTemplatekey3, event.getAppBaseURL());
 			writer = new StringWriter();
 			template.merge(context, writer);
@@ -77,14 +101,29 @@ public class MailEventListener implements ApplicationListener<MailEvent> {
 					messageSource.getMessage(MailConstants.velocityTemplateRegSubjectKey, null, event.getLocale()));
 			mail.setText(writer.toString());
 			mailSender.send(mail);
+			mailDetails.setDeliveryStatus(StatusConstants.mailDeliverySuccStatus);
+
 		} catch (Exception ex) {
 			logger.error("EVNT ERROR : " + ex);
+			mailDetails.setDeliveryStatus(StatusConstants.mailDeliveryFailStatus);
 		} finally {
+			try {
+				mailDetails.setFromEmailAddr(mntrProperties.getProperty(MailConstants.supportMailkey));
+				mailDetails.setToEmailAddr(user.getEmail());
+				mailDetails.setSentDT(d);
+				mailService.saveMailDetails(mailDetails);
+			} catch (Exception ex) {
+				logger.error("EVNT ERROR : [Mail Details Info Failed] " + ex);
+			}
 			user = null;
 			mail = null;
 			template = null;
 			context = null;
 			writer = null;
+			sb = null;
+			mailDetails = null;
+			d = null;
+
 		}
 	}
 

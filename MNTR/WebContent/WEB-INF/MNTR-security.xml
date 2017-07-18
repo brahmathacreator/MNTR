@@ -11,6 +11,8 @@
 		<intercept-url pattern="/login" access="permitAll" />
 		<intercept-url pattern="/registerSystemUser" access="permitAll" />
 		<intercept-url pattern="/saveSystemUser" access="permitAll" />
+		<intercept-url pattern="/registrationConfirm" access="permitAll" />
+		<intercept-url pattern="/savePassword" access="permitAll" />
 		<intercept-url pattern="/accessDenied" access="permitAll" />
 		<intercept-url pattern="/invalidSession" access="permitAll" />
 		<intercept-url pattern="/resources/**" access="permitAll" />
@@ -21,6 +23,8 @@
 			authentication-success-handler-ref="authSuccHandler"
 			authentication-failure-handler-ref="authFailureHandler"
 			default-target-url="/home" />
+
+		<access-denied-handler error-page="/accessDenied?failed=true" />
 
 		<session-management invalid-session-url="/invalidSession"
 			session-fixation-protection="newSession">
@@ -46,6 +50,13 @@
 
 	<beans:bean id="sessionActiveUser"
 		class="com.cbo.mntr.service.security.SessionActiveUser">
+	</beans:bean>
+
+	<beans:bean id="bouncyProvider"
+		class="org.bouncycastle.jce.provider.BouncyCastleProvider">
+	</beans:bean>
+
+	<beans:bean id="secRandom" class="java.security.SecureRandom">
 	</beans:bean>
 
 </beans:beans>

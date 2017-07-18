@@ -8,11 +8,11 @@ import com.cbo.mntr.constants.SSValidationConfig;
 public class PhoneValidator implements ConstraintValidator<Phone, String> {
 
 	@Override
-	public void initialize(Phone constraintAnnotation) {
+	public void initialize(final Phone constraintAnnotation) {
 	}
 
 	@Override
-	public boolean isValid(String phoneNo, ConstraintValidatorContext context) {
+	public boolean isValid(final String phoneNo, final ConstraintValidatorContext context) {
 		if (phoneNo == null) {
 			return false;
 		}

@@ -15,7 +15,7 @@
 		</div>
 		<div class="panel-body">
 			<c:choose>
-				<c:when test="${suaCount > 0 }">
+				<c:when test="${suaCount eq 1 }">
 					<form role="form">
 						<fieldset>
 							<div class="form-group">

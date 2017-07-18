@@ -31,6 +31,12 @@
 			value="/WEB-INF/views/pages/user/registerSystemUser.jsp" />
 	</definition>
 
+	<!-- Change Password Page -->
+	<definition name="changePassword" extends="login-base-definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/user/changePassword.jsp" />
+	</definition>
+
 	<!-- Access Denied Page -->
 	<definition name="accessDenied" extends="info-base-definition">
 		<put-attribute name="body"

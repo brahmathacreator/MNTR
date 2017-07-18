@@ -51,7 +51,6 @@
 		$('[data-toggle="tooltip"]').tooltip();
 	});
 </script>
-
 </head>
 
 <body>

@@ -2,7 +2,7 @@ package com.cbo.mntr.constants;
 
 import java.io.Serializable;
 
-public class MailConstants implements Serializable{
+public class MailConstants implements Serializable {
 
 	/**
 	 * 
@@ -16,5 +16,6 @@ public class MailConstants implements Serializable{
 	public final static String velocityRegTemplatekey2 = "regConfirmURL";
 	public final static String velocityRegTemplatekey3 = "appURL";
 	public final static int regConfirmationMail = 1;
-
+	public final static int firstTimePasswordChange = 1;
+	public final static int generalPasswordChange = 2;
 }

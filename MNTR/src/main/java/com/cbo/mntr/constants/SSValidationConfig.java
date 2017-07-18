@@ -2,7 +2,7 @@ package com.cbo.mntr.constants;
 
 import java.io.Serializable;
 
-public class SSValidationConfig implements Serializable{
+public class SSValidationConfig implements Serializable {
 
 	/**
 	 * 
@@ -14,7 +14,11 @@ public class SSValidationConfig implements Serializable{
 	public final static int passGeneralMax = 16;
 	public final static String textGeneralPattern = "^[A-Za-z0-9 _,\\.\\/\\-]*$";
 	public final static String textGeneralUserIdPatteren = "^[A-Za-z0-9_]*$";
-	public final static String passGeneralPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#%])(?=.{8,})";
+	public final static String passGeneralPattern = "/^(?=.*[0-9])(?=.*[@#%])[a-zA-Z0-9!@#$%^&*]{8,16}$/";
 	public final static String phnoGeneralPatteren = "^[0-9]{8}$|^[0-9]{10}$";
+
+	// security configuration constants
+	public final static String sessionExpiryPeriodKey = "app.session.timeout";
+	public final static String pwdLinkExpiryPeriodKey = "app.password.link.expiry.period.hour";
 
 }

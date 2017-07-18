@@ -19,8 +19,10 @@
 			</h4>
 			<h6>
 				<c:choose>
-					<c:when test="${error ne null and not empty error }">
-						${error}
+					<c:when test="${errmsg != null and not empty errmsg }">
+						<div class="alert alert-danger">
+							<strong><spring:message code="page.general.txt13" />&nbsp;</strong>${errmsg}
+						</div>
 					</c:when>
 					<c:otherwise>
 						<spring:message code='page.accessdenied.txt3' />

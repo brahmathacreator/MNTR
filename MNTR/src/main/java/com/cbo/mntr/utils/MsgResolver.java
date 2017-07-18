@@ -16,6 +16,14 @@ public class MsgResolver {
 					msgKey = "page.general.txt17";
 				} else if (msgCode.equals(MsgConstants.operationMsgCode)) {
 					msgKey = "page.general.txt16";
+				} else if (msgCode.equals(MsgConstants.parameterMismatch)) {
+					msgKey = "page.general.txt19";
+				} else if (msgCode.equals(MsgConstants.passwordCtrlrMsgCode1)) {
+					msgKey = "page.changepassword.txt1";
+				} else if (msgCode.equals(MsgConstants.passwordCtrlrMsgCode2)) {
+					msgKey = "page.changepassword.txt2";
+				} else if (msgCode.equals(MsgConstants.passwordCtrlrMsgCode3)) {
+					msgKey = "page.changepassword.txt6";
 				} else {
 					msgKey = "page.general.txt18";
 				}

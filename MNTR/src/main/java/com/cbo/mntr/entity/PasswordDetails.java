@@ -25,7 +25,7 @@ public class PasswordDetails implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "PASS_REF_ID", nullable = false)
-	private Integer passRefId;
+	private Long passRefId;
 
 	@Column(name = "PWD_UUID", nullable = false)
 	private String pwdUUID;
@@ -60,14 +60,6 @@ public class PasswordDetails implements Serializable {
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "USER_KEY")
 	private UserInfo user;
-
-	public Integer getPassRefId() {
-		return passRefId;
-	}
-
-	public void setPassRefId(Integer passRefId) {
-		this.passRefId = passRefId;
-	}
 
 	public String getPwdUUID() {
 		return pwdUUID;
@@ -147,6 +139,14 @@ public class PasswordDetails implements Serializable {
 
 	public void setUser(UserInfo user) {
 		this.user = user;
+	}
+
+	public Long getPassRefId() {
+		return passRefId;
+	}
+
+	public void setPassRefId(Long passRefId) {
+		this.passRefId = passRefId;
 	}
 
 }

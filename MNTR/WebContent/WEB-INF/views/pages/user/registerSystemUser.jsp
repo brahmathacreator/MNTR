@@ -44,6 +44,8 @@
 <!-- Tool Tip  Config -->
 
 <!-- Display Text Config -->
+<spring:message code="page.general.txt20" var="btnSubmitTxt" />
+<spring:message code="page.general.txt21" var="btnCancelTxt" />
 <spring:message code="page.saregister.txt1" var="userName" />
 <spring:message code="page.saregister.txt2" var="userId" />
 <spring:message code="page.saregister.txt3" var="email" />
@@ -59,70 +61,79 @@
 			</h3>
 		</div>
 		<div class="panel-body">
-			<sf:form action="${actionURL}" commandName="user" role="form"
-				autocomplete="false" id="suRegForm" name="suRegForm" method="post"
-				data-parsley-validate="data-parsley-validate">
+			<c:choose>
+				<c:when test="${suaCount eq 1}">
+					<sf:form action="${actionURL}" commandName="user" role="form"
+						autocomplete="false" id="suRegForm" name="suRegForm" method="post"
+						data-parsley-validate="data-parsley-validate">
 
-				<fieldset>
-					<div class="form-group">
-						<label>${userId}</label>
-						<sf:input class="form-control convertInputUpperCase" path="userId"
-							id="userId" type="text" autocomplete="off" required="required"
-							data-parsley-required-message="${ttReqYes}"
-							data-parsley-minlength="${csgTxtmin}"
-							data-parsley-minlength-message="${ttMin}${csgTxtmin}"
-							data-parsley-maxlength="${csgTxtmax}"
-							data-parsley-maxlength-message="${ttMax}${csgTxtmax}"
-							data-parsley-pattern="${csgTxtUPat}"
-							data-parsley-pattern-message="${ttAllow3}" data-toggle="tooltip"
-							data-html="true"
-							title="${ttField}${userId}${ttDetails}<br>${ttReqYes}<br>${ttMin}${csgTxtmin}<br>${ttMax}${csgTxtmax}<br>${ttAllow3}" />
-						<sf:errors path="userId" class="text-danger" />
-					</div>
-					<div class="form-group">
-						<label>${userName}</label>
-						<sf:input class="form-control convertInputUpperCase"
-							path="userName" id="userName" type="text" autocomplete="off"
-							required="required" data-parsley-required-message="${ttReqYes}"
-							data-parsley-minlength="${csgTxtmin}"
-							data-parsley-minlength-message="${ttMin}${csgTxtmin}"
-							data-parsley-maxlength="${csgTxtmax}"
-							data-parsley-maxlength-message="${ttMax}${csgTxtmax}"
-							data-parsley-pattern="${csgTxtPat}"
-							data-parsley-pattern-message="${ttAllow1}" data-toggle="tooltip"
-							data-html="true"
-							title="${ttField}${userName}${ttDetails}<br>${ttReqYes}<br>${ttMin}${csgTxtmin}<br>${ttMax}${csgTxtmax}<br>${ttAllow1}" />
-						<sf:errors path="userName" class="text-danger" />
-					</div>
-					<div class="form-group">
-						<label>${email}</label>
-						<sf:input class="form-control" path="email" id="email"
-							type="email" data-parsley-trigger="change" autocomplete="off"
-							required="required" data-parsley-required-message="${ttReqYes}"
-							data-toggle="tooltip" data-html="true"
-							title="${ttField}${email}${ttDetails}<br>${ttReqYes}" />
-						<sf:errors path="email" class="text-danger" />
-					</div>
-					<div class="form-group">
-						<label>${phno}</label>
-						<sf:input class="form-control" path="phno" id="phno" type="text"
-							autocomplete="off" required="required"
-							data-parsley-required-message="${ttReqYes}"
-							data-parsley-pattern="${csgPhonePat}"
-							data-parsley-pattern-message="${ttAllow4}" data-toggle="tooltip"
-							data-html="true"
-							title="${ttField}${phno}${ttDetails}<br>${ttReqYes}<br>${ttAllow4}" />
-						<sf:errors path="phno" class="text-danger" />
-					</div>
-					<div class="form-group">
-						<input type="submit" class="btn btn-lg btn-success btn-block"
-							value="<spring:message code='page.saregister.txt4' />" /> <input
-							type="hidden" name="${_csrf.parameterName}"
-							value="${_csrf.token}" /> <input type="hidden" name="CURDOpt"
-							value="1" />
-					</div>
-				</fieldset>
-			</sf:form>
+						<fieldset>
+							<div class="form-group">
+								<label>${userId}</label>
+								<sf:input class="form-control convertInputUpperCase"
+									path="userId" id="userId" type="text" autocomplete="off"
+									required="required" data-parsley-required-message="${ttReqYes}"
+									data-parsley-minlength="${csgTxtmin}"
+									data-parsley-minlength-message="${ttMin}${csgTxtmin}"
+									data-parsley-maxlength="${csgTxtmax}"
+									data-parsley-maxlength-message="${ttMax}${csgTxtmax}"
+									data-parsley-pattern="${csgTxtUPat}"
+									data-parsley-pattern-message="${ttAllow3}"
+									data-toggle="tooltip" data-html="true"
+									title="${ttField}${userId}${ttDetails}<br>${ttReqYes}<br>${ttMin}${csgTxtmin}<br>${ttMax}${csgTxtmax}<br>${ttAllow3}" />
+								<sf:errors path="userId" class="text-danger" />
+							</div>
+							<div class="form-group">
+								<label>${userName}</label>
+								<sf:input class="form-control convertInputUpperCase"
+									path="userName" id="userName" type="text" autocomplete="off"
+									required="required" data-parsley-required-message="${ttReqYes}"
+									data-parsley-minlength="${csgTxtmin}"
+									data-parsley-minlength-message="${ttMin}${csgTxtmin}"
+									data-parsley-maxlength="${csgTxtmax}"
+									data-parsley-maxlength-message="${ttMax}${csgTxtmax}"
+									data-parsley-pattern="${csgTxtPat}"
+									data-parsley-pattern-message="${ttAllow1}"
+									data-toggle="tooltip" data-html="true"
+									title="${ttField}${userName}${ttDetails}<br>${ttReqYes}<br>${ttMin}${csgTxtmin}<br>${ttMax}${csgTxtmax}<br>${ttAllow1}" />
+								<sf:errors path="userName" class="text-danger" />
+							</div>
+							<div class="form-group">
+								<label>${email}</label>
+								<sf:input class="form-control" path="email" id="email"
+									type="email" data-parsley-trigger="change" autocomplete="off"
+									required="required" data-parsley-required-message="${ttReqYes}"
+									data-toggle="tooltip" data-html="true"
+									title="${ttField}${email}${ttDetails}<br>${ttReqYes}" />
+								<sf:errors path="email" class="text-danger" />
+							</div>
+							<div class="form-group">
+								<label>${phno}</label>
+								<sf:input class="form-control" path="phno" id="phno" type="text"
+									autocomplete="off" required="required"
+									data-parsley-required-message="${ttReqYes}"
+									data-parsley-pattern="${csgPhonePat}"
+									data-parsley-pattern-message="${ttAllow4}"
+									data-toggle="tooltip" data-html="true"
+									title="${ttField}${phno}${ttDetails}<br>${ttReqYes}<br>${ttAllow4}" />
+								<sf:errors path="phno" class="text-danger" />
+							</div>
+							<div class="form-group">
+								<input type="submit" class="btn btn-lg btn-success btn-block"
+									value="<spring:message code='page.saregister.txt4' />" /> <input
+									type="hidden" name="${_csrf.parameterName}"
+									value="${_csrf.token}" /> <input type="hidden" name="CURDOpt"
+									value="1" /> <input type="hidden" name="suaCount"
+									value="${suaCount}" />
+							</div>
+						</fieldset>
+					</sf:form>
+				</c:when>
+				<c:otherwise>
+					<a href="login" class="btn btn-primary"><spring:message
+							code='page.login.txt4' /></a>
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</div>
 </body>

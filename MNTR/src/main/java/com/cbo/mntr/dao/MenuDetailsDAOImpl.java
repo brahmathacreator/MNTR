@@ -12,7 +12,7 @@ public class MenuDetailsDAOImpl extends AbstractDAO<Serializable, MenuDetails> i
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<MenuDetails> getAllMenuDetails() throws Exception {
-		return createEntityCriteria().list();
+		return (List<MenuDetails>) createEntityCriteria().list();
 	}
 
 }

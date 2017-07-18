@@ -6,7 +6,7 @@ public interface UserDAO {
 
 	public UserInfo getUserByName(String userName);
 
-	public Integer getUserCount();
+	public Long getUserCount();
 
 	public void saveSystemUser(UserInfo user);
 

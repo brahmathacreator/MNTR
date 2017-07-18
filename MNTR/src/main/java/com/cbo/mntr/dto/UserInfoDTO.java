@@ -46,6 +46,7 @@ public class UserInfoDTO implements Serializable {
 	private Integer modifiedBy;
 	private String userLogo;
 	private String pwdUUID;
+	private Long userKey;
 
 	public String getUserId() {
 		return userId;
@@ -109,6 +110,14 @@ public class UserInfoDTO implements Serializable {
 
 	public void setPwdUUID(String pwdUUID) {
 		this.pwdUUID = pwdUUID;
+	}
+
+	public Long getUserKey() {
+		return userKey;
+	}
+
+	public void setUserKey(Long userKey) {
+		this.userKey = userKey;
 	}
 
 }
