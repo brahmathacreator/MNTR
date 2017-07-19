@@ -18,8 +18,8 @@
 		<intercept-url pattern="/resources/**" access="permitAll" />
 		<intercept-url pattern="/**" access="isAuthenticated()" />
 
-		<form-login login-page="/login" username-parameter="UserId"
-			password-parameter="password" authentication-failure-url="/accessDenied?failed=true"
+		<form-login login-page="/login" username-parameter="userId"
+			password-parameter="password" authentication-failure-url="/login?failed=true"
 			authentication-success-handler-ref="authSuccHandler"
 			authentication-failure-handler-ref="authFailureHandler"
 			default-target-url="/home" />
@@ -40,7 +40,9 @@
 	</http>
 
 	<authentication-manager alias="authenticationManager">
-		<authentication-provider user-service-ref="authenticationService" />
+		<authentication-provider user-service-ref="authenticationService">
+			<password-encoder ref="passwordEncoder"></password-encoder>
+		</authentication-provider>
 	</authentication-manager>
 
 	<beans:bean id="passwordEncoder"

@@ -1,6 +1,7 @@
 package com.cbo.mntr.service.security;
 
 import java.io.IOException;
+import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,7 @@ import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
+import com.cbo.mntr.constants.SSValidationConfig;
 import com.cbo.mntr.dto.ActualUser;
 
 @Component("authSuccHandler")
@@ -30,13 +32,18 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
 	@Qualifier("sessionActiveUser")
 	private SessionActiveUser activeUserList;
 
+	@Autowired
+	private Properties mntrProperties;
+
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
+		logger.info("Inside [AuthSuccessHandler][onAuthenticationSuccess]");
 		handle(request, response, authentication);
 		final HttpSession session = request.getSession(false);
 		if (session != null) {
-			session.setMaxInactiveInterval(30 * 60);
+			session.setMaxInactiveInterval(
+					Integer.parseInt(mntrProperties.getProperty(SSValidationConfig.sessionExpiryPeriodKey)) * 60);
 			UserSessionAttach user = new UserSessionAttach(authentication.getName(), activeUserList);
 			session.setAttribute("user", user);
 			user = null;
@@ -45,10 +52,11 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
 
 	protected void handle(final HttpServletRequest request, final HttpServletResponse response,
 			final Authentication authentication) throws IOException {
+		logger.info("Inside [AuthSuccessHandler][handle]");
 		final String targetUrl = determineTargetUrl(authentication);
 
 		if (response.isCommitted()) {
-			logger.debug("Response has already been committed. Unable to redirect to " + targetUrl);
+			logger.info("SEC : Response has already been committed. Unable to redirect to " + targetUrl);
 			return;
 		}
 
@@ -62,6 +70,7 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
 	}
 
 	protected void clearAuthenticationAttributes(final HttpServletRequest request) {
+		logger.info("Inside [AuthSuccessHandler][clearAuthenticationAttributes]");
 		final HttpSession session = request.getSession(false);
 		if (session == null) {
 			return;

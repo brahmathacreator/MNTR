@@ -10,6 +10,7 @@
 	<div class="panel panel-red">
 		<div class="panel-heading">
 			<h3 class="panel-header">
+				<i class="fa fa-exclamation-circle"></i>
 				<spring:message code='page.accessdenied.txt1' />
 			</h3>
 		</div>

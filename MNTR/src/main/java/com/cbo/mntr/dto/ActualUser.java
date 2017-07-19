@@ -39,7 +39,7 @@ public class ActualUser implements UserDetails {
 
 	@Override
 	public String getPassword() {
-		return null;
+		return userInfo.getPasswordDetails().getHashPwd();
 	}
 
 	@Override

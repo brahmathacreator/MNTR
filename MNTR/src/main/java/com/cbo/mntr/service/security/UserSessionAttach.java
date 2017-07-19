@@ -10,25 +10,25 @@ public class UserSessionAttach implements HttpSessionBindingListener {
 	private String userId;
 	private SessionActiveUser sessionActiveUser;
 
-	public UserSessionAttach(String userId, SessionActiveUser sessionActiveUser) {
+	public UserSessionAttach(final String userId, final SessionActiveUser sessionActiveUser) {
 		super();
 		this.userId = userId;
 		this.sessionActiveUser = sessionActiveUser;
 	}
 
 	@Override
-	public void valueBound(HttpSessionBindingEvent event) {
-		List<String> users = sessionActiveUser.getUsers();
-		UserSessionAttach user = (UserSessionAttach) event.getValue();
+	public void valueBound(final HttpSessionBindingEvent event) {
+		final List<String> users = sessionActiveUser.getUsers();
+		final UserSessionAttach user = (UserSessionAttach) event.getValue();
 		if (!users.contains(user.getUserId())) {
 			users.add(user.getUserId());
 		}
 	}
 
 	@Override
-	public void valueUnbound(HttpSessionBindingEvent event) {
-		List<String> users = sessionActiveUser.getUsers();
-		UserSessionAttach user = (UserSessionAttach) event.getValue();
+	public void valueUnbound(final HttpSessionBindingEvent event) {
+		final List<String> users = sessionActiveUser.getUsers();
+		final UserSessionAttach user = (UserSessionAttach) event.getValue();
 		if (users.contains(user.getUserId())) {
 			users.remove(user.getUserId());
 		}

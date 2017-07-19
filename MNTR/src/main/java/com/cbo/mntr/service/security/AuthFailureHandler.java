@@ -16,6 +16,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.LocaleResolver;
 
+import com.cbo.mntr.constants.NavigationConstants;
 import com.cbo.mntr.constants.ViewConstants;
 
 @Component("authFailureHandler")
@@ -32,8 +33,8 @@ public class AuthFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
-		logger.info("Inside [onAuthenticationFailure]");
-		setDefaultFailureUrl(ViewConstants.rootView + ViewConstants.accessDenied);
+		logger.info("Inside [AuthSuccessHandler][onAuthenticationFailure]");
+		setDefaultFailureUrl(ViewConstants.rootView + ViewConstants.login);
 		super.onAuthenticationFailure(request, response, exception);
 		final Locale locale = localeResolver.resolveLocale(request);
 
@@ -46,7 +47,7 @@ public class AuthFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 		} else if (exception.getMessage().equalsIgnoreCase("blocked")) {
 			errorMessage = messageSource.getMessage("auth.message.blocked", null, locale);
 		}
-
+		request.setAttribute(NavigationConstants.errmsg, errorMessage);
 		request.getSession().setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, errorMessage);
 	}
 

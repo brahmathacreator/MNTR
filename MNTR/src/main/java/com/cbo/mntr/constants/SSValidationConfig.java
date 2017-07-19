@@ -18,7 +18,7 @@ public class SSValidationConfig implements Serializable {
 	public final static String phnoGeneralPatteren = "^[0-9]{8}$|^[0-9]{10}$";
 
 	// security configuration constants
-	public final static String sessionExpiryPeriodKey = "app.session.timeout";
+	public final static String sessionExpiryPeriodKey = "app.session.timeout.mins";
 	public final static String pwdLinkExpiryPeriodKey = "app.password.link.expiry.period.hour";
 
 }
