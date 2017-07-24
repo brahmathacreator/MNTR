@@ -26,6 +26,18 @@ public class MsgResolver {
 					msgKey = "page.changepassword.txt6";
 				} else if (msgCode.equals(MsgConstants.passwordCtrlrMsgCode4)) {
 					msgKey = "page.changepassword.txt8";
+				} else if (msgCode.equals(MsgConstants.userInfoMsgCode1)) {
+					msgKey = "AbstractUserDetailsAuthenticationProvider.badCredentials";
+				} else if (msgCode.equals(MsgConstants.sessionMsgCode1)) {
+					msgKey = "auth.message.user.already.loged";
+				} else if (msgCode.equals(MsgConstants.authMsgCode1)) {
+					msgKey = "message.badCredentials";
+				} else if (msgCode.equals(MsgConstants.authMsgCode2)) {
+					msgKey = "auth.message.disabled";
+				} else if (msgCode.equals(MsgConstants.authMsgCode3)) {
+					msgKey = "auth.message.expired";
+				} else if (msgCode.equals(MsgConstants.authMsgCode4)) {
+					msgKey = "auth.message.blocked";
 				} else {
 					msgKey = "page.general.txt18";
 				}

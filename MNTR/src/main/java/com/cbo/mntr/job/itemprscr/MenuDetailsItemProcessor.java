@@ -13,13 +13,19 @@ public class MenuDetailsItemProcessor implements ItemProcessor<MenuDetails, Menu
 		try {
 			logger.info("Inside [MenuDetailsItemProcessor][process]");
 
-			if (menuDetails.getMenuName() == null || menuDetails.getMenuName().trim().isEmpty())
+			if (menuDetails.getUserDefMenuKey() == null)
 				return null;
 
-			if (menuDetails.getMenuDesc() == null || menuDetails.getMenuDesc().trim().isEmpty())
+			if (menuDetails.getMenuName() == null)
 				return null;
 
-			if (menuDetails.getMenuURL() == null || menuDetails.getMenuURL().trim().isEmpty())
+			if (menuDetails.getMenuDesc() == null)
+				return null;
+
+			if (menuDetails.getMenuURL() == null)
+				return null;
+
+			if (menuDetails.getIconName() == null)
 				return null;
 
 			if (menuDetails.getMenuType() == null)
@@ -44,6 +50,9 @@ public class MenuDetailsItemProcessor implements ItemProcessor<MenuDetails, Menu
 				return null;
 
 			if (menuDetails.getModifiedDT() == null)
+				return null;
+
+			if (menuDetails.getHasChild() == null)
 				return null;
 
 			return menuDetails;

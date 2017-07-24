@@ -1,11 +1,12 @@
 package com.cbo.mntr.service;
 
+import java.util.Locale;
+
 import com.cbo.mntr.dto.UserInfoDTO;
-import com.cbo.mntr.entity.UserInfo;
 
 public interface UserService {
 
-	public UserInfo getUserByName(String userName) throws Exception;
+	public UserInfoDTO getUserByNameToLogin(String userName, Locale locale) throws Exception;
 
 	public Long getUserCount() throws Exception;
 

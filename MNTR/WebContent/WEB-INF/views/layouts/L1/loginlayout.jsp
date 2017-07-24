@@ -10,7 +10,6 @@
 
 <head>
 <title><spring:message code="page.loginlayout.txt1" /></title>
-<meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
@@ -66,6 +65,18 @@
 				<c:if test="${errmsg != null and not empty errmsg}">
 					<div class="alert alert-danger">
 						<strong><spring:message code="page.general.txt13" />&nbsp;</strong>${errmsg}
+					</div>
+				</c:if>
+				<c:if
+					test="${sessionScope['SPRING_SECURITY_LAST_EXCEPTION'] != null and not empty sessionScope['SPRING_SECURITY_LAST_EXCEPTION'] }">
+					<div class="alert alert-danger">
+						<strong><spring:message code="page.general.txt13" />&nbsp;</strong>${sessionScope['SPRING_SECURITY_LAST_EXCEPTION']}
+					</div>
+				</c:if>
+				<c:if
+					test="${sessionScope[AUTHENTICATION_EXCEPTION] != null and not empty sessionScope[AUTHENTICATION_EXCEPTION] }">
+					<div class="alert alert-danger">
+						<strong><spring:message code="page.general.txt13" />&nbsp;</strong>${sessionScope[AUTHENTICATION_EXCEPTION]}
 					</div>
 				</c:if>
 				<c:if test="${infomsg != null and not empty infomsg}">

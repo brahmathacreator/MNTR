@@ -7,21 +7,21 @@
 <head>
 </head>
 <body>
-	<div class="panel panel-red">
+	<div class="panel panel-green">
 		<div class="panel-heading">
 			<h3 class="panel-header">
-				<i class="fa fa-exclamation-circle"></i>
-				<spring:message code='page.accessdenied.txt1' />
+				<i class="glyphicon glyphicon-log-out"></i>
+				<spring:message code='page.logout.txt1' />
 			</h3>
 		</div>
 		<div class="panel-body">
 			<h4 class="panel-header">
-				<spring:message code='page.accessdenied.txt2' />
+				<spring:message code='page.logout.txt2' />
 			</h4>
 			<h6>
 				<c:choose>
 					<c:when test="${errmsg != null and not empty errmsg }">
-						<div class="alert alert-danger">
+						<div class="alert alert-success">
 							<strong><spring:message code="page.general.txt13" />&nbsp;</strong>${errmsg}
 						</div>
 					</c:when>
@@ -37,9 +37,6 @@
 							<strong><spring:message code="page.general.txt13" />&nbsp;</strong>${session[AUTHENTICATION_EXCEPTION]}
 						</div>
 					</c:when>
-					<c:otherwise>
-						<spring:message code='page.accessdenied.txt3' />
-					</c:otherwise>
 				</c:choose>
 			</h6>
 			<a href="login" class="btn btn-primary"><spring:message

@@ -1,11 +1,17 @@
 package com.cbo.mntr.service;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +23,7 @@ import com.cbo.mntr.dao.PasswordDetailsDAO;
 import com.cbo.mntr.dao.RoleMenuMappingDAO;
 import com.cbo.mntr.dao.UserDAO;
 import com.cbo.mntr.dao.UserRoleMappingDAO;
+import com.cbo.mntr.dto.URLProps;
 import com.cbo.mntr.dto.UserInfoDTO;
 import com.cbo.mntr.entity.MenuDetails;
 import com.cbo.mntr.entity.PasswordDetails;
@@ -50,28 +57,56 @@ public class UserServiceImpl implements UserService {
 	@Qualifier("rmMappingDAO")
 	private RoleMenuMappingDAO rmMappingDao;
 
+	@Autowired
+	private MessageSource messageSource;
+
 	@Override
 	@Transactional
-	public UserInfo getUserByName(String userName) throws Exception {
+	public UserInfoDTO getUserByNameToLogin(String userName, Locale locale) throws Exception {
+		UserInfoDTO userInfo = null;
+		UserInfo userInfoEntity = null;
+		Set<UserRoleMapping> userRoleMap = null;
+		Set<RoleMenuMapping> roleMenuMap = null;
+		URLProps urlProps = null;
 		try {
 			logger.info("Inside [UserServiceImpl][getUserByName]");
-			return userDao.getUserByName(userName);
-		} catch (Exception ex) {
-			logger.error("SVCE ERROR: " + ex);
+			userInfoEntity = userDao.getUserByName(userName);
+			if (userInfoEntity != null) {
+				userInfo = new UserInfoDTO();
+				BeanUtils.copyProperties(userInfoEntity, userInfo);
+				userRoleMap = userInfoEntity.getURMapSet();
+				for (UserRoleMapping ur : userRoleMap) {
+					userInfo.getRoles().add(UserConstants.genericRole + ur.getUserRole().getRoleName());
+					roleMenuMap = ur.getUserRole().getRoleMenuMapping();
+					for (RoleMenuMapping rm : roleMenuMap) {
+						urlProps = new URLProps();
+						BeanUtils.copyProperties(rm.getMenuDetails(), urlProps);
+						urlProps.setMenuName(messageSource.getMessage(urlProps.getMenuName(), null, locale));
+						if (urlProps.getMenuType().equals(UserConstants.parentMenu))
+							userInfo.getParentURLList().add(urlProps);
+						if (urlProps.getMenuType().equals(UserConstants.childMenu))
+							userInfo.getChildURLList().add(urlProps);
+						urlProps = null;
+					}
+				}
+				Collections.sort(userInfo.getParentURLList());
+				Collections.sort(userInfo.getChildURLList());
+				userInfo.setConCatRoles(StringUtils.join(userInfo.getRoles(), ","));
+				userInfo.setHashPwd(userInfoEntity.getPasswordDetails().getHashPwd());
+			} else {
+				throw new CustomException(MsgConstants.userInfoMsgCode1);
+			}
+			return userInfo;
+		} finally {
+			userInfo = null;
+			userInfoEntity = null;
 		}
-		return null;
 	}
 
 	@Override
 	@Transactional
 	public Long getUserCount() throws Exception {
-		try {
-			logger.info("Inside [UserServiceImpl][getUserByUserType]");
-			return userDao.getUserCount();
-		} catch (Exception ex) {
-			logger.error("SVCE ERROR: " + ex);
-		}
-		return null;
+		return userDao.getUserCount();
 	}
 
 	@Override
@@ -99,7 +134,7 @@ public class UserServiceImpl implements UserService {
 			userInfo.setLockStatus(StatusConstants.active);
 			userInfo.setModifiedDT(d);
 			userInfo.setStatus(StatusConstants.active);
-			userInfo.setUserLogoName(user.getUserLogo());
+			userInfo.setUserLogoName(user.getUserLogoName());
 			userInfo.setLoginType(UserConstants.systemLogin);
 
 			userRole = new UserRole();

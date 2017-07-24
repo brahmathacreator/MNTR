@@ -9,6 +9,7 @@
 		<intercept-url pattern="/" access="permitAll" />
 		<intercept-url pattern="#" access="permitAll" />
 		<intercept-url pattern="/login" access="permitAll" />
+		<intercept-url pattern="/logout" access="permitAll" />
 		<intercept-url pattern="/registerSystemUser" access="permitAll" />
 		<intercept-url pattern="/saveSystemUser" access="permitAll" />
 		<intercept-url pattern="/registrationConfirm" access="permitAll" />
@@ -26,15 +27,15 @@
 
 		<access-denied-handler error-page="/accessDenied?failed=true" />
 
-		<session-management invalid-session-url="/invalidSession"
-			session-fixation-protection="newSession">
+		<session-management invalid-session-url="/invalidSession">
 			<concurrency-control max-sessions="1"
 				error-if-maximum-exceeded="true" expired-url="/invalidSession"
 				session-registry-alias="sessionRegistry" />
 		</session-management>
 
-		<logout invalidate-session="true" logout-success-url="/login"
-			delete-cookies="JSESSIONID" />
+
+		<logout invalidate-session="true" logout-url="/logout"
+			success-handler-ref="logoutHandler" delete-cookies="JSESSIONID" />
 
 		<csrf />
 	</http>
@@ -51,14 +52,10 @@
 	</beans:bean>
 
 	<beans:bean id="sessionActiveUser"
-		class="com.cbo.mntr.service.security.SessionActiveUser">
-	</beans:bean>
-
+		class="com.cbo.mntr.service.security.SessionActiveUser" />
 	<beans:bean id="bouncyProvider"
-		class="org.bouncycastle.jce.provider.BouncyCastleProvider">
-	</beans:bean>
-
-	<beans:bean id="secRandom" class="java.security.SecureRandom">
-	</beans:bean>
+		class="org.bouncycastle.jce.provider.BouncyCastleProvider" />
+	<beans:bean id="secRandom" class="java.security.SecureRandom" />
+	<beans:bean id="logoutHandler" class="com.cbo.mntr.service.security.LogoutHandler" />
 
 </beans:beans>

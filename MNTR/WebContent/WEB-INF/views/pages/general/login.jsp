@@ -5,7 +5,6 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <html>
 <head>
-<head>
 <script type="text/javascript">
 	$(function() {
 		$('#suRegForm').parsley().on('field:validated', function() {
@@ -48,19 +47,6 @@
 <spring:message code="page.saregister.txt2" var="userId" />
 <!-- Display Text Config -->
 </head>
-</head>
-
-
-
-
-
-
-
-
-
-
-
-
 <body>
 	<div class="login-panel panel panel-default">
 		<div class="panel-heading">

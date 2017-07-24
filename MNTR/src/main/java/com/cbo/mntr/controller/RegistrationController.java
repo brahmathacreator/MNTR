@@ -100,7 +100,7 @@ public class RegistrationController {
 					exec = launcher.run(job, new JobParameters());
 					logger.info("Job Status : " + exec.getStatus());
 					if (BatchStatus.COMPLETED == exec.getStatus()) {
-						user.setUserLogo(messageSource.getMessage(UserConstants.defaultLogoPathKey, null, locale));
+						user.setUserLogoName(messageSource.getMessage(UserConstants.defaultLogoPathKey, null, locale));
 						user.setCreatedBy(UserConstants.anonymousUser);
 						user.setModifiedBy(UserConstants.anonymousUser);
 						user.setPwdUUID(UniqueReferenceGenerator.getUUIDvalue());

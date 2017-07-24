@@ -16,8 +16,10 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.LocaleResolver;
 
+import com.cbo.mntr.constants.MsgConstants;
 import com.cbo.mntr.constants.NavigationConstants;
 import com.cbo.mntr.constants.ViewConstants;
+import com.cbo.mntr.utils.MsgResolver;
 
 @Component("authFailureHandler")
 public class AuthFailureHandler extends SimpleUrlAuthenticationFailureHandler {
@@ -38,14 +40,14 @@ public class AuthFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 		super.onAuthenticationFailure(request, response, exception);
 		final Locale locale = localeResolver.resolveLocale(request);
 
-		String errorMessage = messageSource.getMessage("message.badCredentials", null, locale);
-
+		String errorMessage = messageSource.getMessage(MsgResolver.getMsgCodeKey(MsgConstants.authMsgCode1), null,
+				locale);
 		if (exception.getMessage().equalsIgnoreCase("User is disabled")) {
-			errorMessage = messageSource.getMessage("auth.message.disabled", null, locale);
+			errorMessage = messageSource.getMessage(MsgResolver.getMsgCodeKey(MsgConstants.authMsgCode2), null, locale);
 		} else if (exception.getMessage().equalsIgnoreCase("User account has expired")) {
-			errorMessage = messageSource.getMessage("auth.message.expired", null, locale);
+			errorMessage = messageSource.getMessage(MsgResolver.getMsgCodeKey(MsgConstants.authMsgCode3), null, locale);
 		} else if (exception.getMessage().equalsIgnoreCase("blocked")) {
-			errorMessage = messageSource.getMessage("auth.message.blocked", null, locale);
+			errorMessage = messageSource.getMessage(MsgResolver.getMsgCodeKey(MsgConstants.authMsgCode4), null, locale);
 		}
 		request.setAttribute(NavigationConstants.errmsg, errorMessage);
 		request.getSession().setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, errorMessage);

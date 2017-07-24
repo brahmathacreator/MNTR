@@ -5,6 +5,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="sf"%>
 
 <html>
 
@@ -48,6 +51,17 @@
 	$(document).ready(function() {
 		$('[data-toggle="tooltip"]').tooltip();
 	});
+
+	function navFormSubmit(navigate,navParam,menuId,menuType,curdOpt) {
+		document.getElementById("navForm").method = 'post';
+		document.getElementById("navParam").value = navParam;
+		document.getElementById("navMenuId").value = menuId;
+		document.getElementById("navMenuType").value = menuType;
+		document.getElementById("CURDOpt").value = curdOpt;
+		document.getElementById("navForm").action = navigate;
+		document.navForm.submit();
+		return false;
+	}
 </script>
 
 </head>
@@ -60,11 +74,15 @@
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse"
 				data-target=".navbar-ex1-collapse">
-				<span class="sr-only">Toggle navigation</span> <span
-					class="icon-bar"></span> <span class="icon-bar"></span> <span
-					class="icon-bar"></span>
+				<span class="sr-only"><spring:message
+						code="page.general.txt22" /></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="index.html">SB Admin</a>
+			<a class="navbar-brand" href="home"> <sec:authorize
+					access="isAuthenticated()">
+					<spring:message code="app.name"></spring:message>
+				</sec:authorize>
+			</a>
 		</div>
 		<!-- Top Menu Items -->
 		<ul class="nav navbar-right top-nav">
@@ -79,7 +97,9 @@
 								</span>
 								<div class="media-body">
 									<h5 class="media-heading">
-										<strong>John Smith</strong>
+										<strong><sec:authorize access="isAuthenticated()">
+												<sec:authentication property="principal.username" />
+											</sec:authorize></strong>
 									</h5>
 									<p class="small text-muted">
 										<i class="fa fa-clock-o"></i> Yesterday at 4:32 PM
@@ -95,7 +115,9 @@
 								</span>
 								<div class="media-body">
 									<h5 class="media-heading">
-										<strong>John Smith</strong>
+										<strong><sec:authorize access="isAuthenticated()">
+												<sec:authentication property="principal.username" />
+											</sec:authorize></strong>
 									</h5>
 									<p class="small text-muted">
 										<i class="fa fa-clock-o"></i> Yesterday at 4:32 PM
@@ -143,44 +165,67 @@
 					<li><a href="#">View All</a></li>
 				</ul></li>
 			<li class="dropdown"><a href="#" class="dropdown-toggle"
-				data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b
-					class="caret"></b></a>
+				data-toggle="dropdown"><i class="fa fa-user"></i> <sec:authorize
+						access="isAuthenticated()">
+						<sec:authentication property="principal.userInfo.userName" />
+					</sec:authorize> <b class="caret"></b></a>
 				<ul class="dropdown-menu">
-					<li><a href="#"><i class="fa fa-fw fa-user"></i> Profile</a></li>
-					<li><a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a></li>
-					<li><a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
-					</li>
+
+					<li><a href="#"><i class="fa fa-fw fa-user"></i> <sec:authorize
+								access="isAuthenticated()">
+								<spring:message code="menu.default.profile" />
+							</sec:authorize></a></li>
+					<li><a href="#"><i class="fa fa-fw fa-envelope"></i> <sec:authorize
+								access="isAuthenticated()">
+								<spring:message code="menu.default.inbox" />
+							</sec:authorize></a></li>
+					<li><a href="#"><i class="fa fa-fw fa-gear"></i> <sec:authorize
+								access="isAuthenticated()">
+								<spring:message code="menu.default.settings" />
+							</sec:authorize></a></li>
 					<li class="divider"></li>
-					<li><a href="#"><i class="fa fa-fw fa-power-off"></i> Log
-							Out</a></li>
+					<li><a href="#"
+						onclick="return navFormSubmit('navigate','logout');"><i
+							class="fa fa-fw fa-power-off"></i> <spring:message
+								code="menu.default.logout" /></a></li>
+
 				</ul></li>
 		</ul>
 		<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
 		<div class="collapse navbar-collapse navbar-ex1-collapse">
 			<ul class="nav navbar-nav side-nav">
-				<li><a href="index.html"><i class="fa fa-fw fa-dashboard"></i>
-						Dashboard</a></li>
-				<li><a href="charts.html"><i
-						class="fa fa-fw fa-bar-chart-o"></i> Charts</a></li>
-				<li><a href="tables.html"><i class="fa fa-fw fa-table"></i>
-						Tables</a></li>
-				<li><a href="forms.html"><i class="fa fa-fw fa-edit"></i>
-						Forms</a></li>
-				<li><a href="bootstrap-elements.html"><i
-						class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a></li>
-				<li><a href="bootstrap-grid.html"><i
-						class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a></li>
-				<li><a href="javascript:;" data-toggle="collapse"
-					data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i>
-						Dropdown <i class="fa fa-fw fa-caret-down"></i></a>
-					<ul id="demo" class="collapse">
-						<li><a href="#">Dropdown Item</a></li>
-						<li><a href="#">Dropdown Item</a></li>
-					</ul></li>
-				<li class="active"><a href="blank-page.html"><i
-						class="fa fa-fw fa-file"></i> Blank Page</a></li>
-				<li><a href="index-rtl.html"><i
-						class="fa fa-fw fa-dashboard"></i> RTL Dashboard</a></li>
+				<sec:authentication property="principal.userInfo.parentURLList"
+					var="parent" />
+				<sec:authentication property="principal.userInfo.childURLList"
+					var="child" />
+				<sec:authentication property="principal.userInfo.conCatRoles"
+					var="roles" />
+				<sec:authorize access="hasAnyRole('${roles}')">
+					<c:forEach var="p" items="${parent}">
+						<c:choose>
+							<c:when test="${p.hasChild eq 1}">
+								<li><a href="javascript:;" data-toggle="collapse"
+									data-target="#p_${p.menuId}"><i class="${p.iconName}"></i>
+										${p.menuName} <i class="fa fa-fw fa-caret-down"></i></a>
+									<ul id="p_${p.menuId}" class="collapse">
+										<c:forEach var="c" items="${child}">
+											<c:if
+												test="${(p.userDefMenuKey eq c.menuMaster) and (c.menuType eq 1) }">
+												<li><a href="#"
+													onclick="return navFormSubmit('navigate','${c.menuURL}','${c.menuId}','1','4');"><i
+														class="${c.iconName}"></i>&nbsp;${c.menuName}</a></li>
+											</c:if>
+										</c:forEach>
+									</ul></li>
+							</c:when>
+							<c:otherwise>
+								<li><a href="#"
+									onclick="return navFormSubmit('navigate','${p.menuURL}','${p.menuId}','1','4');"><i
+										class="${p.iconName}"></i> ${p.menuName}</a></li>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+				</sec:authorize>
 			</ul>
 		</div>
 		<!-- /.navbar-collapse --> </nav>
@@ -193,12 +238,26 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<h1 class="page-header">
-							Blank Page <small>Subheading</small>
+							<sec:authentication
+								property="principal.currentUrlDetails.menuName" />
+							<small><sec:authentication
+									property="principal.currentUrlDetails.menuDesc" /></small>
 						</h1>
 						<ol class="breadcrumb">
-							<li><i class="fa fa-dashboard"></i> <a href="index.html">Dashboard</a>
-							</li>
-							<li class="active"><i class="fa fa-file"></i> Blank Page</li>
+							<li><i
+								class="<sec:authentication
+										property='principal.currentUrlDetails.iconName' />"></i>
+								<a
+								onclick="return navFormSubmit('navigate',<sec:authentication
+									property='principal.currentUrlDetails.menuURL' />,<sec:authentication
+									property='principal.currentUrlDetails.menuId' />,'1','4');"
+								href="#"><sec:authentication
+										property="principal.currentUrlDetails.menuName" /></a></li>
+							<li class="active"><i
+								class="<sec:authentication
+										property='principal.currentUrlDetails.pageIconName' />"></i>
+								<sec:authentication
+									property="principal.currentUrlDetails.pageMenuURL" /></li>
 						</ol>
 					</div>
 				</div>
@@ -207,6 +266,14 @@
 				<!-- Page Content -->
 				<div class="row">
 					<div class="col-lg-12">
+						<form id="navForm" name="navForm">
+							<input type="hidden" name="navParam" id="navParam" /> <input
+								type="hidden" name="navMenuId" id="navMenuId" /> <input
+								type="hidden" name="navMenuType" id="navMenuType" /> <input
+								type="hidden" name="CURDOpt" id="CURDOpt" /> <input
+								type="hidden" name="${_csrf.parameterName}"
+								value="${_csrf.token}" />
+						</form>
 						<section id="site-content"> <tiles:insertAttribute
 							name="body" /> </section>
 					</div>

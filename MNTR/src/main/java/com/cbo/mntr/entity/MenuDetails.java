@@ -29,7 +29,10 @@ public class MenuDetails implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "MENU_ID", unique = true, nullable = false)
-	private String menuId;
+	private Long menuId;
+
+	@Column(name = "USER_DEF_MENU_ID", nullable = false)
+	private Integer userDefMenuKey;
 
 	@Column(name = "MENU_NAME", nullable = false)
 	private String menuName;
@@ -42,6 +45,9 @@ public class MenuDetails implements Serializable {
 
 	@Column(name = "MENU_TYPE", nullable = false)
 	private Integer menuType;
+
+	@Column(name = "HAS_CHILD", nullable = false)
+	private Integer hasChild;
 
 	@Column(name = "MENU_PRIORITY", nullable = false)
 	private Integer menuPriority;
@@ -66,16 +72,11 @@ public class MenuDetails implements Serializable {
 	@Column(name = "MODIFIED_DT", nullable = false)
 	private Date modifiedDT;
 
+	@Column(name = "ICON_NAME", nullable = false)
+	private String iconName;
+
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "menuDetails")
 	private Set<RoleMenuMapping> roleMenuMapping = new HashSet<RoleMenuMapping>(0);
-
-	public String getMenuId() {
-		return menuId;
-	}
-
-	public void setMenuId(String menuId) {
-		this.menuId = menuId;
-	}
 
 	public String getMenuName() {
 		return menuName;
@@ -171,6 +172,38 @@ public class MenuDetails implements Serializable {
 
 	public void setModifiedBy(Long modifiedBy) {
 		this.modifiedBy = modifiedBy;
+	}
+
+	public String getIconName() {
+		return iconName;
+	}
+
+	public void setIconName(String iconName) {
+		this.iconName = iconName;
+	}
+
+	public Long getMenuId() {
+		return menuId;
+	}
+
+	public void setMenuId(Long menuId) {
+		this.menuId = menuId;
+	}
+
+	public Integer getUserDefMenuKey() {
+		return userDefMenuKey;
+	}
+
+	public void setUserDefMenuKey(Integer userDefMenuKey) {
+		this.userDefMenuKey = userDefMenuKey;
+	}
+
+	public Integer getHasChild() {
+		return hasChild;
+	}
+
+	public void setHasChild(Integer hasChild) {
+		this.hasChild = hasChild;
 	}
 
 }

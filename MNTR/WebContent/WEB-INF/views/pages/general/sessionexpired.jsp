@@ -10,7 +10,7 @@
 	<div class="panel panel-red">
 		<div class="panel-heading">
 			<h3 class="panel-header">
-				<i class="fa fa-exclamation-circle"></i>
+				<i class="glyphicon glyphicon-record"></i>
 				<spring:message code='page.sessionexpired.txt1' />
 			</h3>
 		</div>
@@ -23,6 +23,12 @@
 					<c:when test="${errmsg != null and not empty errmsg }">
 						<div class="alert alert-danger">
 							<strong><spring:message code="page.general.txt13" />&nbsp;</strong>${errmsg}
+						</div>
+					</c:when>
+					<c:when
+						test="${session[AUTHENTICATION_EXCEPTION] != null and not empty session[AUTHENTICATION_EXCEPTION] }">
+						<div class="alert alert-danger">
+							<strong><spring:message code="page.general.txt13" />&nbsp;</strong>${session[AUTHENTICATION_EXCEPTION]}
 						</div>
 					</c:when>
 					<c:otherwise>

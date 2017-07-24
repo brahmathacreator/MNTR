@@ -2,7 +2,7 @@ package com.cbo.mntr.constants;
 
 import java.io.Serializable;
 
-public class NavigationConstants implements Serializable{
+public class NavigationConstants implements Serializable {
 
 	/**
 	 * 
@@ -12,5 +12,9 @@ public class NavigationConstants implements Serializable{
 	public final static String errmsg = "errmsg";
 	public final static String infomsg = "infomsg";
 	public final static String warnmsg = "warnmsg";
+	public final static String navParam = "navParam";
+	public final static String navMenuId = "navMenuId";
+	public final static String navMenuType = "navMenuType";
+	public final static String CURDOpt = "CURDOpt";
 
 }

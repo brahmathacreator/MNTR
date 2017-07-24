@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import com.cbo.mntr.constants.StatusConstants;
 import com.cbo.mntr.constants.UserConstants;
 import com.cbo.mntr.constants.ViewConstants;
@@ -21,24 +20,6 @@ public class LoginController {
 	@Autowired
 	@Qualifier("userService")
 	private UserService userService;
-
-	@RequestMapping(value = { ViewConstants.rootView }, method = RequestMethod.GET)
-	public String loginPage(ModelMap model) {
-		logger.info("Inside [LoginController][loginPage]");
-		return ViewConstants.redirect + ViewConstants.login;
-	}
-
-	@RequestMapping(value = { ViewConstants.accessDenied })
-	public String accessDeniedPage(ModelMap model) {
-		logger.info("Inside [LoginController][accessDeniedPage]");
-		return ViewConstants.accessDenied;
-	}
-
-	@RequestMapping(value = { ViewConstants.sessionFailure })
-	public String sessionExpiredPage(ModelMap model) {
-		logger.info("Inside [LoginController][sessionExpiredPage]");
-		return ViewConstants.sessionFailure;
-	}
 
 	@RequestMapping(value = { ViewConstants.login }, method = RequestMethod.GET)
 	public String loginPagewithURL(ModelMap model) {
@@ -55,11 +36,6 @@ public class LoginController {
 			logger.error("CTRLR Error: " + ex);
 		}
 		return ViewConstants.login;
-	}
-
-	@RequestMapping(value = { ViewConstants.home }, method = RequestMethod.GET)
-	public String homePage(ModelMap model) {
-		return ViewConstants.home;
 	}
 
 }

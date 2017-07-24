@@ -9,7 +9,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.cbo.mntr.constants.StatusConstants;
-import com.cbo.mntr.entity.UserInfo;
 
 public class ActualUser implements UserDetails {
 
@@ -17,29 +16,24 @@ public class ActualUser implements UserDetails {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private UserInfo userInfo;
-	private List<String> roles;
-	private List<String> urls;
+	private UserInfoDTO userInfo;
+	private URLProps currentUrlDetails;
 
-	public ActualUser(UserInfo userInfo, List<String> roles, List<String> urls) {
+	public ActualUser(UserInfoDTO userInfo) {
 		this.userInfo = userInfo;
-		this.roles = roles;
-		this.urls = urls;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
-		for (String role : roles)
+		for (String role : userInfo.getRoles())
 			authorities.add(new SimpleGrantedAuthority(role));
-		for (String url : urls)
-			authorities.add(new SimpleGrantedAuthority(url));
 		return authorities;
 	}
 
 	@Override
 	public String getPassword() {
-		return userInfo.getPasswordDetails().getHashPwd();
+		return userInfo.getHashPwd();
 	}
 
 	@Override
@@ -67,12 +61,20 @@ public class ActualUser implements UserDetails {
 		return userInfo.getStatus() == StatusConstants.active ? true : false;
 	}
 
-	public UserInfo getUserInfo() {
+	public UserInfoDTO getUserInfo() {
 		return userInfo;
 	}
 
-	public void setUserInfo(UserInfo userInfo) {
+	public void setUserInfo(UserInfoDTO userInfo) {
 		this.userInfo = userInfo;
+	}
+
+	public URLProps getCurrentUrlDetails() {
+		return currentUrlDetails;
+	}
+
+	public void setCurrentUrlDetails(URLProps currentUrlDetails) {
+		this.currentUrlDetails = currentUrlDetails;
 	}
 
 }

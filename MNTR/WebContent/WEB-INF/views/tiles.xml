@@ -49,10 +49,45 @@
 			value="/WEB-INF/views/pages/general/sessionexpired.jsp" />
 	</definition>
 
+	<!-- Logout Page -->
+	<definition name="logout" extends="info-base-definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/general/logout.jsp" />
+	</definition>
+
 
 	<!-- Home Page -->
 	<definition name="home" extends="base-definition">
 		<put-attribute name="body" value="/WEB-INF/views/pages/home.jsp" />
+	</definition>
+
+	<!-- Catagory Page -->
+	<definition name="createCatagory" extends="base-definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/catagory/catagory.jsp" />
+	</definition>
+
+	<!-- Machine Page -->
+	<definition name="createMachine" extends="base-definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/machine/machine.jsp" />
+	</definition>
+
+	<!-- Role Page -->
+	<definition name="createrole" extends="base-definition">
+		<put-attribute name="body" value="/WEB-INF/views/pages/role/role.jsp" />
+	</definition>
+
+	<!-- User Page -->
+	<definition name="createuser" extends="base-definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/user/users.jsp" />
+	</definition>
+
+	<!-- Permission Page -->
+	<definition name="createPermission" extends="base-definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/role/permission.jsp" />
 	</definition>
 
 
