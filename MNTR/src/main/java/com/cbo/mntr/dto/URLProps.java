@@ -18,8 +18,7 @@ public class URLProps implements Serializable, Comparable<URLProps> {
 	private Integer menuPriority;
 	private Integer menuMaster;
 	private String iconName;
-	private String pageIconName;
-	private String pageMenuURL;
+	private Integer opsType;
 	private Integer hasChild;
 
 	@Override
@@ -112,20 +111,12 @@ public class URLProps implements Serializable, Comparable<URLProps> {
 		this.hasChild = hasChild;
 	}
 
-	public String getPageIconName() {
-		return pageIconName;
+	public Integer getOpsType() {
+		return opsType;
 	}
 
-	public void setPageIconName(String pageIconName) {
-		this.pageIconName = pageIconName;
-	}
-
-	public String getPageMenuURL() {
-		return pageMenuURL;
-	}
-
-	public void setPageMenuURL(String pageMenuURL) {
-		this.pageMenuURL = pageMenuURL;
+	public void setOpsType(Integer opsType) {
+		this.opsType = opsType;
 	}
 
 }

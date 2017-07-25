@@ -10,8 +10,9 @@
 <head>
 </head>
 <body>
-	<div class="row">
-		
-	</div>
+	Test
+	<sec:authentication property="principal.userInfo.conCatRoles"
+		var="roles" />
+	<c:out value="${roles}"></c:out>
 </body>
 </html>

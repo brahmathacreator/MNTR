@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.cbo.mntr.constants.NavigationConstants;
+import com.cbo.mntr.constants.StatusConstants;
 import com.cbo.mntr.constants.UserConstants;
 import com.cbo.mntr.constants.ViewConstants;
 import com.cbo.mntr.dto.ActualUser;
@@ -31,53 +32,99 @@ public class NavigationController {
 	private MessageSource messageSource;
 
 	@RequestMapping(value = { ViewConstants.navURL })
-	public String navigate(Model model, Locale locale, @RequestParam(NavigationConstants.navParam) String navParam,
+	public String navigate(Model model, Locale locale, HttpServletRequest request,
+			@RequestParam(NavigationConstants.navParam) String navParam,
 			@RequestParam(NavigationConstants.navMenuId) Long navMenuId,
 			@RequestParam(NavigationConstants.navMenuType) Integer navMenuType,
 			@RequestParam(NavigationConstants.CURDOpt) Integer curdOpt) {
 		URLProps urlProps = null;
 		ActualUser au = null;
 		List<URLProps> props = null;
+		String sessionUser = null;
 		try {
-			urlProps = new URLProps();
-			if (ViewConstants.home.equals(navParam)) {
+			try {
+				sessionUser = ((ActualUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
+						.getUserInfo().getUserId();
+			} catch (Exception ex) {
+				logger.error("CTRLR Error : Session Failure Exception: " + ex);
+				return ViewConstants.redirect + ViewConstants.sessionFailure;
+			}
+			if (sessionUser != null && RequestUtil.checkSessionUser(request, sessionUser)) {
 				urlProps = new URLProps();
-				urlProps.setMenuName(messageSource.getMessage("menu.home.menu", null, locale));
-				urlProps.setMenuDesc(messageSource.getMessage("menu.home.menu.desc", null, locale));
-				urlProps.setIconName("fa fa-fw fa-dashboard");
-				urlProps.setMenuURL(navParam);
-				urlProps.setPageMenuURL(messageSource.getMessage("menu.home.menu.dashboard", null, locale));
-				urlProps.setPageIconName("fa fa-fw fa-dashboard");
-				((ActualUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
-						.setCurrentUrlDetails(urlProps);
-				return ViewConstants.redirect + ViewConstants.home;
-			} else if (ViewConstants.logout.equals(navParam)) {
-				return ViewConstants.forward + ViewConstants.logout;
-			} else {
-				au = ((ActualUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-				if (UserConstants.parentMenu == navMenuType) {
-					props = Lambda.select(au.getUserInfo().getParentURLList(),
-							Lambda.having(Lambda.on(URLProps.class).getMenuId(), Matchers.equalTo(navMenuId)));
+				if (ViewConstants.home.equals(navParam)) {
+					urlProps = new URLProps();
+					urlProps.setMenuId(0L);
+					urlProps.setMenuName(messageSource.getMessage("menu.home.menu", null, locale));
+					urlProps.setMenuDesc(messageSource.getMessage("menu.home.menu.desc", null, locale));
+					urlProps.setIconName("fa fa-fw fa-dashboard");
+					urlProps.setOpsType(StatusConstants.dashboard);
+					urlProps.setMenuType(navMenuType);
+					urlProps.setMenuURL(navParam);
+					urlProps.setMenuMaster(0);
+					((ActualUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
+							.setCurrentUrlDetails(urlProps);
+					return ViewConstants.redirect + ViewConstants.home;
 				} else {
-					props = Lambda.select(au.getUserInfo().getChildURLList(),
-							Lambda.having(Lambda.on(URLProps.class).getMenuId(), Matchers.equalTo(navMenuId)));
+					au = ((ActualUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+					if (UserConstants.parentMenu == navMenuType) {
+						props = Lambda.select(au.getUserInfo().getParentURLList(),
+								Lambda.having(Lambda.on(URLProps.class).getMenuId(), Matchers.equalTo(navMenuId)));
+					} else {
+						props = Lambda.select(au.getUserInfo().getChildURLList(),
+								Lambda.having(Lambda.on(URLProps.class).getMenuId(), Matchers.equalTo(navMenuId)));
+					}
+					props.get(0).setOpsType(curdOpt);
+					props.get(0).setMenuType(navMenuType);
+					((ActualUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
+							.setCurrentUrlDetails(props.get(0));
+					return ViewConstants.redirect + navParam;
 				}
-				((ActualUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
-						.setCurrentUrlDetails(props.get(0));
-				return ViewConstants.redirect + navParam;
+			} else {
+				logger.error("CTRLR Error : Session Expired. ");
 			}
 		} catch (Exception ex) {
 			logger.error("CTRLR Error : " + ex);
 		} finally {
 			urlProps = null;
 		}
-		return ViewConstants.forward + ViewConstants.accessDenied;
+		return ViewConstants.redirect + ViewConstants.accessDenied;
+	}
+
+	@RequestMapping(value = { ViewConstants.navAuthSuccess })
+	public String navigateAuthSuccess(Model model, Locale locale, HttpServletRequest request,
+			@RequestParam(NavigationConstants.navParam) String navParam,
+			@RequestParam(NavigationConstants.navMenuId) Long navMenuId,
+			@RequestParam(NavigationConstants.navMenuType) Integer navMenuType,
+			@RequestParam(NavigationConstants.CURDOpt) Integer curdOpt) {
+		URLProps urlProps = null;
+		try {
+			urlProps = new URLProps();
+			if (ViewConstants.home.equals(navParam)) {
+				urlProps = new URLProps();
+				urlProps.setMenuId(0L);
+				urlProps.setMenuName(messageSource.getMessage("menu.home.menu", null, locale));
+				urlProps.setMenuDesc(messageSource.getMessage("menu.home.menu.desc", null, locale));
+				urlProps.setIconName("fa fa-fw fa-dashboard");
+				urlProps.setOpsType(StatusConstants.dashboard);
+				urlProps.setMenuType(navMenuType);
+				urlProps.setMenuURL(navParam);
+				urlProps.setMenuMaster(0);
+				((ActualUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
+						.setCurrentUrlDetails(urlProps);
+				return ViewConstants.redirect + ViewConstants.home;
+			}
+		} catch (Exception ex) {
+			logger.error("CTRLR Error : " + ex);
+		} finally {
+			urlProps = null;
+		}
+		return ViewConstants.redirect + ViewConstants.accessDenied;
 	}
 
 	@RequestMapping(value = { ViewConstants.rootView }, method = RequestMethod.GET)
 	public String loginPage(ModelMap model) {
 		logger.info("Inside [LoginController][loginPage]");
-		return ViewConstants.redirect + ViewConstants.login;
+		return ViewConstants.redirect + ViewConstants.rootView + ViewConstants.login;
 	}
 
 	@RequestMapping(value = { ViewConstants.accessDenied })
@@ -97,11 +144,6 @@ public class NavigationController {
 			return ViewConstants.sessionFailure;
 		else
 			return ViewConstants.accessDenied;
-	}
-
-	@RequestMapping(value = { ViewConstants.home }, method = RequestMethod.GET)
-	public String homePage(ModelMap model) {
-		return ViewConstants.home;
 	}
 
 	@RequestMapping(value = { ViewConstants.logout })

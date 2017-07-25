@@ -62,6 +62,12 @@
 		document.navForm.submit();
 		return false;
 	}
+	function logoutFormSubmit(logoutURL) {
+		document.getElementById("logoutForm").method = 'post';
+		document.getElementById("logoutForm").action = logoutURL;
+		document.logoutForm.submit();
+		return false;
+	}
 </script>
 
 </head>
@@ -78,8 +84,9 @@
 						code="page.general.txt22" /></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span> <span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="home"> <sec:authorize
-					access="isAuthenticated()">
+			<a class="navbar-brand" href="#"
+				onclick="return navFormSubmit('navigate','home','0','0','3');">
+				<sec:authorize access="isAuthenticated()">
 					<spring:message code="app.name"></spring:message>
 				</sec:authorize>
 			</a>
@@ -87,7 +94,7 @@
 		<!-- Top Menu Items -->
 		<ul class="nav navbar-right top-nav">
 			<li class="dropdown"><a href="#" class="dropdown-toggle"
-				data-toggle="dropdown"><i class="fa fa-envelope"></i> <b
+				data-toggle="dropdown"><i class="fa fa-bell"></i> <b
 					class="caret"></b></a>
 				<ul class="dropdown-menu message-dropdown">
 					<li class="message-preview"><a href="#">
@@ -146,25 +153,6 @@
 							Messages</a></li>
 				</ul></li>
 			<li class="dropdown"><a href="#" class="dropdown-toggle"
-				data-toggle="dropdown"><i class="fa fa-bell"></i> <b
-					class="caret"></b></a>
-				<ul class="dropdown-menu alert-dropdown">
-					<li><a href="#">Alert Name <span
-							class="label label-default">Alert Badge</span></a></li>
-					<li><a href="#">Alert Name <span
-							class="label label-primary">Alert Badge</span></a></li>
-					<li><a href="#">Alert Name <span
-							class="label label-success">Alert Badge</span></a></li>
-					<li><a href="#">Alert Name <span class="label label-info">Alert
-								Badge</span></a></li>
-					<li><a href="#">Alert Name <span
-							class="label label-warning">Alert Badge</span></a></li>
-					<li><a href="#">Alert Name <span
-							class="label label-danger">Alert Badge</span></a></li>
-					<li class="divider"></li>
-					<li><a href="#">View All</a></li>
-				</ul></li>
-			<li class="dropdown"><a href="#" class="dropdown-toggle"
 				data-toggle="dropdown"><i class="fa fa-user"></i> <sec:authorize
 						access="isAuthenticated()">
 						<sec:authentication property="principal.userInfo.userName" />
@@ -175,7 +163,7 @@
 								access="isAuthenticated()">
 								<spring:message code="menu.default.profile" />
 							</sec:authorize></a></li>
-					<li><a href="#"><i class="fa fa-fw fa-envelope"></i> <sec:authorize
+					<li><a href="#"><i class="fa fa-fw fa-bell"></i> <sec:authorize
 								access="isAuthenticated()">
 								<spring:message code="menu.default.inbox" />
 							</sec:authorize></a></li>
@@ -184,8 +172,7 @@
 								<spring:message code="menu.default.settings" />
 							</sec:authorize></a></li>
 					<li class="divider"></li>
-					<li><a href="#"
-						onclick="return navFormSubmit('navigate','logout');"><i
+					<li><a href="#" onclick="return logoutFormSubmit('logout');"><i
 							class="fa fa-fw fa-power-off"></i> <spring:message
 								code="menu.default.logout" /></a></li>
 
@@ -200,6 +187,11 @@
 					var="child" />
 				<sec:authentication property="principal.userInfo.conCatRoles"
 					var="roles" />
+				<sec:authentication
+					property="principal.currentUrlDetails.menuMaster" var="cMenuMaster" />
+				<sec:authentication property="principal.currentUrlDetails.menuId"
+					var="cMenuId" />
+
 				<sec:authorize access="hasAnyRole('${roles}')">
 					<c:forEach var="p" items="${parent}">
 						<c:choose>
@@ -207,20 +199,31 @@
 								<li><a href="javascript:;" data-toggle="collapse"
 									data-target="#p_${p.menuId}"><i class="${p.iconName}"></i>
 										${p.menuName} <i class="fa fa-fw fa-caret-down"></i></a>
-									<ul id="p_${p.menuId}" class="collapse">
+									<ul id="p_${p.menuId}"
+										<c:choose>
+									<c:when test="${cMenuMaster eq p.userDefMenuKey}">
+									class="navbar-nav collapse in"
+									</c:when>
+									<c:otherwise>
+									class="navbar-nav collapse"
+									</c:otherwise>
+									</c:choose>>
 										<c:forEach var="c" items="${child}">
 											<c:if
 												test="${(p.userDefMenuKey eq c.menuMaster) and (c.menuType eq 1) }">
-												<li><a href="#"
-													onclick="return navFormSubmit('navigate','${c.menuURL}','${c.menuId}','1','4');"><i
+												<li
+													<c:if test="${c.menuId eq cMenuId}" >class="active"</c:if>><a
+													href="#"
+													onclick="return navFormSubmit('navigate','${c.menuURL}','${c.menuId}','1','3');"><i
 														class="${c.iconName}"></i>&nbsp;${c.menuName}</a></li>
 											</c:if>
 										</c:forEach>
 									</ul></li>
 							</c:when>
 							<c:otherwise>
-								<li><a href="#"
-									onclick="return navFormSubmit('navigate','${p.menuURL}','${p.menuId}','1','4');"><i
+								<li <c:if test="${p.menuId eq cMenuId}" >class="active"</c:if>><a
+									href="#"
+									onclick="return navFormSubmit('navigate','${p.menuURL}','${p.menuId}','1','3');"><i
 										class="${p.iconName}"></i> ${p.menuName}</a></li>
 							</c:otherwise>
 						</c:choose>
@@ -248,16 +251,42 @@
 								class="<sec:authentication
 										property='principal.currentUrlDetails.iconName' />"></i>
 								<a
-								onclick="return navFormSubmit('navigate',<sec:authentication
-									property='principal.currentUrlDetails.menuURL' />,<sec:authentication
-									property='principal.currentUrlDetails.menuId' />,'1','4');"
+								onclick="return navFormSubmit('navigate','<sec:authentication
+									property='principal.currentUrlDetails.menuURL' />','<sec:authentication
+									property='principal.currentUrlDetails.menuId' />','1','3');"
 								href="#"><sec:authentication
 										property="principal.currentUrlDetails.menuName" /></a></li>
-							<li class="active"><i
-								class="<sec:authentication
-										property='principal.currentUrlDetails.pageIconName' />"></i>
-								<sec:authentication
-									property="principal.currentUrlDetails.pageMenuURL" /></li>
+							<li class="active"><sec:authentication
+									property="principal.currentUrlDetails.opsType" var="ops" /> <c:choose>
+									<c:when test="${ops eq 1 }">
+										<i class="glyphicon glyphicon-plus-sign"></i>
+										<spring:message code='page.general.txt23' />
+									</c:when>
+									<c:when test="${ops eq 2 }">
+										<i class="glyphicon glyphicon-edit"></i>
+										<spring:message code='page.general.txt24' />
+									</c:when>
+									<c:when test="${ops eq 3 }">
+										<i class="glyphicon glyphicon-eye-open"></i>
+										<spring:message code='page.general.txt25' />
+									</c:when>
+									<c:when test="${ops eq 4 }">
+										<i class="glyphicon glyphicon-minus-sign"></i>
+										<spring:message code='page.general.txt26' />
+									</c:when>
+									<c:when test="${ops eq 5 }">
+										<i class="glyphicon glyphicon-ok-sign"></i>
+										<spring:message code='page.general.txt27' />
+									</c:when>
+									<c:when test="${ops eq 6 }">
+										<i class="glyphicon glyphicon-remove-sign"></i>
+										<spring:message code='page.general.txt28' />
+									</c:when>
+									<c:when test="${ops eq 100 }">
+										<i class="fa fa-fw fa-dashboard"></i>
+										<spring:message code='menu.home.menu.dashboard' />
+									</c:when>
+								</c:choose></li>
 						</ol>
 					</div>
 				</div>
@@ -272,6 +301,10 @@
 								type="hidden" name="navMenuType" id="navMenuType" /> <input
 								type="hidden" name="CURDOpt" id="CURDOpt" /> <input
 								type="hidden" name="${_csrf.parameterName}"
+								value="${_csrf.token}" />
+						</form>
+						<form id="logoutForm" name="logoutForm">
+							<input type="hidden" name="${_csrf.parameterName}"
 								value="${_csrf.token}" />
 						</form>
 						<section id="site-content"> <tiles:insertAttribute

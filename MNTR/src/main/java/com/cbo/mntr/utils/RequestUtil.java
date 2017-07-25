@@ -9,6 +9,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.LocaleResolver;
 
+import com.cbo.mntr.service.security.UserSessionAttach;
+
 public class RequestUtil {
 
 	private static final Logger logger = Logger.getLogger(RequestUtil.class);
@@ -38,6 +40,27 @@ public class RequestUtil {
 			}
 		} catch (Exception ex) {
 			logger.error("UTIL Error: " + ex);
+		}
+		return false;
+	}
+
+	public static boolean checkSessionUser(HttpServletRequest request, String sessionUser) {
+		logger.info("Inside [RequestUtil][removeSessionUser]");
+		UserSessionAttach user = null;
+		HttpSession session = null;
+		try {
+			session = request.getSession();
+			if (session != null) {
+				user = (UserSessionAttach) session.getAttribute("user");
+				if (user != null && !user.getUserId().trim().isEmpty() && sessionUser != null
+						&& !sessionUser.trim().isEmpty() && user.getUserId().equals(sessionUser))
+					return true;
+			}
+		} catch (Exception ex) {
+			logger.error("UTIL Error: " + ex);
+		} finally {
+			user = null;
+			session = null;
 		}
 		return false;
 	}

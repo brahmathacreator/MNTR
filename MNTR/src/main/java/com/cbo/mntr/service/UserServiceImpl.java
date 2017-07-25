@@ -82,6 +82,7 @@ public class UserServiceImpl implements UserService {
 						urlProps = new URLProps();
 						BeanUtils.copyProperties(rm.getMenuDetails(), urlProps);
 						urlProps.setMenuName(messageSource.getMessage(urlProps.getMenuName(), null, locale));
+						urlProps.setMenuDesc(messageSource.getMessage(urlProps.getMenuDesc(), null, locale));
 						if (urlProps.getMenuType().equals(UserConstants.parentMenu))
 							userInfo.getParentURLList().add(urlProps);
 						if (urlProps.getMenuType().equals(UserConstants.childMenu))

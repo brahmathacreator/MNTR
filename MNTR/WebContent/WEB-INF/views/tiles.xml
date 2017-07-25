@@ -90,5 +90,11 @@
 			value="/WEB-INF/views/pages/role/permission.jsp" />
 	</definition>
 
+	<!-- Notification Page -->
+	<definition name="notify" extends="base-definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/notify/notify.jsp" />
+	</definition>
+
 
 </tiles-definitions>
