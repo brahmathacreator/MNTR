@@ -6,11 +6,11 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import com.cbo.mntr.constants.MsgConstants;
-import com.cbo.mntr.dao.common.AbstractDAO;
+import com.cbo.mntr.dao.common.EntityManagerAbstractDAO;
 import com.cbo.mntr.entity.UserRoleMapping;
 
 @Repository("urMappingDAO")
-public class UserRoleMappingDAOImpl extends AbstractDAO<Serializable, UserRoleMapping> implements UserRoleMappingDAO {
+public class UserRoleMappingDAOImpl extends EntityManagerAbstractDAO<Serializable, UserRoleMapping> implements UserRoleMappingDAO {
 
 	private static final Logger logger = Logger.getLogger(UserRoleMappingDAOImpl.class);
 

@@ -37,6 +37,7 @@ public class ViewConstants implements Serializable {
 	public static final String catagoryURL1 = "createCatagory";
 	public static final String machineURL1 = "createMachine";
 	public static final String roleURL1 = "createrole";
+	public static final String roleURL2 = "getRoleList";
 	public static final String userURL1 = "createuser";
 	public static final String permissionURL1 = "createPermission";
 

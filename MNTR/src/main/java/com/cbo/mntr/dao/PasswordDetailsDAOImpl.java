@@ -7,11 +7,11 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.cbo.mntr.constants.StatusConstants;
-import com.cbo.mntr.dao.common.AbstractDAO;
+import com.cbo.mntr.dao.common.EntityManagerAbstractDAO;
 import com.cbo.mntr.entity.PasswordDetails;
 
 @Repository("pwdDetailsDAO")
-public class PasswordDetailsDAOImpl extends AbstractDAO<Serializable, PasswordDetails> implements PasswordDetailsDAO {
+public class PasswordDetailsDAOImpl extends EntityManagerAbstractDAO<Serializable, PasswordDetails> implements PasswordDetailsDAO {
 
 	@Override
 	public void savePassword(PasswordDetails passwordDetails) throws Exception {

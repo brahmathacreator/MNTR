@@ -7,11 +7,11 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import com.cbo.mntr.constants.StatusConstants;
-import com.cbo.mntr.dao.common.AbstractDAO;
+import com.cbo.mntr.dao.common.EntityManagerAbstractDAO;
 import com.cbo.mntr.entity.UserInfo;
 
 @Repository("userDAO")
-public class UserDAOImpl extends AbstractDAO<Serializable, UserInfo> implements UserDAO {
+public class UserDAOImpl extends EntityManagerAbstractDAO<Serializable, UserInfo> implements UserDAO {
 
 	@Override
 	public UserInfo getUserByName(String userName) {

@@ -26,6 +26,10 @@
 <link href="<spring:theme code='page.style3.path'/>" rel="stylesheet" />
 <!-- Custom CSS - RTL -->
 <link href="<spring:theme code='page.style4.path'/>" rel="stylesheet" />
+<!-- Datatable CSS -->
+<link href="<spring:theme code='page.style5.path'/>" rel="stylesheet" />
+
+
 
 <!-- Custom Fonts -->
 <link href="<spring:theme code='page.font1.path'/>" rel="stylesheet"
@@ -39,6 +43,10 @@
 <script src="<spring:theme code='page.script2.path'/>"></script>
 <!-- parsley min JavaScript -->
 <script src="<spring:theme code='page.script3.path'/>"></script>
+<!-- Datatable min JavaScript -->
+<script src="<spring:theme code='page.script4.path'/>"></script>
+
+
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -287,6 +295,30 @@
 										<spring:message code='menu.home.menu.dashboard' />
 									</c:when>
 								</c:choose></li>
+							<li class="pull-right"><i
+								class="glyphicon glyphicon-minus-sign"></i> <a
+								onclick="return navFormSubmit('navigate','<sec:authentication
+									property='principal.currentUrlDetails.menuURL' />','<sec:authentication
+									property='principal.currentUrlDetails.menuId' />','1','4');"
+								href="#"><spring:message code="page.general.txt26" /></a></li>
+							<li class="pull-right"><i
+								class="glyphicon glyphicon-eye-open"></i> <a
+								onclick="return navFormSubmit('navigate','<sec:authentication
+									property='principal.currentUrlDetails.menuURL' />','<sec:authentication
+									property='principal.currentUrlDetails.menuId' />','1','3');"
+								href="#"><spring:message code="page.general.txt25" /></a></li>
+							<li class="pull-right"><i class="glyphicon glyphicon-edit"></i>
+								<a
+								onclick="return navFormSubmit('navigate','<sec:authentication
+									property='principal.currentUrlDetails.menuURL' />','<sec:authentication
+									property='principal.currentUrlDetails.menuId' />','1','2');"
+								href="#"><spring:message code="page.general.txt24" /></a></li>
+							<li class="pull-right"><i
+								class="glyphicon glyphicon-plus-sign"></i> <a
+								onclick="return navFormSubmit('navigate','<sec:authentication
+									property='principal.currentUrlDetails.menuURL' />','<sec:authentication
+									property='principal.currentUrlDetails.menuId' />','1','1');"
+								href="#"><spring:message code="page.general.txt23" /></a></li>
 						</ol>
 					</div>
 				</div>
