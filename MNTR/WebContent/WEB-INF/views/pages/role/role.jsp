@@ -12,46 +12,62 @@
 <!-- Display Text Config -->
 <spring:message code="page.roles.txt1" var="roleId" />
 <spring:message code="page.roles.txt2" var="roleName" />
-
 <!-- Display Text Config -->
+<sec:csrfMetaTags />
 <script type="text/javascript">
-	function loadData(id, ajaxURL) {
-		$('#' + id).DataTable({
-			"responsive" : true,
-			"autoFill" : true,
+	$(document).ready(function() {
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		$('#table1').DataTable({
 			"processing" : true,
 			"serverSide" : true,
-			"stateSave" : false,
-			"displayLength" : 10,
-			"displayStart" : 0,
-			"ajax" : {
-				"url" : ajaxURL,
-				"type" : "POST"
-			},
-			"columns" : [ {
-				"mData" : "roleId"
-			}, {
-				"mData" : "roleName"
-			} ],
-			"order" : [ [ 2, "asc" ] ],
+			"order" : [ [ 1, "desc" ] ],
 			"pagingType" : "full_numbers",
-			"deferLoading" : 15
+			"ajax" : {
+				"contentType" : "application/json; charset=utf-8",
+				"url" : "getRoleList",
+				"type" : "GET",
+				"data" : function(d) {
+					return encodeURIComponent(JSON.stringify(d));
+				},
+				"beforeSend" : function(request) {
+					request.setRequestHeader(header, token);
+				}
+			},
+			columns : [ {
+				data : 'roleId'
+			}, {
+				data : 'roleName'
+			}, {
+				data : 'status'
+			}, {
+				data : 'createdBy'
+			}, {
+				data : 'createdDT'
+			}, {
+				data : 'modifiedBy'
+			}, {
+				data : 'modifiedDT'
+			} ]
 		});
-	}
+	});
 </script>
 
 </head>
-<body onload="loadData('table1','getRoleList');">
+<body>
 	<div class="col-lg-12">
 		<div class="table-responsive">
 			<table id="table1"
 				class="table table-bordered table-hover table-striped">
 				<thead>
 					<tr>
-						<th>${roleId}</th>
-						<th>${roleName}</th>
-						<th><spring:message code="page.general.txt29" /></th>
-						<th><spring:message code="page.general.txt37" /></th>
+						<th>roleId</th>
+						<th>roleName</th>
+						<th>status</th>
+						<th>createdBy</th>
+						<th>createdDT</th>
+						<th>modifiedBy</th>
+						<th>modifiedDT</th>
 					</tr>
 				</thead>
 			</table>

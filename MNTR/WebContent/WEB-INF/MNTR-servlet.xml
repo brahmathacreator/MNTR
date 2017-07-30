@@ -152,7 +152,9 @@
 	<bean id="persistenceExceptionTranslationPostProcessor"
 		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 
-	<jpa:repositories base-package="com.cbo.mntr.jpa" />
+	<jpa:repositories
+		factory-class="org.springframework.data.jpa.datatables.repository.DataTablesRepositoryFactoryBean"
+		base-package="com.cbo.mntr.jpa" />
 
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="${smtp.host}" />
@@ -213,7 +215,7 @@
 		<batch:step id="step1">
 			<batch:tasklet transaction-manager="transactionManager">
 				<batch:chunk reader="menuDetailsMultiResourceReader"
-					writer="databaseItemWriter" processor="menuDetailProcessor"
+					writer="itemWriter" processor="menuDetailProcessor"
 					commit-interval="10" />
 			</batch:tasklet>
 		</batch:step>
@@ -245,10 +247,9 @@
 		</property>
 	</bean>
 
-	<bean id="databaseItemWriter"
-		class="org.springframework.batch.item.database.HibernateItemWriter">
-		<property name="sessionFactory" ref="sessionFactory" />
-	</bean>
+	<bean id="itemWriter" class="org.springframework.batch.item.database.JpaItemWriter"
+		p:entityManagerFactory-ref="entityManagerFactory" />
+
 
 	<bean id="menuDetailProcessor" class="com.cbo.mntr.job.itemprscr.MenuDetailsItemProcessor" />
 	<bean id="menuDetailListener" class="com.cbo.mntr.job.listener.MenuDetailsJobListener" />

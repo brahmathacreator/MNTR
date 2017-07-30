@@ -26,8 +26,6 @@
 <link href="<spring:theme code='page.style3.path'/>" rel="stylesheet" />
 <!-- Custom CSS - RTL -->
 <link href="<spring:theme code='page.style4.path'/>" rel="stylesheet" />
-<!-- Datatable CSS -->
-<link href="<spring:theme code='page.style5.path'/>" rel="stylesheet" />
 
 
 
@@ -45,7 +43,8 @@
 <script src="<spring:theme code='page.script3.path'/>"></script>
 <!-- Datatable min JavaScript -->
 <script src="<spring:theme code='page.script4.path'/>"></script>
-
+<!-- Datatable Spring Friendly -->
+<script src="<spring:theme code='page.script5.path'/>"></script>
 
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
