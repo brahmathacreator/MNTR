@@ -75,7 +75,7 @@ public class PasswordController {
 							if (Integer.parseInt(decryptedDataArr[1]) == MailConstants.regConfirmationMail
 									&& Integer.parseInt(decryptedDataArr[2]) == MailConstants.firstTimePasswordChange) {
 								model.addAttribute(ViewConstants.actionURL, ViewConstants.changePasswordURL1);
-								model.addAttribute(ViewConstants.curdOpt, StatusConstants.insert);
+								model.addAttribute(NavigationConstants.CURDOpt, StatusConstants.insert);
 								model.addAttribute(ViewConstants.modelAttribute, passwordDetails);
 								return ViewConstants.changePasswordView;
 							} else {
@@ -117,7 +117,7 @@ public class PasswordController {
 			currentTime = null;
 			generatedTime = null;
 		}
-		return ViewConstants.accessDenied;
+		return ViewConstants.errorURL;
 	}
 
 	@RequestMapping(value = { ViewConstants.changePasswordURL1 }, method = RequestMethod.POST)
@@ -127,7 +127,7 @@ public class PasswordController {
 			@RequestParam(ViewConstants.regConfirmationParam2) Long userKey) {
 		logger.info("Inside [PasswordController][generateDefaultPassword]");
 		try {
-			model.addAttribute(ViewConstants.curdOpt, StatusConstants.insert);
+			model.addAttribute(NavigationConstants.CURDOpt, StatusConstants.insert);
 			model.addAttribute(ViewConstants.modelAttribute, pwdDetails);
 			model.addAttribute(ViewConstants.actionURL, ViewConstants.changePasswordURL1);
 			model.addAttribute(ViewConstants.regConfirmationParam1, encryptedData);
@@ -157,8 +157,7 @@ public class PasswordController {
 					.getMessage(MsgResolver.getMsgCodeKey(MsgConstants.problemOccouredMsgCode), null, locale));
 			logger.error("CTRLR Error : " + ex);
 		}
-
-		return ViewConstants.accessDenied;
+		return ViewConstants.errorURL;
 	}
 
 }

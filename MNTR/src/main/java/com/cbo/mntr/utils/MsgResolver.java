@@ -38,6 +38,8 @@ public class MsgResolver {
 					msgKey = "auth.message.expired";
 				} else if (msgCode.equals(MsgConstants.authMsgCode4)) {
 					msgKey = "auth.message.blocked";
+				} else if (msgCode.equals(MsgConstants.noRecordsFound)) {
+					msgKey = "EmptyTable";
 				} else {
 					msgKey = "page.general.txt18";
 				}

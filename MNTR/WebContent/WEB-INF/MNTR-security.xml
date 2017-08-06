@@ -25,7 +25,7 @@
 			authentication-failure-handler-ref="authFailureHandler"
 			default-target-url="/home" />
 
-		<access-denied-handler error-page="/accessDenied?failed=true" />
+		<access-denied-handler ref="accessDeniedHandler" />
 
 		<session-management invalid-session-url="/invalidSession">
 			<concurrency-control max-sessions="1"
@@ -38,6 +38,7 @@
 			success-handler-ref="logoutHandler" delete-cookies="JSESSIONID" />
 
 		<csrf />
+		<custom-filter after="BASIC_AUTH_FILTER" ref="localeFilter" />
 	</http>
 
 	<authentication-manager alias="authenticationManager">
@@ -57,5 +58,8 @@
 		class="org.bouncycastle.jce.provider.BouncyCastleProvider" />
 	<beans:bean id="secRandom" class="java.security.SecureRandom" />
 	<beans:bean id="logoutHandler" class="com.cbo.mntr.service.security.LogoutHandler" />
+	<beans:bean id="accessDeniedHandler"
+		class="com.cbo.mntr.service.security.AccessDnidHandler" />
+	<beans:bean id="localeFilter" class="com.cbo.mntr.filters.LocaleFilter" />
 
 </beans:beans>

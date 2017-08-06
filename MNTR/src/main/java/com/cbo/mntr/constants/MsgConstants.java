@@ -24,5 +24,6 @@ public class MsgConstants implements Serializable {
 	public final static Integer authMsgCode2 = 13;
 	public final static Integer authMsgCode3 = 14;
 	public final static Integer authMsgCode4 = 15;
+	public final static Integer noRecordsFound = 16;
 
 }

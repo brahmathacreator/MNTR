@@ -17,6 +17,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+
+import com.fasterxml.jackson.annotation.JsonView;
+
 @Entity
 @Table(name = "USER_ROLE")
 public class UserRole implements Serializable {
@@ -29,26 +33,37 @@ public class UserRole implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ROLE_ID", unique = true, nullable = false)
+	@JsonView(DataTablesOutput.View.class)
 	private Long roleId;
 
 	@Column(name = "ROLE_NAME", nullable = false)
+	@JsonView(DataTablesOutput.View.class)
 	private String roleName;
 
+	@Column(name = "DESCRIPTION")
+	@JsonView(DataTablesOutput.View.class)
+	private String description;
+
 	@Column(name = "STATUS", nullable = false)
+	@JsonView(DataTablesOutput.View.class)
 	private Integer status;
 
 	@Column(name = "CREATED_BY", nullable = false)
+	@JsonView(DataTablesOutput.View.class)
 	private Long createdBy;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "CREATED_DT", nullable = false)
+	@JsonView(DataTablesOutput.View.class)
 	private Date createdDT;
 
 	@Column(name = "MODIFIED_BY", nullable = false)
+	@JsonView(DataTablesOutput.View.class)
 	private Long modifiedBy;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "MODIFIED_DT", nullable = false)
+	@JsonView(DataTablesOutput.View.class)
 	private Date modifiedDT;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "userRole")
@@ -127,6 +142,14 @@ public class UserRole implements Serializable {
 
 	public void setModifiedBy(Long modifiedBy) {
 		this.modifiedBy = modifiedBy;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }

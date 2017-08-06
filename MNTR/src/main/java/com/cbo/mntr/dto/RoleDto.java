@@ -3,9 +3,14 @@ package com.cbo.mntr.dto;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonView;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.cbo.mntr.constants.SSValidationConfig;
 
 public class RoleDto implements Serializable {
 
@@ -14,19 +19,19 @@ public class RoleDto implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@JsonView(DataTablesOutput.View.class)
 	private Long roleId;
-	@JsonView(DataTablesOutput.View.class)
+	@NotNull
+	@NotEmpty
+	@NotBlank
+	@Size(min = SSValidationConfig.textGeneralMin, max = SSValidationConfig.textGeneralMax)
 	private String roleName;
-	@JsonView(DataTablesOutput.View.class)
+	private String description;
 	private Integer status;
-	@JsonView(DataTablesOutput.View.class)
 	private Long createdBy;
-	@JsonView(DataTablesOutput.View.class)
+	@DateTimeFormat(pattern = SSValidationConfig.appDateFormat)
 	private Date createdDT;
-	@JsonView(DataTablesOutput.View.class)
 	private Long modifiedBy;
-	@JsonView(DataTablesOutput.View.class)
+	@DateTimeFormat(pattern = SSValidationConfig.appDateFormat)
 	private Date modifiedDT;
 
 	public Long getRoleId() {
@@ -83,6 +88,14 @@ public class RoleDto implements Serializable {
 
 	public void setModifiedDT(Date modifiedDT) {
 		this.modifiedDT = modifiedDT;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }

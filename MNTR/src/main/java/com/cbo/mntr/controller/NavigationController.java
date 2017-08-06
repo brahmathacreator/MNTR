@@ -87,7 +87,7 @@ public class NavigationController {
 		} finally {
 			urlProps = null;
 		}
-		return ViewConstants.redirect + ViewConstants.accessDenied;
+		return ViewConstants.redirect + ViewConstants.errorURL;
 	}
 
 	@RequestMapping(value = { ViewConstants.navAuthSuccess })
@@ -118,7 +118,7 @@ public class NavigationController {
 		} finally {
 			urlProps = null;
 		}
-		return ViewConstants.redirect + ViewConstants.accessDenied;
+		return ViewConstants.redirect + ViewConstants.errorURL;
 	}
 
 	@RequestMapping(value = { ViewConstants.rootView }, method = RequestMethod.GET)
@@ -127,12 +127,16 @@ public class NavigationController {
 		return ViewConstants.redirect + ViewConstants.rootView + ViewConstants.login;
 	}
 
-	@RequestMapping(value = { ViewConstants.accessDenied })
-	public String accessDeniedPage(ModelMap model, HttpServletRequest request) {
-		logger.info("Inside [LoginController][accessDeniedPage]");
-		final boolean stat = RequestUtil.removeSessionUser(request);
-		logger.info("Session Removal Stat : " + stat);
-		return ViewConstants.accessDenied;
+	@RequestMapping(value = { ViewConstants.errorURL })
+	public String errorPage(ModelMap model, HttpServletRequest request) {
+		logger.info("Inside [LoginController][errorPage]");
+		try {
+			final boolean stat = RequestUtil.removeSessionUser(request);
+			logger.info("Session Removal Stat : " + stat);
+		} catch (Exception ex) {
+			logger.error("CTRLR Error : " + ex);
+		}
+		return ViewConstants.errorURL;
 	}
 
 	@RequestMapping(value = { ViewConstants.sessionFailure })
@@ -143,7 +147,7 @@ public class NavigationController {
 		if (stat)
 			return ViewConstants.sessionFailure;
 		else
-			return ViewConstants.accessDenied;
+			return ViewConstants.errorURL;
 	}
 
 	@RequestMapping(value = { ViewConstants.logout })

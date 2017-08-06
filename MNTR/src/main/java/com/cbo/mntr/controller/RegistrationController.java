@@ -68,7 +68,7 @@ public class RegistrationController {
 			if (suaCount == null || suaCount == 0)
 				model.addAttribute(UserConstants.suaCount, StatusConstants.active);
 			else
-				return ViewConstants.redirect + ViewConstants.accessDenied;
+				return ViewConstants.redirect + ViewConstants.errorURL;
 
 			user = new UserInfoDTO();
 			model.addAttribute("user", user);

@@ -60,6 +60,7 @@ public class UserInfoDTO implements Serializable {
 	private Date modifiedDT;
 	private String pwdUUID;
 	private String hashPwd;
+	private Long roleId;
 
 	private List<String> roles = new ArrayList<String>();
 	private List<URLProps> parentURLList = new ArrayList<URLProps>();
@@ -232,6 +233,14 @@ public class UserInfoDTO implements Serializable {
 
 	public void setConCatRoles(String conCatRoles) {
 		this.conCatRoles = conCatRoles;
+	}
+
+	public Long getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
 	}
 
 }

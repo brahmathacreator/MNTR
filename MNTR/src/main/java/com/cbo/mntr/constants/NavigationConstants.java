@@ -16,5 +16,6 @@ public class NavigationConstants implements Serializable {
 	public final static String navMenuId = "navMenuId";
 	public final static String navMenuType = "navMenuType";
 	public final static String CURDOpt = "CURDOpt";
+	public final static String rcdKey = "rcdKey";
 
 }

@@ -7,8 +7,10 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.servlet.LocaleResolver;
 
+import com.cbo.mntr.dto.ActualUser;
 import com.cbo.mntr.service.security.UserSessionAttach;
 
 public class RequestUtil {
@@ -63,5 +65,16 @@ public class RequestUtil {
 			session = null;
 		}
 		return false;
+	}
+
+	public static Long getUserKeyFromAuth(Authentication au) throws Exception {
+		logger.info("Inside [RequestUtil][getUserKeyFromAuth]");
+		ActualUser user = null;
+		try {
+			user = ((ActualUser) au.getPrincipal());
+			return user.getUserInfo().getUserKey();
+		} finally {
+			user = null;
+		}
 	}
 }

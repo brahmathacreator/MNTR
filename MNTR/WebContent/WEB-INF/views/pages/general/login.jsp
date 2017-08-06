@@ -7,7 +7,7 @@
 <head>
 <script type="text/javascript">
 	$(function() {
-		$('#suRegForm').parsley().on('field:validated', function() {
+		$('#form1').parsley().on('field:validated', function() {
 			var ok = $('.parsley-error').length === 0;
 			if (!ok)
 				return false;

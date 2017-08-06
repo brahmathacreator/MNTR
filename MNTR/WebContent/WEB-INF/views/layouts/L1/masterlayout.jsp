@@ -16,11 +16,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
-
+<sec:csrfMetaTags />
 <!-- Bootstrap Core CSS -->
 <link href="<spring:theme code='page.style1.path'/>" rel="stylesheet" />
 <!-- Custom CSS -->
 <link href="<spring:theme code='page.style2.path'/>" rel="stylesheet" />
+<!-- Datatable CSS -->
+<link href="<spring:theme code='page.style5.path'/>" rel="stylesheet" />
 
 <!-- Bootstrap Core CSS - RTL -->
 <link href="<spring:theme code='page.style3.path'/>" rel="stylesheet" />
@@ -43,8 +45,6 @@
 <script src="<spring:theme code='page.script3.path'/>"></script>
 <!-- Datatable min JavaScript -->
 <script src="<spring:theme code='page.script4.path'/>"></script>
-<!-- Datatable Spring Friendly -->
-<script src="<spring:theme code='page.script5.path'/>"></script>
 
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -60,20 +60,28 @@
 	});
 
 	function navFormSubmit(navigate,navParam,menuId,menuType,curdOpt) {
-		document.getElementById("navForm").method = 'post';
-		document.getElementById("navParam").value = navParam;
-		document.getElementById("navMenuId").value = menuId;
-		document.getElementById("navMenuType").value = menuType;
-		document.getElementById("CURDOpt").value = curdOpt;
-		document.getElementById("navForm").action = navigate;
+		document.navForm.navParam.value = navParam;
+		document.navForm.navMenuId.value = menuId;
+		document.navForm.navMenuType.value = menuType;
+		document.navForm.CURDOpt.value = curdOpt;
+		document.navForm.method = 'post';
+		document.navForm.action = navigate;
 		document.navForm.submit();
-		return false;
+		return true;
 	}
 	function logoutFormSubmit(logoutURL) {
-		document.getElementById("logoutForm").method = 'post';
-		document.getElementById("logoutForm").action = logoutURL;
+		document.logoutForm.method = 'post';
+		document.logoutForm.action = logoutURL;
 		document.logoutForm.submit();
-		return false;
+		return true;
+	}
+	function listFormSubmit(actionURL,curdOpt, rcdKey) {
+		document.listForm.method = 'post';
+		document.listForm.action = actionURL;
+		document.listForm.rcdKey.value = rcdKey;
+		document.listForm.CURDOpt.value = curdOpt;
+		document.listForm.submit();
+		return true;
 	}
 </script>
 
@@ -114,40 +122,6 @@
 										<strong><sec:authorize access="isAuthenticated()">
 												<sec:authentication property="principal.username" />
 											</sec:authorize></strong>
-									</h5>
-									<p class="small text-muted">
-										<i class="fa fa-clock-o"></i> Yesterday at 4:32 PM
-									</p>
-									<p>Lorem ipsum dolor sit amet, consectetur...</p>
-								</div>
-							</div>
-					</a></li>
-					<li class="message-preview"><a href="#">
-							<div class="media">
-								<span class="pull-left"> <img class="media-object"
-									src="http://placehold.it/50x50" alt="">
-								</span>
-								<div class="media-body">
-									<h5 class="media-heading">
-										<strong><sec:authorize access="isAuthenticated()">
-												<sec:authentication property="principal.username" />
-											</sec:authorize></strong>
-									</h5>
-									<p class="small text-muted">
-										<i class="fa fa-clock-o"></i> Yesterday at 4:32 PM
-									</p>
-									<p>Lorem ipsum dolor sit amet, consectetur...</p>
-								</div>
-							</div>
-					</a></li>
-					<li class="message-preview"><a href="#">
-							<div class="media">
-								<span class="pull-left"> <img class="media-object"
-									src="http://placehold.it/50x50" alt="">
-								</span>
-								<div class="media-body">
-									<h5 class="media-heading">
-										<strong>John Smith</strong>
 									</h5>
 									<p class="small text-muted">
 										<i class="fa fa-clock-o"></i> Yesterday at 4:32 PM
@@ -274,8 +248,8 @@
 										<spring:message code='page.general.txt24' />
 									</c:when>
 									<c:when test="${ops eq 3 }">
-										<i class="glyphicon glyphicon-eye-open"></i>
-										<spring:message code='page.general.txt25' />
+										<i class="glyphicon glyphicon-th-list"></i>
+										<spring:message code='page.general.txt39' />
 									</c:when>
 									<c:when test="${ops eq 4 }">
 										<i class="glyphicon glyphicon-minus-sign"></i>
@@ -289,35 +263,26 @@
 										<i class="glyphicon glyphicon-remove-sign"></i>
 										<spring:message code='page.general.txt28' />
 									</c:when>
+									<c:when test="${ops eq 7 }">
+										<i class="glyphicon glyphicon-eye-open"></i>
+										<spring:message code='page.general.txt25' />
+									</c:when>
 									<c:when test="${ops eq 100 }">
 										<i class="fa fa-fw fa-dashboard"></i>
 										<spring:message code='menu.home.menu.dashboard' />
 									</c:when>
 								</c:choose></li>
 							<li class="pull-right"><i
-								class="glyphicon glyphicon-minus-sign"></i> <a
-								onclick="return navFormSubmit('navigate','<sec:authentication
-									property='principal.currentUrlDetails.menuURL' />','<sec:authentication
-									property='principal.currentUrlDetails.menuId' />','1','4');"
-								href="#"><spring:message code="page.general.txt26" /></a></li>
+								class="glyphicon glyphicon-plus-sign"></i> <a
+								onclick="return listFormSubmit('<sec:authentication
+									property='principal.currentUrlDetails.menuURL' />ADD','1','0');"
+								href="#"><spring:message code="page.general.txt23" /></a></li>
 							<li class="pull-right"><i
-								class="glyphicon glyphicon-eye-open"></i> <a
+								class="glyphicon glyphicon-th-list"></i> <a
 								onclick="return navFormSubmit('navigate','<sec:authentication
 									property='principal.currentUrlDetails.menuURL' />','<sec:authentication
 									property='principal.currentUrlDetails.menuId' />','1','3');"
-								href="#"><spring:message code="page.general.txt25" /></a></li>
-							<li class="pull-right"><i class="glyphicon glyphicon-edit"></i>
-								<a
-								onclick="return navFormSubmit('navigate','<sec:authentication
-									property='principal.currentUrlDetails.menuURL' />','<sec:authentication
-									property='principal.currentUrlDetails.menuId' />','1','2');"
-								href="#"><spring:message code="page.general.txt24" /></a></li>
-							<li class="pull-right"><i
-								class="glyphicon glyphicon-plus-sign"></i> <a
-								onclick="return navFormSubmit('navigate','<sec:authentication
-									property='principal.currentUrlDetails.menuURL' />','<sec:authentication
-									property='principal.currentUrlDetails.menuId' />','1','1');"
-								href="#"><spring:message code="page.general.txt23" /></a></li>
+								href="#"><spring:message code="page.general.txt39" /></a></li>
 						</ol>
 					</div>
 				</div>
@@ -338,6 +303,56 @@
 							<input type="hidden" name="${_csrf.parameterName}"
 								value="${_csrf.token}" />
 						</form>
+						<form id="listForm" name="listForm">
+							<input type="hidden" name="rcdKey" id="rcdKey" /> <input
+								type="hidden" name="${_csrf.parameterName}"
+								value="${_csrf.token}" /> <input type="hidden" name="CURDOpt"
+								id="CURDOpt" />
+						</form>
+						<c:if test="${succmsg != null and not empty succmsg}">
+							<div class="alert alert-success alert-dismissable">
+								<a href="#" class="close" data-dismiss="alert"
+									aria-label="close">&times;</a> <strong><spring:message
+										code="page.general.txt12" />&nbsp;</strong>${succmsg}
+							</div>
+						</c:if>
+						<c:if test="${errmsg != null and not empty errmsg}">
+							<div class="alert alert-danger alert-dismissable">
+								<a href="#" class="close" data-dismiss="alert"
+									aria-label="close">&times;</a> <strong><spring:message
+										code="page.general.txt13" />&nbsp;</strong>${errmsg}
+							</div>
+						</c:if>
+						<c:if
+							test="${sessionScope['SPRING_SECURITY_LAST_EXCEPTION'] != null and not empty sessionScope['SPRING_SECURITY_LAST_EXCEPTION'] }">
+							<div class="alert alert-danger alert-dismissable">
+								<a href="#" class="close" data-dismiss="alert"
+									aria-label="close">&times;</a> <strong><spring:message
+										code="page.general.txt13" />&nbsp;</strong>${sessionScope['SPRING_SECURITY_LAST_EXCEPTION']}
+							</div>
+						</c:if>
+						<c:if
+							test="${sessionScope[AUTHENTICATION_EXCEPTION] != null and not empty sessionScope[AUTHENTICATION_EXCEPTION] }">
+							<div class="alert alert-danger alert-dismissable">
+								<a href="#" class="close" data-dismiss="alert"
+									aria-label="close">&times;</a> <strong><spring:message
+										code="page.general.txt13" />&nbsp;</strong>${sessionScope[AUTHENTICATION_EXCEPTION]}
+							</div>
+						</c:if>
+						<c:if test="${infomsg != null and not empty infomsg}">
+							<div class="alert alert-info alert-dismissable">
+								<a href="#" class="close" data-dismiss="alert"
+									aria-label="close">&times;</a> <strong><spring:message
+										code="page.general.txt14" />&nbsp;</strong>${infomsg}
+							</div>
+						</c:if>
+						<c:if test="${warnmsg != null and not empty warnmsg}">
+							<div class="alert alert-warning alert-dismissable">
+								<a href="#" class="close" data-dismiss="alert"
+									aria-label="close">&times;</a> <strong><spring:message
+										code="page.general.txt15" />&nbsp;</strong>${warnmsg}
+							</div>
+						</c:if>
 						<section id="site-content"> <tiles:insertAttribute
 							name="body" /> </section>
 					</div>

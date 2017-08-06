@@ -43,6 +43,12 @@
 			value="/WEB-INF/views/pages/general/accessdenied.jsp" />
 	</definition>
 
+	<!-- Error Page -->
+	<definition name="errorPage" extends="info-base-definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/general/error.jsp" />
+	</definition>
+
 	<!-- Session Expired Page -->
 	<definition name="invalidSession" extends="info-base-definition">
 		<put-attribute name="body"

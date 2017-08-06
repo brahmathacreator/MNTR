@@ -23,6 +23,10 @@ public class ActualUser implements UserDetails {
 		this.userInfo = userInfo;
 	}
 
+	public ActualUser() {
+		super();
+	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();

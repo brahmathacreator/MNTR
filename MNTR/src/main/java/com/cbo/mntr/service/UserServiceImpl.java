@@ -77,6 +77,7 @@ public class UserServiceImpl implements UserService {
 				userRoleMap = userInfoEntity.getURMapSet();
 				for (UserRoleMapping ur : userRoleMap) {
 					userInfo.getRoles().add(UserConstants.genericRole + ur.getUserRole().getRoleName());
+					userInfo.setRoleId(ur.getUserRole().getRoleId());
 					roleMenuMap = ur.getUserRole().getRoleMenuMapping();
 					for (RoleMenuMapping rm : roleMenuMap) {
 						urlProps = new URLProps();
