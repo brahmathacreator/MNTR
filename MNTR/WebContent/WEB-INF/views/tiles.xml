@@ -70,13 +70,19 @@
 	<!-- Catagory Page -->
 	<definition name="createCatagory" extends="base-definition">
 		<put-attribute name="body"
-			value="/WEB-INF/views/pages/catagory/catagory.jsp" />
+			value="/WEB-INF/views/pages/configuration/catagory.jsp" />
 	</definition>
 
 	<!-- Machine Page -->
 	<definition name="createMachine" extends="base-definition">
 		<put-attribute name="body"
-			value="/WEB-INF/views/pages/machine/machine.jsp" />
+			value="/WEB-INF/views/pages/configuration/machine.jsp" />
+	</definition>
+
+	<!-- Template Page -->
+	<definition name="template" extends="base-definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/configuration/template.jsp" />
 	</definition>
 
 	<!-- Role Page -->

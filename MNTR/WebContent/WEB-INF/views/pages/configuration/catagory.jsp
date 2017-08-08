@@ -156,9 +156,6 @@ function loadData() {
 									} ]
 						});
 	}
-</script>
-<c:if test="${(ops eq 1) or (ops eq 2) or (ops eq 4) }">
-	<script type="text/javascript">
 	$(function() {
 		$('#form1').parsley().on('field:validated', function() {
 			var ok = $('.parsley-error').length === 0;
@@ -169,7 +166,6 @@ function loadData() {
 		});
 	});
 </script>
-</c:if>
 </head>
 <body <c:if test="${ops eq 3 }"> onload="return loadData();"</c:if>>
 	<div class="col-lg-12">

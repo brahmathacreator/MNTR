@@ -23,6 +23,7 @@ public class ViewConstants implements Serializable {
 	public static final String login = "login";
 	public static final String logout = "logout";
 	public static final String navURL = "navigate";
+	public static final String list = "LIST";
 	public static final String add = "ADD";
 	public static final String edit = "EDIT";
 	public static final String delete = "DELETE";
@@ -47,5 +48,6 @@ public class ViewConstants implements Serializable {
 	public static final String roleURL4 = "viewRole";
 	public static final String userURL1 = "createuser";
 	public static final String permissionURL1 = "createPermission";
+	public static final String templateURL1 = "template";
 
 }

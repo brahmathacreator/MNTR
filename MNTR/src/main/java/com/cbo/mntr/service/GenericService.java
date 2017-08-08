@@ -1,6 +1,6 @@
 package com.cbo.mntr.service;
 
-public interface CommonService<T> {
+public interface GenericService<T> {
 
 	public T getDataByKeyAndStatus(Long id) throws Exception;
 
