@@ -2,7 +2,7 @@
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 <log4j:configuration debug="true"
 	xmlns:log4j='http://jakarta.apache.org/log4j/'>
-	<appender name="INFOAPP" class="com.cbo.mntr.utils.CompositeRollingAppender">
+	<appender name="INFOAPP" class="com.org.mntr.utils.CompositeRollingAppender">
 		<param name="File" value='D:/ECProjectsTemp/MNTR/Log/mntr_info.log' />
 		<param name="Threshold" value="INFO" />
 		<param name="DatePattern" value="'.'dd-MM-yyyy" />
@@ -13,7 +13,7 @@
 			<param name="ConversionPattern" value="%d{ISO8601}  %c  %l [%t] %x - %m%n" />
 		</layout>
 	</appender>
-	<appender name="DEBUGAPP" class="com.cbo.mntr.utils.CompositeRollingAppender">
+	<appender name="DEBUGAPP" class="com.org.mntr.utils.CompositeRollingAppender">
 		<param name="File" value='D:/ECProjectsTemp/MNTR/Log/mntr_debug.log' />
 		<param name="Threshold" value="DEBUG" />
 		<param name="DatePattern" value="'.'dd-MM-yyyy" />
@@ -24,7 +24,7 @@
 			<param name="ConversionPattern" value="%d{ISO8601}  %c  %l [%t] %x - %m%n" />
 		</layout>
 	</appender>
-	<appender name="ERRORAPP" class="com.cbo.mntr.utils.CompositeRollingAppender">
+	<appender name="ERRORAPP" class="com.org.mntr.utils.CompositeRollingAppender">
 		<param name="File" value='D:/ECProjectsTemp/MNTR/Log/mntr_error.log' />
 		<param name="Threshold" value="ERROR" />
 		<param name="DatePattern" value="'.'dd-MM-yyyy" />

@@ -28,12 +28,12 @@
     	http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
 	<context:annotation-config />
-	<context:component-scan base-package="com.cbo.mntr.controller" />
-	<context:component-scan base-package="com.cbo.mntr.dao" />
-	<context:component-scan base-package="com.cbo.mntr.events" />
-	<context:component-scan base-package="com.cbo.mntr.service" />
-	<context:component-scan base-package="com.cbo.mntr.exceptions" />
-	<context:component-scan base-package="com.cbo.mntr.jpa.specs" />
+	<context:component-scan base-package="com.org.mntr.controller" />
+	<context:component-scan base-package="com.org.mntr.dao" />
+	<context:component-scan base-package="com.org.mntr.events" />
+	<context:component-scan base-package="com.org.mntr.service" />
+	<context:component-scan base-package="com.org.mntr.exceptions" />
+	<context:component-scan base-package="com.org.mntr.jpa.specs" />
 
 
 	<bean id="tilesConfigurer"
@@ -129,7 +129,7 @@
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="packagesToScan" value="com.cbo.mntr.entity" />
+		<property name="packagesToScan" value="com.org.mntr.entity" />
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 				<property name="generateDdl" value="${jdbc.generateddl}" />
@@ -156,7 +156,7 @@
 
 	<jpa:repositories
 		factory-class="org.springframework.data.jpa.datatables.repository.DataTablesRepositoryFactoryBean"
-		base-package="com.cbo.mntr.jpa" />
+		base-package="com.org.mntr.jpa" />
 
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="${smtp.host}" />
@@ -175,7 +175,7 @@
 	</bean>
 
 	<bean id="applicationEventMulticaster"
-		class="com.cbo.mntr.events.eventcaster.DistributiveEventMulticaster">
+		class="com.org.mntr.events.eventcaster.DistributiveEventMulticaster">
 		<property name="syncEventMulticaster">
 			<bean
 				class="org.springframework.context.event.SimpleApplicationEventMulticaster">
@@ -237,7 +237,7 @@
 		<property name="lineMapper">
 			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
 				<property name="fieldSetMapper">
-					<bean class="com.cbo.mntr.job.mapper.MenuDetailMapper" />
+					<bean class="com.org.mntr.job.mapper.MenuDetailMapper" />
 				</property>
 				<property name="lineTokenizer">
 					<bean
@@ -253,7 +253,7 @@
 		p:entityManagerFactory-ref="entityManagerFactory" />
 
 
-	<bean id="menuDetailProcessor" class="com.cbo.mntr.job.itemprscr.MenuDetailsItemProcessor" />
-	<bean id="menuDetailListener" class="com.cbo.mntr.job.listener.MenuDetailsJobListener" />
+	<bean id="menuDetailProcessor" class="com.org.mntr.job.itemprscr.MenuDetailsItemProcessor" />
+	<bean id="menuDetailListener" class="com.org.mntr.job.listener.MenuDetailsJobListener" />
 
 </beans>

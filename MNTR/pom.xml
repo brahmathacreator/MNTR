@@ -38,6 +38,7 @@
 		<org.hibernate.version>4.3.5.Final</org.hibernate.version>
 		<org.javassist.version>3.18.1-GA</org.javassist.version>
 		<jackson.version>1.9.10</jackson.version>
+		<mysql.connector>5.1.9</mysql.connector>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -306,7 +307,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.9</version>
+			<version>${mysql.connector}</version>
 		</dependency>
 
 		<dependency>

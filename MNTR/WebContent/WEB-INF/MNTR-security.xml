@@ -53,13 +53,13 @@
 	</beans:bean>
 
 	<beans:bean id="sessionActiveUser"
-		class="com.cbo.mntr.service.security.SessionActiveUser" />
+		class="com.org.mntr.service.security.SessionActiveUser" />
 	<beans:bean id="bouncyProvider"
 		class="org.bouncycastle.jce.provider.BouncyCastleProvider" />
 	<beans:bean id="secRandom" class="java.security.SecureRandom" />
-	<beans:bean id="logoutHandler" class="com.cbo.mntr.service.security.LogoutHandler" />
+	<beans:bean id="logoutHandler" class="com.org.mntr.service.security.LogoutHandler" />
 	<beans:bean id="accessDeniedHandler"
-		class="com.cbo.mntr.service.security.AccessDnidHandler" />
-	<beans:bean id="localeFilter" class="com.cbo.mntr.filters.LocaleFilter" />
+		class="com.org.mntr.service.security.AccessDnidHandler" />
+	<beans:bean id="localeFilter" class="com.org.mntr.filters.LocaleFilter" />
 
 </beans:beans>

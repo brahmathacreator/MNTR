@@ -3,6 +3,6 @@
 3,menu.administration.create.role,menu.administration.create.role.desc,createrole,1,1,1,1,0,2017-07-14 11:45:00,0,2017-07-14 11:45:00,glyphicon glyphicon-tags,0
 4,menu.administration.create.permission,menu.administration.create.permission.desc,createPermission,1,2,1,1,0,2017-07-14 11:45:00,0,2017-07-14 11:45:00,fa fa-ticket,0
 5,menu.configuration.menu,menu.configuration.menu.desc,#,0,1,0,1,0,2017-07-14 11:45:00,0,2017-07-14 11:45:00,fa fa-university,1
-6,menu.configuration.create.catagory,menu.configuration.create.catagory.desc,createCatagory,1,1,5,1,0,2017-07-14 11:45:00,0,2017-07-14 11:45:00,glyphicon glyphicon-th-list,0
-7,menu.configuration.create.mechine,menu.configuration.create.mechine.desc,createMachine,1,2,5,1,0,2017-07-14 11:45:00,0,2017-07-14 11:45:00,glyphicon glyphicon-hdd,0
-8,menu.configuration.create.template,menu.configuration.create.template.desc,template,1,0,5,1,0,2017-07-14 11:45:00,0,2017-07-14 11:45:00,glyphicon glyphicon glyphicon-list-alt,0
+6,menu.configuration.create.catagory,menu.configuration.create.catagory.desc,createCatagory,1,0,5,1,0,2017-07-14 11:45:00,0,2017-07-14 11:45:00,glyphicon glyphicon-th-list,0
+7,menu.configuration.create.mechine,menu.configuration.create.mechine.desc,createMachine,1,1,5,1,0,2017-07-14 11:45:00,0,2017-07-14 11:45:00,glyphicon glyphicon-hdd,0
+8,menu.configuration.create.template,menu.configuration.create.template.desc,template,1,2,5,1,0,2017-07-14 11:45:00,0,2017-07-14 11:45:00,glyphicon glyphicon glyphicon-list-alt,0
