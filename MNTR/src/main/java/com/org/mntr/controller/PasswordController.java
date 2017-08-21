@@ -24,7 +24,7 @@ import com.org.mntr.constants.NavigationConstants;
 import com.org.mntr.constants.SSValidationConfig;
 import com.org.mntr.constants.StatusConstants;
 import com.org.mntr.constants.ViewConstants;
-import com.org.mntr.dto.PasswordDetailsDTO;
+import com.org.mntr.dto.PasswordDetailsDto;
 import com.org.mntr.exceptions.CustomException;
 import com.org.mntr.service.PasswordDetailsService;
 import com.org.mntr.service.security.AESWithPBKDFHashCryptoUtil;
@@ -56,22 +56,22 @@ public class PasswordController {
 		logger.info("Inside [PasswordController][generateDefaultPassword]");
 		String decryptedData = null;
 		String[] decryptedDataArr = null;
-		PasswordDetailsDTO passwordDetails = null;
+		PasswordDetailsDto passwordDetails = null;
 		DateTime currentTime = null, generatedTime = null;
 		try {
 			model.addAttribute(ViewConstants.regConfirmationParam1, encryptedData);
 			model.addAttribute(ViewConstants.regConfirmationParam2, userKey);
 			if (encryptedData != null && !encryptedData.trim().isEmpty() && userKey != null && userKey != 0) {
 				passwordDetails = pwdService.getPasswordByUserKey(userKey);
-				if (passwordDetails != null && passwordDetails.getUuid() != null) {
-					decryptedData = aesUtil.decryptData(encryptedData, passwordDetails.getUuid());
+				if (passwordDetails != null && passwordDetails.getPwdUuid() != null) {
+					decryptedData = aesUtil.decryptData(encryptedData, passwordDetails.getPwdUuid());
 					decryptedDataArr = decryptedData
 							.split(ViewConstants.applicationDataEscaper + ViewConstants.applicationDataSeperator);
 					currentTime = new DateTime();
-					generatedTime = new DateTime(passwordDetails.getUuidDT());
+					generatedTime = new DateTime(passwordDetails.getUuidGenerationDt());
 					if (currentTime.isAfter(generatedTime) && currentTime.isBefore(generatedTime.plusHours(Integer
 							.parseInt(mntrProperties.getProperty(SSValidationConfig.pwdLinkExpiryPeriodKey).trim())))) {
-						if (decryptedDataArr[0].equals(passwordDetails.getUuid())) {
+						if (decryptedDataArr[0].equals(passwordDetails.getPwdUuid())) {
 							if (Integer.parseInt(decryptedDataArr[1]) == MailConstants.regConfirmationMail
 									&& Integer.parseInt(decryptedDataArr[2]) == MailConstants.firstTimePasswordChange) {
 								model.addAttribute(ViewConstants.actionURL, ViewConstants.changePasswordURL1);
@@ -121,7 +121,7 @@ public class PasswordController {
 	}
 
 	@RequestMapping(value = { ViewConstants.changePasswordURL1 }, method = RequestMethod.POST)
-	public String savePassword(@ModelAttribute(ViewConstants.modelAttribute) @Valid PasswordDetailsDTO pwdDetails,
+	public String savePassword(@ModelAttribute(ViewConstants.modelAttribute) @Valid PasswordDetailsDto pwdDetails,
 			BindingResult result, Locale locale, ModelMap model,
 			@RequestParam(ViewConstants.regConfirmationParam1) String encryptedData,
 			@RequestParam(ViewConstants.regConfirmationParam2) Long userKey) {
@@ -132,7 +132,6 @@ public class PasswordController {
 			model.addAttribute(ViewConstants.actionURL, ViewConstants.changePasswordURL1);
 			model.addAttribute(ViewConstants.regConfirmationParam1, encryptedData);
 			model.addAttribute(ViewConstants.regConfirmationParam2, userKey);
-			pwdDetails.setModifiedBy(userKey);
 			if (pwdDetails.getPassRefId() != null && !pwdDetails.getPassRefId().equals(0)) {
 				if (result.hasErrors()) {
 					return ViewConstants.changePasswordView;

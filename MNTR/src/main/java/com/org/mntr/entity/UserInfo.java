@@ -1,14 +1,17 @@
 package com.org.mntr.entity;
 // Generated 11-Aug-2017 13:10:52 by Hibernate Tools 5.2.3.Final
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -35,9 +38,9 @@ public class UserInfo implements java.io.Serializable {
 	private Integer lockStatus;
 	private Integer invalidPassAttempts;
 	private Integer status;
-	private Long createdBy;
+	private String createdBy;
 	private Date createdDt;
-	private Long modifiedBy;
+	private String modifiedBy;
 	private Date modifiedDt;
 	private Integer loginType;
 	private String email;
@@ -51,7 +54,7 @@ public class UserInfo implements java.io.Serializable {
 	}
 
 	public UserInfo(String userId, String username, Date lastLoginDt, Integer lockStatus, Integer invalidPassAttempts,
-			Integer status, Long createdBy, Date createdDt, Long modifiedBy, Date modifiedDt, Integer loginType,
+			Integer status, String createdBy, Date createdDt, String modifiedBy, Date modifiedDt, Integer loginType,
 			String email, String phoneNo, String userLogoName) {
 		this.userId = userId;
 		this.username = username;
@@ -70,7 +73,7 @@ public class UserInfo implements java.io.Serializable {
 	}
 
 	public UserInfo(String userId, String username, Date lastLoginDt, Integer lockStatus, Integer invalidPassAttempts,
-			Integer status, Long createdBy, Date createdDt, Long modifiedBy, Date modifiedDt, Integer loginType,
+			Integer status, String createdBy, Date createdDt, String modifiedBy, Date modifiedDt, Integer loginType,
 			String email, String phoneNo, String userLogoName, Set<UserRoleMapping> userRoleMappings,
 			Set<PasswordHistoryDetails> passwordHistoryDetailses, PasswordDetails passwordDetailses) {
 		this.userId = userId;
@@ -160,11 +163,11 @@ public class UserInfo implements java.io.Serializable {
 	}
 
 	@Column(name = "CREATED_BY", nullable = false)
-	public Long getCreatedBy() {
+	public String getCreatedBy() {
 		return this.createdBy;
 	}
 
-	public void setCreatedBy(Long createdBy) {
+	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
 
@@ -179,11 +182,11 @@ public class UserInfo implements java.io.Serializable {
 	}
 
 	@Column(name = "MODIFIED_BY", nullable = false)
-	public Long getModifiedBy() {
+	public String getModifiedBy() {
 		return this.modifiedBy;
 	}
 
-	public void setModifiedBy(Long modifiedBy) {
+	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
 
@@ -233,7 +236,7 @@ public class UserInfo implements java.io.Serializable {
 		this.userLogoName = userLogoName;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userInfo")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userInfo", cascade = CascadeType.ALL)
 	public Set<UserRoleMapping> getUserRoleMappings() {
 		return this.userRoleMappings;
 	}
@@ -242,7 +245,7 @@ public class UserInfo implements java.io.Serializable {
 		this.userRoleMappings = userRoleMappings;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userInfo")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userInfo", cascade = CascadeType.ALL)
 	public Set<PasswordHistoryDetails> getPasswordHistoryDetailses() {
 		return this.passwordHistoryDetailses;
 	}
@@ -251,7 +254,7 @@ public class UserInfo implements java.io.Serializable {
 		this.passwordHistoryDetailses = passwordHistoryDetailses;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "userInfo")
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "userInfo", cascade = CascadeType.ALL)
 	public PasswordDetails getPasswordDetailses() {
 		return this.passwordDetailses;
 	}

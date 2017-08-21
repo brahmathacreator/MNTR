@@ -86,7 +86,7 @@
 							<div class="form-group">
 								<label>${userName}</label>
 								<sf:input class="form-control convertInputUpperCase"
-									path="userName" id="userName" type="text" autocomplete="off"
+									path="username" id="username" type="text" autocomplete="off"
 									required="required" data-parsley-required-message="${ttReqYes}"
 									data-parsley-minlength="${csgTxtmin}"
 									data-parsley-minlength-message="${ttMin}${csgTxtmin}"
@@ -96,7 +96,7 @@
 									data-parsley-pattern-message="${ttAllow1}"
 									data-toggle="tooltip" data-html="true"
 									title="${ttField}${userName}${ttDetails}<br>${ttReqYes}<br>${ttMin}${csgTxtmin}<br>${ttMax}${csgTxtmax}<br>${ttAllow1}" />
-								<sf:errors path="userName" class="text-danger" />
+								<sf:errors path="username" class="text-danger" />
 							</div>
 							<div class="form-group">
 								<label>${email}</label>
@@ -109,14 +109,14 @@
 							</div>
 							<div class="form-group">
 								<label>${phno}</label>
-								<sf:input class="form-control" path="phno" id="phno" type="text"
-									autocomplete="off" required="required"
+								<sf:input class="form-control" path="phoneNo" id="phoneNo"
+									type="text" autocomplete="off" required="required"
 									data-parsley-required-message="${ttReqYes}"
 									data-parsley-pattern="${csgPhonePat}"
 									data-parsley-pattern-message="${ttAllow4}"
 									data-toggle="tooltip" data-html="true"
 									title="${ttField}${phno}${ttDetails}<br>${ttReqYes}<br>${ttAllow4}" />
-								<sf:errors path="phno" class="text-danger" />
+								<sf:errors path="phoneNo" class="text-danger" />
 							</div>
 							<div class="form-group">
 								<input type="submit" class="btn btn-lg btn-success btn-block"

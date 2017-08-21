@@ -19,18 +19,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.fasterxml.jackson.annotation.JsonView;
 import com.org.mntr.constants.MsgConstants;
 import com.org.mntr.constants.NavigationConstants;
 import com.org.mntr.constants.StatusConstants;
 import com.org.mntr.constants.ViewConstants;
 import com.org.mntr.dto.ActualUser;
-import com.org.mntr.dto.RoleDto;
+import com.org.mntr.dto.UserRoleDto;
 import com.org.mntr.entity.UserRole;
 import com.org.mntr.exceptions.CustomException;
 import com.org.mntr.service.RoleService;
 import com.org.mntr.utils.MsgResolver;
-import com.org.mntr.utils.RequestUtil;
-import com.fasterxml.jackson.annotation.JsonView;
 
 @Controller
 public class RoleController {
@@ -57,7 +57,7 @@ public class RoleController {
 			Authentication au) {
 		logger.info("Inside [RoleController][loadRoleList]");
 		try {
-			return roleService.getAllRoles(dtInput, ((ActualUser) au.getPrincipal()).getUserInfo().getRoleId());
+			return roleService.getAllData(dtInput, ((ActualUser) au.getPrincipal()).getUserInfo().getRoleId());
 		} catch (Exception ex) {
 			logger.error("CTRLR Error : " + ex);
 		}
@@ -70,10 +70,10 @@ public class RoleController {
 			@RequestParam(NavigationConstants.rcdKey) Long rcdKey,
 			@RequestParam(NavigationConstants.CURDOpt) Integer curdOpt) {
 		logger.info("Inside [RoleController][viewRole]");
-		RoleDto roleDto = null;
+		UserRoleDto roleDto = null;
 		try {
 			if (StatusConstants.insert == curdOpt) {
-				roleDto = new RoleDto();
+				roleDto = new UserRoleDto();
 				model.addAttribute(ViewConstants.actionURL, (ViewConstants.roleURL1 + ViewConstants.save));
 			} else {
 				roleDto = roleService.getDataByKeyAndStatusAndExcludeKey(rcdKey,
@@ -106,15 +106,13 @@ public class RoleController {
 			(ViewConstants.roleURL1 + ViewConstants.edit), (ViewConstants.roleURL1 + ViewConstants.delete) })
 	public String userOps(Model model, Locale locale, Authentication au,
 			@RequestParam(NavigationConstants.CURDOpt) Integer curdOpt,
-			@ModelAttribute(ViewConstants.modelAttribute) @Valid RoleDto roleDto, BindingResult result) {
+			@ModelAttribute(ViewConstants.modelAttribute) @Valid UserRoleDto roleDto, BindingResult result) {
 		try {
 			if (result.hasErrors()) {
 				return ViewConstants.roleURL1;
 			}
-			if (StatusConstants.insert == curdOpt) {
-				roleService.save(roleDto, RequestUtil.getUserKeyFromAuth(au));
-			} else if (StatusConstants.edit == curdOpt) {
-				roleService.edit(roleDto, RequestUtil.getUserKeyFromAuth(au));
+			if (StatusConstants.insert == curdOpt || StatusConstants.edit == curdOpt) {
+				roleService.saveOrEdit(roleDto);
 			} else if (StatusConstants.delete == curdOpt) {
 				roleService.delete(roleDto.getRoleId());
 			}

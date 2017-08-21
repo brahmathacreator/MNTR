@@ -13,6 +13,9 @@
 <spring:message code="textGeneralMax" var="csgTxtmax" />
 <spring:message code="textGeneralPattern" var="csgTxtPat" />
 <spring:message code="textGeneralUserIdPatteren" var="csgTxtUPat" />
+<spring:message code="passGeneralMin" var="csgPassMin" />
+<spring:message code="passGeneralMax" var="csgPassMax" />
+<spring:message code="passGeneralPattern" var="csgPassPat" />
 <!-- Client Side Validation Config -->
 
 <!-- Tool Tip Config -->
@@ -38,7 +41,6 @@
 <spring:message code="EmptyTable" var="EmptyTable" />
 <spring:message code="Info" var="Info" />
 <spring:message code="InfoEmpty" var="InfoEmpty" />
-<spring:message code="InfoFiltered" var="InfoFiltered" />
 <spring:message code="LengthMenu" var="LengthMenu" />
 <spring:message code="LoadingRecords" var="LoadingRecords" />
 <spring:message code="Processing" var="Processing" />
@@ -56,19 +58,22 @@
 <spring:message code="page.general.txt32" var="modifiedOn" />
 <spring:message code="page.general.txt40" var="active" />
 <spring:message code="page.general.txt41" var="inActive" />
+<spring:message code="page.general.txt46" var="desc" />
 <!-- Generic Display Text Config -->
 
 <!-- Page Display Text Config -->
-<spring:message code="page.roles.txt1" var="roleId" />
-<spring:message code="page.roles.txt2" var="roleName" />
-<spring:message code="page.roles.txt3" var="desc" />
+<spring:message code="page.category.txt1" var="id" />
+<spring:message code="page.category.txt2" var="name" />
+<spring:message code="page.category.txt3" var="pass" />
+<spring:message code="page.category.txt4" var="ctype" />
 <!-- Page Display Text Config -->
 
 <sec:authentication property="principal.currentUrlDetails.opsType"
 	var="ops" />
-<sec:authentication property="principal.currentUrlDetails.menuURL"
+<sec:authentication property="principal.currentUrlDetails.url"
 	var="menuURL" />
-<script type="text/javascript">
+<c:if test="${ops eq 3 }">
+	<script type="text/javascript">
 function loadData() {
 		var token = $("meta[name='_csrf']").attr("content");
 		var header = $("meta[name='_csrf_header']").attr("content");
@@ -79,7 +84,7 @@ function loadData() {
 							'processing' : true,
 							'ajax' : {
 								'contentType' : 'application/json',
-								'url' : 'getRoleList',
+								'url' : '${menuURL}LIST',
 								'type' : 'POST',
 								'data' : function(d) {
 									return JSON.stringify(d);
@@ -105,7 +110,7 @@ function loadData() {
 							    'sEmptyTable': '${EmptyTable}',
 							    'sInfo': '${Info}',
 							    'sInfoEmpty': '${InfoEmpty}',
-							    'sInfoFiltered':'${InfoFiltered}',
+							    'sInfoFiltered':'',
 							    'sInfoPostFix': '',
 							    'sDecimal': '',
 							    'sThousands': ',',
@@ -118,12 +123,13 @@ function loadData() {
 							    'sZeroRecords': '${ZeroRecords}'
 							 },
 							'serverSide' : true,
+							'order': [[ 5, 'desc' ]],
 							columns : [
 									{
-										data : 'roleId'
+										data : 'categoryId'
 									},
 									{
-										data : 'roleName'
+										data : 'categoryName'
 									},
 									{
 										data : 'description',
@@ -147,15 +153,24 @@ function loadData() {
 										searchable : false,
 										render : function(data, type, row) {
 											return ("<a  href='#' onclick='return listFormSubmit(&quot;${menuURL}SELECT&quot;,&quot;7&quot;,&quot;"
-													+ row.roleId
+													+ row.categoryId
 													+ "&quot;);'><spring:message code='page.general.txt25' /></a> / <a  href='#' onclick='return listFormSubmit(&quot;${menuURL}SELECT&quot;,&quot;2&quot;,&quot;"
-													+ row.roleId
+													+ row.categoryId
 													+ "&quot;);'><spring:message code='page.general.txt24' /></a> / <a  href='#' onclick='return listFormSubmit(&quot;${menuURL}SELECT&quot;,&quot;4&quot;,&quot;"
-													+ row.roleId + "&quot;);'><spring:message code='page.general.txt26' /></a>");
+													+ row.categoryId + "&quot;);'><spring:message code='page.general.txt26' /></a>");
 										}
+									} ,{
+										data : 'createdDt',
+										orderable : false,
+										searchable : false,
+										visible: false
 									} ]
 						});
 	}
+</script>
+</c:if>
+<c:if test="${(ops eq 1) or (ops eq 2) or (ops eq 4) }">
+	<script type="text/javascript">
 	$(function() {
 		$('#form1').parsley().on('field:validated', function() {
 			var ok = $('.parsley-error').length === 0;
@@ -166,6 +181,7 @@ function loadData() {
 		});
 	});
 </script>
+</c:if>
 </head>
 <body <c:if test="${ops eq 3 }"> onload="return loadData();"</c:if>>
 	<div class="col-lg-12">
@@ -175,8 +191,8 @@ function loadData() {
 					class="table table-bordered table-hover table-striped">
 					<thead>
 						<tr>
-							<th>${roleId}</th>
-							<th>${roleName}</th>
+							<th>${id}</th>
+							<th>${name}</th>
 							<th>${desc}</th>
 							<th>${status}</th>
 							<th>${options}</th>
@@ -189,16 +205,16 @@ function loadData() {
 				<sf:form action="${actionURL}" commandName="mObject" role="form"
 					autocomplete="false" id="form1" name="form1" method="post"
 					data-parsley-validate="data-parsley-validate">
-					<sf:hidden path="roleId" />
+					<sf:hidden path="categoryId" />
 					<div class="row">
 						<div class="col-lg-6">
 							<div class="form-group">
-								<label>${roleName}</label>
+								<label>${name}</label>
 								<c:choose>
 									<c:when test="${(ops eq 1) or (ops eq 2)}">
 										<sf:input class="form-control convertInputUpperCase"
-											path="roleName" id="roleName" type="text" autocomplete="off"
-											required="required"
+											path="categoryName" id="categoryName" type="text"
+											autocomplete="off" required="required"
 											data-parsley-required-message="${ttReqYes}"
 											data-parsley-minlength="${csgTxtmin}"
 											data-parsley-minlength-message="${ttMin}${csgTxtmin}"
@@ -207,37 +223,89 @@ function loadData() {
 											data-parsley-pattern="${csgTxtUPat}"
 											data-parsley-pattern-message="${ttAllow3}"
 											data-toggle="tooltip" data-html="true"
-											title="${ttField}${roleName}${ttDetails}<br>${ttReqYes}<br>${ttMin}${csgTxtmin}<br>${ttMax}${csgTxtmax}<br>${ttAllow3}" />
-										<sf:errors path="roleName" class="text-danger" />
+											title="${ttField}${name}${ttDetails}<br>${ttReqYes}<br>${ttMin}${csgTxtmin}<br>${ttMax}${csgTxtmax}<br>${ttAllow3}" />
+										<sf:errors path="categoryName" class="text-danger" />
 									</c:when>
 									<c:otherwise>
-										<p>${mObject.roleName}</p>
-										<sf:hidden path="roleName" />
+										<p>${mObject.categoryName}</p>
+										<sf:hidden path="categoryName" />
 									</c:otherwise>
 								</c:choose>
 							</div>
-							<c:if test="${(ops eq 7) or (ops eq 4) }">
-								<div class="form-group">
-									<label>${status}</label>
-									<c:choose>
-										<c:when test="${mObject.status eq 1}">
-											<p>${active}</p>
-										</c:when>
-										<c:otherwise>
-											<p>${inActive}</p>
-										</c:otherwise>
-									</c:choose>
-									<sf:hidden path="status" />
-								</div>
+							<div class="form-group">
+								<label>${ctype}</label>
+								<c:choose>
+									<c:when test="${(ops eq 1) or (ops eq 2)}">
+										<sf:select class="form-control" id="categoryType"
+											path="categoryType" required="required"
+											data-parsley-required-message="${ttReqYes}"
+											data-toggle="tooltip" data-html="true"
+											title="${ttField}${ctype}${ttDetails}<br>${ttReqYes}">
+											<sf:option value="">
+												<spring:message code="page.general.txt47" />
+											</sf:option>
+											<sf:option value="1">
+												<spring:message code="page.category.type.1.txt" />
+											</sf:option>
+											<sf:option value="2">
+												<spring:message code="page.category.type.2.txt" />
+											</sf:option>
+										</sf:select>
+										<sf:errors path="categoryType" class="text-danger" />
+									</c:when>
+									<c:otherwise>
+										<c:choose>
+											<c:when
+												test="${mObject.categoryType ne null and not empty mObject.categoryType }">
+												<p>
+													<spring:message
+														code="page.category.type.${mObject.categoryType}.txt" />
+												</p>
+											</c:when>
+											<c:otherwise>
+												<p>
+													<spring:message code="page.general.txt49" />
+												</p>
+											</c:otherwise>
+										</c:choose>
+										<sf:hidden path="categoryType" />
+									</c:otherwise>
+								</c:choose>
+							</div>
+							<div class="form-group">
+								<label>${pass}</label>
+								<c:choose>
+									<c:when test="${(ops eq 1)}">
+										<sf:input class="form-control" path="masterPassword"
+											id="masterPassword" type="password" autocomplete="off"
+											required="required"
+											data-parsley-required-message="${ttReqYes}"
+											data-parsley-minlength="${csgPassMin}"
+											data-parsley-minlength-message="${ttMin}${csgPassMin}"
+											data-parsley-maxlength="${csgPassMax}"
+											data-parsley-maxlength-message="${ttMax}${csgPassMax}"
+											data-parsley-pattern="${csgPassPat}"
+											data-parsley-pattern-message="${ttAllow2}"
+											data-toggle="tooltip" data-html="true"
+											title="${ttField}${pass}${ttDetails}<br>${ttReqYes}<br>${ttMin}${csgPassMin}<br>${ttMax}${csgPassMax}<br>${ttAllow2}" />
+										<sf:errors path="masterPassword" class="text-danger" />
+									</c:when>
+									<c:otherwise>
+										<p>********</p>
+										<sf:hidden path="masterPassword" />
+									</c:otherwise>
+								</c:choose>
+							</div>
+							<c:if test="${ops ne 1}">
 								<div class="form-group">
 									<label>${createdOn}</label>
-									<p>${mObject.createdDT}</p>
-									<sf:hidden path="createdDT" />
+									<p>${mObject.createdDt}</p>
+									<sf:hidden path="createdDt" />
 								</div>
 								<div class="form-group">
 									<label>${modifiedOn}</label>
-									<p>${mObject.modifiedDT}</p>
-									<sf:hidden path="modifiedDT" />
+									<p>${mObject.modifiedDt}</p>
+									<sf:hidden path="modifiedDt" />
 								</div>
 							</c:if>
 						</div>
@@ -264,7 +332,37 @@ function loadData() {
 									</c:otherwise>
 								</c:choose>
 							</div>
-							<c:if test="${(ops eq 7) or (ops eq 4) }">
+							<div class="form-group">
+								<label>${status}</label>
+								<c:choose>
+									<c:when test="${(ops eq 1) or (ops eq 2)}">
+										<sf:select class="form-control" id="status" path="status"
+											required="required"
+											data-parsley-required-message="${ttReqYes}"
+											data-toggle="tooltip" data-html="true"
+											title="${ttField}${status}${ttDetails}<br>${ttReqYes}">
+											<sf:option value="">
+												<spring:message code="page.general.txt47" />
+											</sf:option>
+											<sf:option value="1">${active}</sf:option>
+											<sf:option value="0">${inActive}</sf:option>
+										</sf:select>
+										<sf:errors path="status" class="text-danger" />
+									</c:when>
+									<c:otherwise>
+										<c:choose>
+											<c:when test="${mObject.status eq 1 }">
+												<p>${active}</p>
+											</c:when>
+											<c:otherwise>
+												<p>${inActive}</p>
+											</c:otherwise>
+										</c:choose>
+										<sf:hidden path="status" />
+									</c:otherwise>
+								</c:choose>
+							</div>
+							<c:if test="${ops ne 1 }">
 								<div class="form-group">
 									<label>${createdBy}</label>
 									<p>${mObject.createdBy}</p>
@@ -278,6 +376,7 @@ function loadData() {
 							</c:if>
 						</div>
 						<div class="col-lg-12">
+							<hr />
 							<c:if test="${(ops eq 1) or (ops eq 2) or (ops eq 4)}">
 								<button type="submit" class="btn btn-success">
 									<span class="glyphicon glyphicon-ok-sign pull-left"></span>&nbsp;
@@ -286,7 +385,7 @@ function loadData() {
 							</c:if>
 							<button type="button" class="btn btn-default"
 								onclick="return navFormSubmit('navigate','<sec:authentication
-									property='principal.currentUrlDetails.menuURL' />','<sec:authentication
+									property='principal.currentUrlDetails.url' />','<sec:authentication
 									property='principal.currentUrlDetails.menuId' />','1','3');">
 								<span
 									class="glyphicon glyphicon glyphicon-remove-sign pull-left"></span>&nbsp;

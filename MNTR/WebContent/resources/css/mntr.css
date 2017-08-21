@@ -239,3 +239,7 @@ ul.alert-dropdown {
 .convertInputUpperCase {
 	text-transform: uppercase;
 }
+
+.liwidthfix {
+	width: 100%;
+}

@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -46,7 +48,7 @@ public class RoleMenuMapping implements java.io.Serializable {
 		this.rmMappingId = rmMappingId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "MENU_ID", nullable = false)
 	public MenuDetails getMenuDetails() {
 		return this.menuDetails;
@@ -56,7 +58,7 @@ public class RoleMenuMapping implements java.io.Serializable {
 		this.menuDetails = menuDetails;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "ROLE_ID", nullable = false)
 	public UserRole getUserRole() {
 		return this.userRole;

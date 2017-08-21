@@ -13,7 +13,7 @@ public class MenuDetailsItemProcessor implements ItemProcessor<MenuDetails, Menu
 		try {
 			logger.info("Inside [MenuDetailsItemProcessor][process]");
 
-			if (menuDetails.getUserDefMenuId() == 0)
+			if (menuDetails.getUserDefMenuId() == null)
 				return null;
 
 			if (menuDetails.getMenuName() == null)
@@ -28,19 +28,31 @@ public class MenuDetailsItemProcessor implements ItemProcessor<MenuDetails, Menu
 			if (menuDetails.getIconName() == null)
 				return null;
 
-			if (menuDetails.getStatus() == 0)
+			if (menuDetails.getMenuType() == null)
 				return null;
 
-			if (menuDetails.getCreatedBy() == 0)
+			if (menuDetails.getMenuPriority() == null)
 				return null;
 
-			if (menuDetails.getModifiedBy() == 0)
+			if (menuDetails.getMenuMaster() == null)
+				return null;
+
+			if (menuDetails.getStatus() == null)
+				return null;
+
+			if (menuDetails.getCreatedBy() == null)
+				return null;
+
+			if (menuDetails.getModifiedBy() == null)
 				return null;
 
 			if (menuDetails.getCreatedDt() == null)
 				return null;
 
 			if (menuDetails.getModifiedDt() == null)
+				return null;
+
+			if (menuDetails.getHasChild() == null)
 				return null;
 
 			return menuDetails;

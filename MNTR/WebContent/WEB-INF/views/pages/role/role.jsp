@@ -38,7 +38,6 @@
 <spring:message code="EmptyTable" var="EmptyTable" />
 <spring:message code="Info" var="Info" />
 <spring:message code="InfoEmpty" var="InfoEmpty" />
-<spring:message code="InfoFiltered" var="InfoFiltered" />
 <spring:message code="LengthMenu" var="LengthMenu" />
 <spring:message code="LoadingRecords" var="LoadingRecords" />
 <spring:message code="Processing" var="Processing" />
@@ -66,9 +65,10 @@
 
 <sec:authentication property="principal.currentUrlDetails.opsType"
 	var="ops" />
-<sec:authentication property="principal.currentUrlDetails.menuURL"
+<sec:authentication property="principal.currentUrlDetails.url"
 	var="menuURL" />
-<script type="text/javascript">
+<c:if test="${ops eq 3 }">
+	<script type="text/javascript">
 function loadData() {
 		var token = $("meta[name='_csrf']").attr("content");
 		var header = $("meta[name='_csrf_header']").attr("content");
@@ -105,7 +105,7 @@ function loadData() {
 							    'sEmptyTable': '${EmptyTable}',
 							    'sInfo': '${Info}',
 							    'sInfoEmpty': '${InfoEmpty}',
-							    'sInfoFiltered':'${InfoFiltered}',
+							    'sInfoFiltered':'',
 							    'sInfoPostFix': '',
 							    'sDecimal': '',
 							    'sThousands': ',',
@@ -118,6 +118,7 @@ function loadData() {
 							    'sZeroRecords': '${ZeroRecords}'
 							 },
 							'serverSide' : true,
+							'order': [[ 5, 'desc' ]],
 							columns : [
 									{
 										data : 'roleId'
@@ -153,11 +154,17 @@ function loadData() {
 													+ "&quot;);'><spring:message code='page.general.txt24' /></a> / <a  href='#' onclick='return listFormSubmit(&quot;${menuURL}SELECT&quot;,&quot;4&quot;,&quot;"
 													+ row.roleId + "&quot;);'><spring:message code='page.general.txt26' /></a>");
 										}
+									},{
+										data : 'createdDt',
+										orderable : false,
+										searchable : false,
+										visible: false
 									} ]
 						});
 	}
 </script>
-<c:if test="${(ops eq 1) or (ops eq 2) or (ops eq 4) }">
+</c:if>
+<c:if test="${(ops eq 1) or (ops eq 2) }">
 	<script type="text/javascript">
 	$(function() {
 		$('#form1').parsley().on('field:validated', function() {
@@ -220,28 +227,46 @@ function loadData() {
 									</c:otherwise>
 								</c:choose>
 							</div>
-							<c:if test="${(ops eq 7) or (ops eq 4) }">
-								<div class="form-group">
-									<label>${status}</label>
-									<c:choose>
-										<c:when test="${mObject.status eq 1}">
-											<p>${active}</p>
-										</c:when>
-										<c:otherwise>
-											<p>${inActive}</p>
-										</c:otherwise>
-									</c:choose>
-									<sf:hidden path="status" />
-								</div>
+							<div class="form-group">
+								<label>${status}</label>
+								<c:choose>
+									<c:when test="${(ops eq 1) or (ops eq 2)}">
+										<sf:select class="form-control" id="status" path="status"
+											required="required"
+											data-parsley-required-message="${ttReqYes}"
+											data-toggle="tooltip" data-html="true"
+											title="${ttField}${status}${ttDetails}<br>${ttReqYes}">
+											<sf:option value="">
+												<spring:message code="page.general.txt47" />
+											</sf:option>
+											<sf:option value="1">${active}</sf:option>
+											<sf:option value="0">${inActive}</sf:option>
+										</sf:select>
+										<sf:errors path="status" class="text-danger" />
+									</c:when>
+									<c:otherwise>
+										<c:choose>
+											<c:when test="${mObject.status eq 1 }">
+												<p>${active}</p>
+											</c:when>
+											<c:otherwise>
+												<p>${inActive}</p>
+											</c:otherwise>
+										</c:choose>
+										<sf:hidden path="status" />
+									</c:otherwise>
+								</c:choose>
+							</div>
+							<c:if test="${ops ne 1}">
 								<div class="form-group">
 									<label>${createdOn}</label>
-									<p>${mObject.createdDT}</p>
-									<sf:hidden path="createdDT" />
+									<p>${mObject.createdDt}</p>
+									<sf:hidden path="createdDt" />
 								</div>
 								<div class="form-group">
 									<label>${modifiedOn}</label>
-									<p>${mObject.modifiedDT}</p>
-									<sf:hidden path="modifiedDT" />
+									<p>${mObject.modifiedDt}</p>
+									<sf:hidden path="modifiedDt" />
 								</div>
 							</c:if>
 						</div>
@@ -268,7 +293,7 @@ function loadData() {
 									</c:otherwise>
 								</c:choose>
 							</div>
-							<c:if test="${(ops eq 7) or (ops eq 4) }">
+							<c:if test="${ops ne 1}">
 								<div class="form-group">
 									<label>${createdBy}</label>
 									<p>${mObject.createdBy}</p>
@@ -282,6 +307,7 @@ function loadData() {
 							</c:if>
 						</div>
 						<div class="col-lg-12">
+							<hr />
 							<c:if test="${(ops eq 1) or (ops eq 2) or (ops eq 4)}">
 								<button type="submit" class="btn btn-success">
 									<span class="glyphicon glyphicon-ok-sign pull-left"></span>&nbsp;
@@ -290,7 +316,7 @@ function loadData() {
 							</c:if>
 							<button type="button" class="btn btn-default"
 								onclick="return navFormSubmit('navigate','<sec:authentication
-									property='principal.currentUrlDetails.menuURL' />','<sec:authentication
+									property='principal.currentUrlDetails.url' />','<sec:authentication
 									property='principal.currentUrlDetails.menuId' />','1','3');">
 								<span
 									class="glyphicon glyphicon glyphicon-remove-sign pull-left"></span>&nbsp;

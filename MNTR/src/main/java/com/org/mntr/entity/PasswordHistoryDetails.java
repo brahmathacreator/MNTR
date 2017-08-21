@@ -2,6 +2,8 @@ package com.org.mntr.entity;
 // Generated 11-Aug-2017 13:10:52 by Hibernate Tools 5.2.3.Final
 
 import java.util.Date;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -49,7 +51,7 @@ public class PasswordHistoryDetails implements java.io.Serializable {
 		this.pwdHisRefId = pwdHisRefId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "USER_KEY", nullable = false)
 	public UserInfo getUserInfo() {
 		return this.userInfo;

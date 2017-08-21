@@ -1,6 +1,7 @@
 package com.org.mntr.service.security;
 
 import java.io.Serializable;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
@@ -57,6 +58,47 @@ public class AESWithPBKDFHashCryptoUtil implements Serializable {
 			Security.addProvider(bouncyProvider);
 			c = Cipher.getInstance(AES_ALGORITHM + AES_ALGORITHM_TRANSFORMATION_STRING, AES_ALGORITHM_PROVIDER);
 			buffer = ByteBuffer.wrap(Base64.decodeBase64(encryptedData));
+			saltArr = new byte[SALT_LENGTH];
+			buffer.get(saltArr, 0, saltArr.length);
+			ivByteArr = new byte[c.getBlockSize()];
+			buffer.get(ivByteArr, 0, ivByteArr.length);
+			encryptedTextInByteArr = new byte[buffer.capacity() - saltArr.length - ivByteArr.length];
+			buffer.get(encryptedTextInByteArr);
+			logger.info("TOTLEN DEC: " + buffer.limit() + " S : " + saltArr.length + " I : " + ivByteArr.length
+					+ " D : " + encryptedTextInByteArr.length);
+			secretKeySpec = generateSecretKeySpec(password, saltArr);
+			c.init(Cipher.DECRYPT_MODE, secretKeySpec, new IvParameterSpec(ivByteArr));
+			c.updateAAD(password.getBytes(StandardCharsets.US_ASCII));
+			decryptedTextInByteArr = c.doFinal(encryptedTextInByteArr);
+			return new String(decryptedTextInByteArr);
+		} catch (Exception ex) {
+			logger.error("AESUTIL ERROR : " + ex);
+		} finally {
+			c = null;
+			encryptedTextInByteArr = null;
+			decryptedTextInByteArr = null;
+			ivByteArr = null;
+			saltArr = null;
+			buffer = null;
+			secretKeySpec = null;
+		}
+		return null;
+	}
+
+	public String URLDecodeAndDecryptData(final String encryptedData, final String password) {
+		logger.info("Inside [AESUtil][decryptData]");
+		Cipher c = null;
+		byte[] encryptedTextInByteArr = null;
+		byte[] decryptedTextInByteArr = null;
+		byte[] ivByteArr = null;
+		byte[] saltArr = null;
+		ByteBuffer buffer = null;
+		SecretKeySpec secretKeySpec = null;
+		try {
+			Security.addProvider(bouncyProvider);
+			c = Cipher.getInstance(AES_ALGORITHM + AES_ALGORITHM_TRANSFORMATION_STRING, AES_ALGORITHM_PROVIDER);
+			buffer = ByteBuffer
+					.wrap(Base64.decodeBase64(URLDecoder.decode(encryptedData, StandardCharsets.UTF_8.toString())));
 			saltArr = new byte[SALT_LENGTH];
 			buffer.get(saltArr, 0, saltArr.length);
 			ivByteArr = new byte[c.getBlockSize()];

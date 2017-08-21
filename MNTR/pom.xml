@@ -29,6 +29,7 @@
 		<java-version>1.7</java-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<org.springframework.version>4.2.6.RELEASE</org.springframework.version>
+		<aspectj.version>4.3.10.RELEASE</aspectj.version>
 		<org.springframework.security.version>4.0.1.RELEASE</org.springframework.security.version>
 		<springbatch.version>3.0.1.RELEASE</springbatch.version>
 		<springdata.version>1.11.4.RELEASE</springdata.version>
@@ -60,11 +61,6 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
-			<version>${org.springframework.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-aop</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
 		<dependency>
@@ -146,6 +142,19 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
+
+		<!-- Aspectj -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+			<version>${aspectj.version}</version>
+		</dependency>
+
 
 		<!-- Spring Batch -->
 		<dependency>

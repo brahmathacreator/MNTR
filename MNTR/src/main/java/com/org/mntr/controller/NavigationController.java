@@ -19,7 +19,7 @@ import com.org.mntr.constants.StatusConstants;
 import com.org.mntr.constants.UserConstants;
 import com.org.mntr.constants.ViewConstants;
 import com.org.mntr.dto.ActualUser;
-import com.org.mntr.dto.URLProps;
+import com.org.mntr.dto.MenuDetailsDto;
 import com.org.mntr.utils.RequestUtil;
 import ch.lambdaj.Lambda;
 
@@ -37,9 +37,9 @@ public class NavigationController {
 			@RequestParam(NavigationConstants.navMenuId) Long navMenuId,
 			@RequestParam(NavigationConstants.navMenuType) Integer navMenuType,
 			@RequestParam(NavigationConstants.CURDOpt) Integer curdOpt) {
-		URLProps urlProps = null;
+		MenuDetailsDto urlProps = null;
 		ActualUser au = null;
-		List<URLProps> props = null;
+		List<MenuDetailsDto> props = null;
 		String sessionUser = null;
 		try {
 			try {
@@ -50,28 +50,27 @@ public class NavigationController {
 				return ViewConstants.redirect + ViewConstants.sessionFailure;
 			}
 			if (sessionUser != null && RequestUtil.checkSessionUser(request, sessionUser)) {
-				urlProps = new URLProps();
 				if (ViewConstants.home.equals(navParam)) {
-					urlProps = new URLProps();
+					urlProps = new MenuDetailsDto();
 					urlProps.setMenuId(0L);
 					urlProps.setMenuName(messageSource.getMessage("menu.home.menu", null, locale));
 					urlProps.setMenuDesc(messageSource.getMessage("menu.home.menu.desc", null, locale));
 					urlProps.setIconName("fa fa-fw fa-dashboard");
 					urlProps.setOpsType(StatusConstants.dashboard);
 					urlProps.setMenuType(navMenuType);
-					urlProps.setMenuURL(navParam);
-					urlProps.setMenuMaster(0);
+					urlProps.setUrl(navParam);
+					urlProps.setMenuMaster(0L);
 					((ActualUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
 							.setCurrentUrlDetails(urlProps);
 					return ViewConstants.redirect + ViewConstants.home;
 				} else {
 					au = ((ActualUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 					if (UserConstants.parentMenu == navMenuType) {
-						props = Lambda.select(au.getUserInfo().getParentURLList(),
-								Lambda.having(Lambda.on(URLProps.class).getMenuId(), Matchers.equalTo(navMenuId)));
+						props = Lambda.select(au.getUserInfo().getParentURLList(), Lambda
+								.having(Lambda.on(MenuDetailsDto.class).getMenuId(), Matchers.equalTo(navMenuId)));
 					} else {
-						props = Lambda.select(au.getUserInfo().getChildURLList(),
-								Lambda.having(Lambda.on(URLProps.class).getMenuId(), Matchers.equalTo(navMenuId)));
+						props = Lambda.select(au.getUserInfo().getChildURLList(), Lambda
+								.having(Lambda.on(MenuDetailsDto.class).getMenuId(), Matchers.equalTo(navMenuId)));
 					}
 					props.get(0).setOpsType(curdOpt);
 					props.get(0).setMenuType(navMenuType);
@@ -96,19 +95,18 @@ public class NavigationController {
 			@RequestParam(NavigationConstants.navMenuId) Long navMenuId,
 			@RequestParam(NavigationConstants.navMenuType) Integer navMenuType,
 			@RequestParam(NavigationConstants.CURDOpt) Integer curdOpt) {
-		URLProps urlProps = null;
+		MenuDetailsDto urlProps = null;
 		try {
-			urlProps = new URLProps();
 			if (ViewConstants.home.equals(navParam)) {
-				urlProps = new URLProps();
+				urlProps = new MenuDetailsDto();
 				urlProps.setMenuId(0L);
 				urlProps.setMenuName(messageSource.getMessage("menu.home.menu", null, locale));
 				urlProps.setMenuDesc(messageSource.getMessage("menu.home.menu.desc", null, locale));
 				urlProps.setIconName("fa fa-fw fa-dashboard");
 				urlProps.setOpsType(StatusConstants.dashboard);
 				urlProps.setMenuType(navMenuType);
-				urlProps.setMenuURL(navParam);
-				urlProps.setMenuMaster(0);
+				urlProps.setUrl(navParam);
+				urlProps.setMenuMaster(0L);
 				((ActualUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
 						.setCurrentUrlDetails(urlProps);
 				return ViewConstants.redirect + ViewConstants.home;

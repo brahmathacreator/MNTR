@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -47,7 +49,7 @@ public class UserRoleMapping implements java.io.Serializable {
 		this.urMappingId = urMappingId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "USER_KEY", unique = true, nullable = false)
 	public UserInfo getUserInfo() {
 		return this.userInfo;
@@ -57,7 +59,7 @@ public class UserRoleMapping implements java.io.Serializable {
 		this.userInfo = userInfo;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "ROLE_ID", nullable = false)
 	public UserRole getUserRole() {
 		return this.userRole;

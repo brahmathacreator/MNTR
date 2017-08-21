@@ -6,6 +6,6 @@ import com.org.mntr.entity.UserRole;
 
 public interface RoleRepository extends DataTablesRepository<UserRole, Long> {
 
-	public UserRole findByRoleIdAndStatusAndRoleIdNot(Long roleId, Integer status, Long eRoleId) throws Exception;
+	public UserRole findByRoleIdAndRoleIdNot(Long roleId, Long eRoleId) throws Exception;
 
 }

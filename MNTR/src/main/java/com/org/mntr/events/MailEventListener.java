@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 import com.org.mntr.constants.MailConstants;
 import com.org.mntr.constants.StatusConstants;
 import com.org.mntr.constants.ViewConstants;
-import com.org.mntr.dto.UserInfoDTO;
+import com.org.mntr.dto.UserInfoDto;
 import com.org.mntr.entity.MailDetails;
 import com.org.mntr.events.eventcaster.AsyncListner;
 import com.org.mntr.service.MailDetailsService;
@@ -66,7 +66,7 @@ public class MailEventListener implements ApplicationListener<MailEvent> {
 
 	private void sendSystemUserRegConfirmationMail(final MailEvent event) {
 		logger.info("Inside [MailEventListner][constructMail]");
-		UserInfoDTO user = null;
+		UserInfoDto user = null;
 		SimpleMailMessage mail = null;
 		Template template = null;
 		VelocityContext context = null;
@@ -75,7 +75,7 @@ public class MailEventListener implements ApplicationListener<MailEvent> {
 		MailDetails mailDetails = new MailDetails();
 		Date d = new Date();
 		try {
-			user = ((UserInfoDTO) event.getObject());
+			user = ((UserInfoDto) event.getObject());
 			mail = new SimpleMailMessage();
 			template = velocityEngine.getTemplate(mntrProperties.getProperty(MailConstants.velocityTemplatePathKey)
 					+ messageSource.getMessage(MailConstants.velocityTemplateKey, null, event.getLocale()));
@@ -86,9 +86,9 @@ public class MailEventListener implements ApplicationListener<MailEvent> {
 					.append(ViewConstants.rootParemSeperator).append(ViewConstants.regConfirmationParam1)
 					.append(ViewConstants.paremValueSeperator)
 					.append(aesUtil.encryptData(
-							user.getPwdUUID() + ViewConstants.applicationDataSeperator + event.getMailType()
+							user.getPwdUuid() + ViewConstants.applicationDataSeperator + event.getMailType()
 									+ ViewConstants.applicationDataSeperator + event.getPwdChangeFlag(),
-							user.getPwdUUID()))
+							user.getPwdUuid()))
 					.append(ViewConstants.paremSeperator).append(ViewConstants.regConfirmationParam2)
 					.append(ViewConstants.paremValueSeperator).append(user.getUserKey());
 			context.put(MailConstants.velocityRegTemplatekey2, sb.toString());

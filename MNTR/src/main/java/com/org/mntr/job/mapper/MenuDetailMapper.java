@@ -19,9 +19,9 @@ public class MenuDetailMapper implements FieldSetMapper<MenuDetails> {
 		menu.setMenuPriority(fieldSet.readInt(5));
 		menu.setMenuMaster(fieldSet.readLong(6));
 		menu.setStatus(fieldSet.readInt(7));
-		menu.setCreatedBy(fieldSet.readLong(8));
+		menu.setCreatedBy(fieldSet.readString(8));
 		menu.setCreatedDt(fieldSet.readDate(9, "yyyy-MM-dd HH:mm:ss"));
-		menu.setModifiedBy(fieldSet.readLong(10));
+		menu.setModifiedBy(fieldSet.readString(10));
 		menu.setModifiedDt(fieldSet.readDate(11, "yyyy-MM-dd HH:mm:ss"));
 		menu.setIconName(fieldSet.readString(12));
 		menu.setHasChild(fieldSet.readInt(13));

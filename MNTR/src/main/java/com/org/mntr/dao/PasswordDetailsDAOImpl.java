@@ -23,7 +23,7 @@ public class PasswordDetailsDAOImpl extends EntityManagerAbstractDAO<Serializabl
 		Criteria c = null;
 		try {
 			c = createEntityCriteria();
-			c.add(Restrictions.eq("user.userKey", userKey));
+			c.add(Restrictions.eq("userInfo.userKey", userKey));
 			c.add(Restrictions.eq("status", StatusConstants.active));
 			return (PasswordDetails) c.uniqueResult();
 		} finally {

@@ -136,7 +136,7 @@
 			<li class="dropdown"><a href="#" class="dropdown-toggle"
 				data-toggle="dropdown"><i class="fa fa-user"></i> <sec:authorize
 						access="isAuthenticated()">
-						<sec:authentication property="principal.userInfo.userName" />
+						<sec:authentication property="principal.userInfo.username" />
 					</sec:authorize> <b class="caret"></b></a>
 				<ul class="dropdown-menu">
 
@@ -182,7 +182,7 @@
 										${p.menuName} <i class="fa fa-fw fa-caret-down"></i></a>
 									<ul id="p_${p.menuId}"
 										<c:choose>
-									<c:when test="${cMenuMaster eq p.userDefMenuKey}">
+									<c:when test="${cMenuMaster eq p.userDefMenuId}">
 									class="navbar-nav collapse in"
 									</c:when>
 									<c:otherwise>
@@ -191,11 +191,11 @@
 									</c:choose>>
 										<c:forEach var="c" items="${child}">
 											<c:if
-												test="${(p.userDefMenuKey eq c.menuMaster) and (c.menuType eq 1) }">
-												<li
+												test="${(p.userDefMenuId eq c.menuMaster) and (c.menuType eq 1) }">
+												<li style="width: 100%;"
 													<c:if test="${c.menuId eq cMenuId}" >class="active"</c:if>><a
 													href="#"
-													onclick="return navFormSubmit('navigate','${c.menuURL}','${c.menuId}','1','3');"><i
+													onclick="return navFormSubmit('navigate','${c.url}','${c.menuId}','1','3');"><i
 														class="${c.iconName}"></i>&nbsp;${c.menuName}</a></li>
 											</c:if>
 										</c:forEach>
@@ -204,7 +204,7 @@
 							<c:otherwise>
 								<li <c:if test="${p.menuId eq cMenuId}" >class="active"</c:if>><a
 									href="#"
-									onclick="return navFormSubmit('navigate','${p.menuURL}','${p.menuId}','1','3');"><i
+									onclick="return navFormSubmit('navigate','${p.url}','${p.menuId}','1','3');"><i
 										class="${p.iconName}"></i> ${p.menuName}</a></li>
 							</c:otherwise>
 						</c:choose>
@@ -233,7 +233,7 @@
 										property='principal.currentUrlDetails.iconName' />"></i>
 								<a
 								onclick="return navFormSubmit('navigate','<sec:authentication
-									property='principal.currentUrlDetails.menuURL' />','<sec:authentication
+									property='principal.currentUrlDetails.url' />','<sec:authentication
 									property='principal.currentUrlDetails.menuId' />','1','3');"
 								href="#"><sec:authentication
 										property="principal.currentUrlDetails.menuName" /></a></li>
@@ -275,12 +275,12 @@
 							<li class="pull-right"><i
 								class="glyphicon glyphicon-plus-sign"></i> <a
 								onclick="return listFormSubmit('<sec:authentication
-									property='principal.currentUrlDetails.menuURL' />ADD','1','0');"
+									property='principal.currentUrlDetails.url' />ADD','1','0');"
 								href="#"><spring:message code="page.general.txt23" /></a></li>
 							<li class="pull-right"><i
 								class="glyphicon glyphicon-th-list"></i> <a
 								onclick="return navFormSubmit('navigate','<sec:authentication
-									property='principal.currentUrlDetails.menuURL' />','<sec:authentication
+									property='principal.currentUrlDetails.url' />','<sec:authentication
 									property='principal.currentUrlDetails.menuId' />','1','3');"
 								href="#"><spring:message code="page.general.txt39" /></a></li>
 						</ol>

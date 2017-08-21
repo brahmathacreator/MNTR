@@ -28,7 +28,7 @@ import com.org.mntr.constants.NavigationConstants;
 import com.org.mntr.constants.StatusConstants;
 import com.org.mntr.constants.UserConstants;
 import com.org.mntr.constants.ViewConstants;
-import com.org.mntr.dto.UserInfoDTO;
+import com.org.mntr.dto.UserInfoDto;
 import com.org.mntr.events.MailEvent;
 import com.org.mntr.exceptions.CustomException;
 import com.org.mntr.service.UserService;
@@ -61,7 +61,7 @@ public class RegistrationController {
 	@RequestMapping(value = { ViewConstants.registerSystemUser }, method = RequestMethod.POST)
 	public String superAdminRegPage(ModelMap model) {
 		logger.info("Inside [RegistrationController][superAdminRegPage]");
-		UserInfoDTO user = null;
+		UserInfoDto user = null;
 		Long suaCount = null;
 		try {
 			suaCount = userService.getUserCount();
@@ -70,7 +70,7 @@ public class RegistrationController {
 			else
 				return ViewConstants.redirect + ViewConstants.errorURL;
 
-			user = new UserInfoDTO();
+			user = new UserInfoDto();
 			model.addAttribute("user", user);
 			model.addAttribute(ViewConstants.actionURL, ViewConstants.saveSystemUser);
 		} catch (Exception ex) {
@@ -83,7 +83,7 @@ public class RegistrationController {
 	}
 
 	@RequestMapping(value = { ViewConstants.saveSystemUser }, method = RequestMethod.POST)
-	public String saveSuperAdmin(@ModelAttribute("user") @Valid UserInfoDTO user, BindingResult validationResult,
+	public String saveSuperAdmin(@ModelAttribute("user") @Valid UserInfoDto user, BindingResult validationResult,
 			ModelMap model, Locale locale, @RequestParam("CURDOpt") Integer curdOpt,
 			@RequestParam("suaCount") Integer suaCount, HttpServletRequest request) {
 		logger.info("Inside [RegistrationController][CURDSuperAdmin]");
@@ -101,9 +101,7 @@ public class RegistrationController {
 					logger.info("Job Status : " + exec.getStatus());
 					if (BatchStatus.COMPLETED == exec.getStatus()) {
 						user.setUserLogoName(messageSource.getMessage(UserConstants.defaultLogoPathKey, null, locale));
-						user.setCreatedBy(UserConstants.anonymousUser);
-						user.setModifiedBy(UserConstants.anonymousUser);
-						user.setPwdUUID(UniqueReferenceGenerator.getUUIDvalue());
+						user.setPwdUuid(UniqueReferenceGenerator.getUUIDvalue());
 						userService.saveSystemUser(user);
 						try {
 							eventPublisher

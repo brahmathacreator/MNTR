@@ -72,9 +72,8 @@
 						<fieldset>
 							<div class="form-group">
 								<label>${pwd}</label>
-								<sf:input class="form-control convertInputUpperCase"
-									path="password" id="password" type="password"
-									autocomplete="off" required="required"
+								<sf:input class="form-control" path="password" id="password"
+									type="password" autocomplete="off" required="required"
 									data-parsley-required-message="${ttReqYes}"
 									data-parsley-minlength="${csgPassMin}"
 									data-parsley-minlength-message="${ttMin}${csgPassMin}"
@@ -88,9 +87,8 @@
 							</div>
 							<div class="form-group">
 								<label>${cpwd}</label>
-								<sf:input class="form-control convertInputUpperCase"
-									path="cPassword" id="cPassword" type="password"
-									autocomplete="off" required="required"
+								<sf:input class="form-control" path="cPassword" id="cPassword"
+									type="password" autocomplete="off" required="required"
 									data-parsley-required-message="${ttReqYes}"
 									data-parsley-minlength="${csgPassMin}"
 									data-parsley-minlength-message="${ttMin}${csgPassMin}"

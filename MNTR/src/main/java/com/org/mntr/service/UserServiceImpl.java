@@ -23,8 +23,8 @@ import com.org.mntr.dao.PasswordDetailsDAO;
 import com.org.mntr.dao.RoleMenuMappingDAO;
 import com.org.mntr.dao.UserDAO;
 import com.org.mntr.dao.UserRoleMappingDAO;
-import com.org.mntr.dto.URLProps;
-import com.org.mntr.dto.UserInfoDTO;
+import com.org.mntr.dto.MenuDetailsDto;
+import com.org.mntr.dto.UserInfoDto;
 import com.org.mntr.entity.MenuDetails;
 import com.org.mntr.entity.PasswordDetails;
 import com.org.mntr.entity.RoleMenuMapping;
@@ -62,17 +62,17 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public UserInfoDTO getUserByNameToLogin(String userName, Locale locale) throws Exception {
-		UserInfoDTO userInfo = null;
+	public UserInfoDto getUserByNameToLogin(String userName, Locale locale) throws Exception {
+		UserInfoDto userInfo = null;
 		UserInfo userInfoEntity = null;
 		Set<UserRoleMapping> userRoleMap = null;
 		Set<RoleMenuMapping> roleMenuMap = null;
-		URLProps urlProps = null;
+		MenuDetailsDto urlProps = null;
 		try {
 			logger.info("Inside [UserServiceImpl][getUserByName]");
 			userInfoEntity = userDao.getUserByName(userName);
 			if (userInfoEntity != null) {
-				userInfo = new UserInfoDTO();
+				userInfo = new UserInfoDto();
 				BeanUtils.copyProperties(userInfoEntity, userInfo);
 				userRoleMap = userInfoEntity.getUserRoleMappings();
 				for (UserRoleMapping ur : userRoleMap) {
@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
 					userInfo.setRoleId(ur.getUserRole().getRoleId());
 					roleMenuMap = ur.getUserRole().getRoleMenuMappings();
 					for (RoleMenuMapping rm : roleMenuMap) {
-						urlProps = new URLProps();
+						urlProps = new MenuDetailsDto();
 						BeanUtils.copyProperties(rm.getMenuDetails(), urlProps);
 						urlProps.setMenuName(messageSource.getMessage(urlProps.getMenuName(), null, locale));
 						urlProps.setMenuDesc(messageSource.getMessage(urlProps.getMenuDesc(), null, locale));
@@ -113,7 +113,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public void saveSystemUser(final UserInfoDTO user) throws Exception {
+	public void saveSystemUser(final UserInfoDto user) throws Exception {
 		UserInfo userInfo = null;
 		PasswordDetails passwordDetails = null;
 		UserRole userRole = null;
@@ -125,9 +125,9 @@ public class UserServiceImpl implements UserService {
 			logger.info("Inside [UserServiceImpl][saveSuperAdminUser]");
 			userInfo = new UserInfo();
 			userInfo.setUserId(user.getUserId());
-			userInfo.setUsername(user.getUserName());
+			userInfo.setUsername(user.getUsername());
 			userInfo.setEmail(user.getEmail());
-			userInfo.setPhoneNo(user.getPhno());
+			userInfo.setPhoneNo(user.getPhoneNo());
 			userInfo.setCreatedBy(user.getCreatedBy());
 			userInfo.setCreatedDt(d);
 			userInfo.setModifiedBy(user.getModifiedBy());
@@ -170,7 +170,7 @@ public class UserServiceImpl implements UserService {
 			passwordDetails.setCreatedDt(d);
 			passwordDetails.setModifiedBy(user.getModifiedBy());
 			passwordDetails.setModifiedDt(d);
-			passwordDetails.setPwdUuid(user.getPwdUUID());
+			passwordDetails.setPwdUuid(user.getPwdUuid());
 			passwordDetails.setUuidGenerationDt(d);
 
 			pwdDetailsDao.savePassword(passwordDetails);

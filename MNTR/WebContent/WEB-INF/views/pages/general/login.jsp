@@ -72,10 +72,10 @@
 									title="${ttField}${userId}${ttDetails}<br>${ttReqYes}" />
 							</div>
 							<div class="form-group">
-								<label>${pwd}</label> <input
-									class="form-control convertInputUpperCase" name="password"
-									id="password" type="password" autocomplete="off"
-									required="required" data-parsley-required-message="${ttReqYes}"
+								<label>${pwd}</label> <input class="form-control"
+									name="password" id="password" type="password"
+									autocomplete="off" required="required"
+									data-parsley-required-message="${ttReqYes}"
 									data-toggle="tooltip" data-html="true"
 									title="${ttField}${pwd}${ttDetails}<br>${ttReqYes}" />
 							</div>

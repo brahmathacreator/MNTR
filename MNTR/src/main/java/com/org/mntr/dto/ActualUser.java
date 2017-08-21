@@ -16,10 +16,10 @@ public class ActualUser implements UserDetails {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private UserInfoDTO userInfo;
-	private URLProps currentUrlDetails;
+	private UserInfoDto userInfo;
+	private MenuDetailsDto currentUrlDetails;
 
-	public ActualUser(UserInfoDTO userInfo) {
+	public ActualUser(UserInfoDto userInfo) {
 		this.userInfo = userInfo;
 	}
 
@@ -65,19 +65,19 @@ public class ActualUser implements UserDetails {
 		return userInfo.getStatus() == StatusConstants.active ? true : false;
 	}
 
-	public UserInfoDTO getUserInfo() {
+	public UserInfoDto getUserInfo() {
 		return userInfo;
 	}
 
-	public void setUserInfo(UserInfoDTO userInfo) {
+	public void setUserInfo(UserInfoDto userInfo) {
 		this.userInfo = userInfo;
 	}
 
-	public URLProps getCurrentUrlDetails() {
+	public MenuDetailsDto getCurrentUrlDetails() {
 		return currentUrlDetails;
 	}
 
-	public void setCurrentUrlDetails(URLProps currentUrlDetails) {
+	public void setCurrentUrlDetails(MenuDetailsDto currentUrlDetails) {
 		this.currentUrlDetails = currentUrlDetails;
 	}
 

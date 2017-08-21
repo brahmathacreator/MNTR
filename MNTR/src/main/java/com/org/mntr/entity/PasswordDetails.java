@@ -2,6 +2,8 @@ package com.org.mntr.entity;
 // Generated 11-Aug-2017 13:10:52 by Hibernate Tools 5.2.3.Final
 
 import java.util.Date;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -34,8 +36,8 @@ public class PasswordDetails implements java.io.Serializable {
 	private String hashPwd;
 	private Date modifiedDt;
 	private Date createdDt;
-	private Long createdBy;
-	private Long modifiedBy;
+	private String createdBy;
+	private String modifiedBy;
 	private String encryptedPwd;
 	private Integer status;
 
@@ -43,7 +45,7 @@ public class PasswordDetails implements java.io.Serializable {
 	}
 
 	public PasswordDetails(UserInfo userInfo, String pwdUuid, Date uuidGenerationDt, Date modifiedDt, Date createdDt,
-			Long createdBy, Long modifiedBy, Integer status) {
+			String createdBy, String modifiedBy, Integer status) {
 		this.userInfo = userInfo;
 		this.pwdUuid = pwdUuid;
 		this.uuidGenerationDt = uuidGenerationDt;
@@ -55,7 +57,7 @@ public class PasswordDetails implements java.io.Serializable {
 	}
 
 	public PasswordDetails(UserInfo userInfo, String pwdUuid, Date uuidGenerationDt, String hashPwd, Date modifiedDt,
-			Date createdDt, Long createdBy, Long modifiedBy, String encryptedPwd, Integer status) {
+			Date createdDt, String createdBy, String modifiedBy, String encryptedPwd, Integer status) {
 		this.userInfo = userInfo;
 		this.pwdUuid = pwdUuid;
 		this.uuidGenerationDt = uuidGenerationDt;
@@ -80,7 +82,7 @@ public class PasswordDetails implements java.io.Serializable {
 		this.passRefId = passRefId;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "USER_KEY", unique = true, nullable = false)
 	public UserInfo getUserInfo() {
 		return this.userInfo;
@@ -139,20 +141,20 @@ public class PasswordDetails implements java.io.Serializable {
 	}
 
 	@Column(name = "CREATED_BY", nullable = false)
-	public Long getCreatedBy() {
+	public String getCreatedBy() {
 		return this.createdBy;
 	}
 
-	public void setCreatedBy(Long createdBy) {
+	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
 
 	@Column(name = "MODIFIED_BY", nullable = false)
-	public Long getModifiedBy() {
+	public String getModifiedBy() {
 		return this.modifiedBy;
 	}
 
-	public void setModifiedBy(Long modifiedBy) {
+	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
 

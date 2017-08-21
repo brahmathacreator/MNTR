@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.org.mntr.constants.MsgConstants;
 import com.org.mntr.dto.ActualUser;
-import com.org.mntr.dto.UserInfoDTO;
+import com.org.mntr.dto.UserInfoDto;
 import com.org.mntr.service.UserService;
 import com.org.mntr.utils.MsgResolver;
 
@@ -32,7 +32,7 @@ public class AuthenticationService implements UserDetailsService {
 	@Override
 	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		UserInfoDTO userInfo = null;
+		UserInfoDto userInfo = null;
 		ActualUser actUser = null;
 		Locale locale = null;
 		try {

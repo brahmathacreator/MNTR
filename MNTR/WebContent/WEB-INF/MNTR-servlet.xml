@@ -154,9 +154,16 @@
 	<bean id="persistenceExceptionTranslationPostProcessor"
 		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 
+	<bean id="auditUserNameProvider" class="com.org.mntr.audit.AuditUserNameProvider" />
+	<bean id="auditDateTimeProvider" class="com.org.mntr.audit.AuditDateTimeProvider" />
+
 	<jpa:repositories
 		factory-class="org.springframework.data.jpa.datatables.repository.DataTablesRepositoryFactoryBean"
 		base-package="com.org.mntr.jpa" />
+
+	<jpa:auditing auditor-aware-ref="auditUserNameProvider"
+		date-time-provider-ref="auditDateTimeProvider" set-dates="true"
+		modify-on-creation="true" />
 
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="${smtp.host}" />
@@ -255,5 +262,7 @@
 
 	<bean id="menuDetailProcessor" class="com.org.mntr.job.itemprscr.MenuDetailsItemProcessor" />
 	<bean id="menuDetailListener" class="com.org.mntr.job.listener.MenuDetailsJobListener" />
+
+
 
 </beans>

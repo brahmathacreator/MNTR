@@ -16,7 +16,7 @@ public class UserConstants implements Serializable {
 
 	public static final String genericRole = "ROLE_";
 	public static final String defaultLogoPathKey = "user.logo.path";
-	public static final Long anonymousUser = 0L;
+	public static final String anonymousUser = "ANONYMOUS";
 	public static final String systemUserRole = "SYSTEM USER ROLE";
 	public static final String suaCount = "suaCount";
 

@@ -21,5 +21,6 @@ public class SSValidationConfig implements Serializable {
 	// security configuration constants
 	public final static String sessionExpiryPeriodKey = "app.session.timeout.mins";
 	public final static String pwdLinkExpiryPeriodKey = "app.password.link.expiry.period.hour";
+	public final static String masterPassCode = "app.master.sec.code";
 
 }

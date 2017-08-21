@@ -1,7 +1,5 @@
 package com.org.mntr.service;
 
-import java.util.Date;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -9,10 +7,8 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.org.mntr.constants.MsgConstants;
-import com.org.mntr.constants.StatusConstants;
-import com.org.mntr.dto.RoleDto;
+import com.org.mntr.dto.UserRoleDto;
 import com.org.mntr.entity.UserRole;
 import com.org.mntr.exceptions.CustomException;
 import com.org.mntr.jpa.RoleRepository;
@@ -30,10 +26,10 @@ public class RoleServiceImpl implements RoleService {
 	private RoleSpec rolespec;
 
 	@Override
-	public DataTablesOutput<UserRole> getAllRoles(DataTablesInput dtInput, Long eId) throws Exception {
+	public DataTablesOutput<UserRole> getAllData(DataTablesInput dtInput, Long eId) throws Exception {
 		DataTablesOutput<UserRole> page = null;
 		try {
-			page = roleRepository.findAll(dtInput, rolespec.isActive(eId));
+			page = roleRepository.findAll(dtInput, rolespec.excludeId(eId));
 			return page;
 		} finally {
 			page = null;
@@ -41,13 +37,13 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
-	public RoleDto getDataByKeyAndStatusAndExcludeKey(Long id, Long eId) throws Exception {
-		RoleDto roleDto = null;
+	public UserRoleDto getDataByKeyAndStatusAndExcludeKey(Long id, Long eId) throws Exception {
+		UserRoleDto roleDto = null;
 		UserRole role = null;
 		try {
-			role = roleRepository.findByRoleIdAndStatusAndRoleIdNot(id, StatusConstants.active, eId);
+			role = roleRepository.findByRoleIdAndRoleIdNot(id, eId);
 			if (role != null) {
-				roleDto = new RoleDto();
+				roleDto = new UserRoleDto();
 				BeanUtils.copyProperties(role, roleDto);
 			} else {
 				throw new CustomException(MsgConstants.noRecordsFound);
@@ -60,41 +56,15 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
-	public void save(RoleDto object, Long userKey) throws Exception {
+	public void saveOrEdit(UserRoleDto object) throws Exception {
 		UserRole role = null;
-		Date d = null;
 		try {
-			d = new Date();
 			role = new UserRole();
 			BeanUtils.copyProperties(object, role);
-			role.setCreatedBy(userKey);
-			role.setModifiedBy(userKey);
-			role.setCreatedDt(d);
-			role.setModifiedDt(d);
-			role.setStatus(StatusConstants.active);
 			roleRepository.save(role);
 		} finally {
 			object = null;
 			role = null;
-			d = null;
-		}
-	}
-
-	@Override
-	public void edit(RoleDto object, Long userKey) throws Exception {
-		UserRole role = null;
-		Date d = null;
-		try {
-			d = new Date();
-			role = new UserRole();
-			BeanUtils.copyProperties(object, role);
-			role.setModifiedBy(userKey);
-			role.setModifiedDt(d);
-			roleRepository.save(role);
-		} finally {
-			object = null;
-			role = null;
-			d = null;
 		}
 	}
 
@@ -104,7 +74,12 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
-	public RoleDto getDataByKeyAndStatus(Long id) throws Exception {
+	public UserRoleDto getDataByKeyAndStatus(Long id) throws Exception {
+		return null;
+	}
+
+	@Override
+	public DataTablesOutput<UserRole> getAllData(DataTablesInput dtInput) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

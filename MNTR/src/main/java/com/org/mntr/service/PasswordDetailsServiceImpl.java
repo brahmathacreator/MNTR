@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.org.mntr.constants.MsgConstants;
 import com.org.mntr.dao.PasswordDetailsDAO;
-import com.org.mntr.dto.PasswordDetailsDTO;
+import com.org.mntr.dto.PasswordDetailsDto;
 import com.org.mntr.entity.PasswordDetails;
 import com.org.mntr.exceptions.CustomException;
 
@@ -29,18 +29,18 @@ public class PasswordDetailsServiceImpl implements PasswordDetailsService {
 
 	@Override
 	@Transactional
-	public PasswordDetailsDTO getPasswordByUserKey(Long userKey) throws Exception {
+	public PasswordDetailsDto getPasswordByUserKey(Long userKey) throws Exception {
 		logger.info("Inside [PasswordDetailsServiceImpl][PasswordDetailsDTO]");
-		PasswordDetailsDTO pwdDetails = null;
+		PasswordDetailsDto pwdDetails = null;
 		PasswordDetails passwordDetails = null;
 		try {
 			passwordDetails = pwdDetailsDao.getPasswordByUserKey(userKey);
 			if (passwordDetails != null && passwordDetails.getHashPwd() != null) {
 				throw new CustomException(MsgConstants.passwordCtrlrMsgCode4);
 			}
-			pwdDetails = new PasswordDetailsDTO();
-			pwdDetails.setUuid(passwordDetails.getPwdUuid());
-			pwdDetails.setUuidDT(passwordDetails.getUuidGenerationDt());
+			pwdDetails = new PasswordDetailsDto();
+			pwdDetails.setPwdUuid(passwordDetails.getPwdUuid());
+			pwdDetails.setUuidGenerationDt(passwordDetails.getUuidGenerationDt());
 			pwdDetails.setPassRefId(passwordDetails.getPassRefId());
 			return pwdDetails;
 		} finally {
@@ -58,7 +58,7 @@ public class PasswordDetailsServiceImpl implements PasswordDetailsService {
 
 	@Override
 	@Transactional
-	public void updatePassword(PasswordDetailsDTO passwordDetails) throws Exception {
+	public void updatePassword(PasswordDetailsDto passwordDetails) throws Exception {
 		PasswordDetails pwdDetails = null;
 		Date d = null;
 		try {
