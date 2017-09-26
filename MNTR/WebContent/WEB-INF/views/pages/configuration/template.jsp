@@ -13,9 +13,9 @@
 <spring:message code="textGeneralMax" var="csgTxtmax" />
 <spring:message code="textGeneralPattern" var="csgTxtPat" />
 <spring:message code="textGeneralUserIdPatteren" var="csgTxtUPat" />
-<spring:message code="passGeneralMin" var="csgPassMin" />
-<spring:message code="passGeneralMax" var="csgPassMax" />
-<spring:message code="passGeneralPattern" var="csgPassPat" />
+<spring:message code="numericGeneralMin" var="csgNumMin" />
+<spring:message code="numericGeneralMax" var="csgNumMax" />
+<spring:message code="onlyNumericPattern" var="csgNumPat" />
 <!-- Client Side Validation Config -->
 
 <!-- Tool Tip Config -->
@@ -29,6 +29,7 @@
 <spring:message code="page.general.txt9" var="ttAllow2" />
 <spring:message code="page.general.txt10" var="ttAllow3" />
 <spring:message code="page.general.txt11" var="ttAllow4" />
+<spring:message code="page.general.txt50" var="ttAllow5" />
 <!-- Tool Tip  Config -->
 
 <!-- Datatable Display Config -->
@@ -62,10 +63,13 @@
 <!-- Generic Display Text Config -->
 
 <!-- Page Display Text Config -->
-<spring:message code="page.category.txt1" var="id" />
-<spring:message code="page.category.txt2" var="name" />
-<spring:message code="page.category.txt3" var="pass" />
-<spring:message code="page.category.txt4" var="ctype" />
+<spring:message code="page.template.txt1" var="id" />
+<spring:message code="page.template.txt2" var="name" />
+<spring:message code="page.template.txt3" var="chkInter" />
+<spring:message code="page.template.txt4" var="retryInter" />
+<spring:message code="page.template.txt5" var="maxChkAtt" />
+<spring:message code="page.template.txt6" var="alertGrp" />
+<spring:message code="page.template.txt7" var="cmdGrp" />
 <!-- Page Display Text Config -->
 
 <sec:authentication property="principal.currentUrlDetails.opsType"
@@ -126,10 +130,10 @@ function loadData() {
 							'order': [[ 5, 'desc' ]],
 							columns : [
 									{
-										data : 'categoryId'
+										data : 'templateId'
 									},
 									{
-										data : 'categoryName'
+										data : 'hostName'
 									},
 									{
 										data : 'description',
@@ -205,7 +209,7 @@ function loadData() {
 				<sf:form action="${actionURL}" commandName="mObject" role="form"
 					autocomplete="false" id="form1" name="form1" method="post"
 					data-parsley-validate="data-parsley-validate">
-					<sf:hidden path="categoryId" />
+					<sf:hidden path="templateId" />
 					<div class="row">
 						<div class="col-lg-6">
 							<div class="form-group">
@@ -213,8 +217,8 @@ function loadData() {
 								<c:choose>
 									<c:when test="${(ops eq 1) or (ops eq 2)}">
 										<sf:input class="form-control convertInputUpperCase"
-											path="categoryName" id="categoryName" type="text"
-											autocomplete="off" required="required"
+											path="hostName" id="hostName" type="text" autocomplete="off"
+											required="required"
 											data-parsley-required-message="${ttReqYes}"
 											data-parsley-minlength="${csgTxtmin}"
 											data-parsley-minlength-message="${ttMin}${csgTxtmin}"
@@ -224,51 +228,35 @@ function loadData() {
 											data-parsley-pattern-message="${ttAllow3}"
 											data-toggle="tooltip" data-html="true"
 											title="${ttField}${name}${ttDetails}<br>${ttReqYes}<br>${ttMin}${csgTxtmin}<br>${ttMax}${csgTxtmax}<br>${ttAllow3}" />
-										<sf:errors path="categoryName" class="text-danger" />
+										<sf:errors path="hostName" class="text-danger" />
 									</c:when>
 									<c:otherwise>
-										<p>${mObject.categoryName}</p>
-										<sf:hidden path="categoryName" />
+										<p>${mObject.hostName}</p>
+										<sf:hidden path="hostName" />
 									</c:otherwise>
 								</c:choose>
 							</div>
 							<div class="form-group">
-								<label>${ctype}</label>
+								<label>${chkInter}</label>
 								<c:choose>
 									<c:when test="${(ops eq 1) or (ops eq 2)}">
-										<sf:select class="form-control" id="categoryType"
-											path="categoryType" required="required"
+										<sf:input class="form-control" path="checkInterval"
+											id="checkInterval" type="text" autocomplete="off"
+											required="required"
 											data-parsley-required-message="${ttReqYes}"
+											data-parsley-minlength="${csgNumMin}"
+											data-parsley-minlength-message="${ttMin}${csgNumMin}"
+											data-parsley-maxlength="${csgNumMax}"
+											data-parsley-maxlength-message="${ttMax}${csgNumMax}"
+											data-parsley-pattern="${csgNumPat}"
+											data-parsley-pattern-message="${ttAllow4}"
 											data-toggle="tooltip" data-html="true"
-											title="${ttField}${ctype}${ttDetails}<br>${ttReqYes}">
-											<sf:option value="">
-												<spring:message code="page.general.txt47" />
-											</sf:option>
-											<sf:option value="1">
-												<spring:message code="page.category.type.1.txt" />
-											</sf:option>
-											<sf:option value="1">
-												<spring:message code="page.category.type.2.txt" />
-											</sf:option>
-										</sf:select>
-										<sf:errors path="categoryType" class="text-danger" />
+											title="${ttField}${chkInter}${ttDetails}<br>${ttReqYes}<br>${ttMin}${csgNumMin}<br>${ttMax}${csgNumMax}<br>${ttAllow4}" />
+										<sf:errors path="checkInterval" class="text-danger" />
 									</c:when>
 									<c:otherwise>
-										<c:choose>
-											<c:when
-												test="${mObject.categoryType ne null and not empty mObject.categoryType }">
-												<p>
-													<spring:message
-														code="page.category.type.${mObject.categoryType}.txt" />
-												</p>
-											</c:when>
-											<c:otherwise>
-												<p>
-													<spring:message code="page.general.txt49" />
-												</p>
-											</c:otherwise>
-										</c:choose>
-										<sf:hidden path="categoryType" />
+										<p>${mObject.checkInterval}</p>
+										<sf:hidden path="checkInterval" />
 									</c:otherwise>
 								</c:choose>
 							</div>

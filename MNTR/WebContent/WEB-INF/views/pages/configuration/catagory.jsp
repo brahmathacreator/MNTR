@@ -59,6 +59,8 @@
 <spring:message code="page.general.txt40" var="active" />
 <spring:message code="page.general.txt41" var="inActive" />
 <spring:message code="page.general.txt46" var="desc" />
+<spring:message code="page.general.txt51" var="headCap" />
+<spring:message code="page.general.txt52" var="history" />
 <!-- Generic Display Text Config -->
 
 <!-- Page Display Text Config -->
@@ -205,6 +207,11 @@ function loadData() {
 				<sf:form action="${actionURL}" commandName="mObject" role="form"
 					autocomplete="false" id="form1" name="form1" method="post"
 					data-parsley-validate="data-parsley-validate">
+					<c:if test="${ops ne 1}">
+						<fieldset class="title">
+							<legend>${headCap} ${mObject.categoryId}</legend>
+						</fieldset>
+					</c:if>
 					<sf:hidden path="categoryId" />
 					<div class="row">
 						<div class="col-lg-6">
@@ -296,18 +303,6 @@ function loadData() {
 									</c:otherwise>
 								</c:choose>
 							</div>
-							<c:if test="${ops ne 1}">
-								<div class="form-group">
-									<label>${createdOn}</label>
-									<p>${mObject.createdDt}</p>
-									<sf:hidden path="createdDt" />
-								</div>
-								<div class="form-group">
-									<label>${modifiedOn}</label>
-									<p>${mObject.modifiedDt}</p>
-									<sf:hidden path="modifiedDt" />
-								</div>
-							</c:if>
 						</div>
 						<div class="col-lg-6">
 							<div class="form-group">
@@ -362,38 +357,59 @@ function loadData() {
 									</c:otherwise>
 								</c:choose>
 							</div>
-							<c:if test="${ops ne 1 }">
-								<div class="form-group">
-									<label>${createdBy}</label>
-									<p>${mObject.createdBy}</p>
-									<sf:hidden path="createdBy" />
-								</div>
-								<div class="form-group">
-									<label>${modifiedBy}</label>
-									<p>${mObject.modifiedBy}</p>
-									<sf:hidden path="modifiedBy" />
-								</div>
-							</c:if>
 						</div>
-						<div class="col-lg-12">
-							<hr />
-							<c:if test="${(ops eq 1) or (ops eq 2) or (ops eq 4)}">
-								<button type="submit" class="btn btn-success">
-									<span class="glyphicon glyphicon-ok-sign pull-left"></span>&nbsp;
-									<spring:message code='page.general.txt43' />
-								</button>
-							</c:if>
-							<button type="button" class="btn btn-default"
-								onclick="return navFormSubmit('navigate','<sec:authentication
+						<c:if test="${ops ne 1}">
+							<fieldset class="title">
+								<legend>${history}</legend>
+							</fieldset>
+							<div class="row">
+								<div class="col-lg-6">
+									<div class="form-group">
+										<label>${createdOn}</label>
+										<p>${mObject.createdDt}</p>
+										<sf:hidden path="createdDt" />
+									</div>
+									<div class="form-group">
+										<label>${modifiedOn}</label>
+										<p>${mObject.modifiedDt}</p>
+										<sf:hidden path="modifiedDt" />
+									</div>
+								</div>
+								<div class="col-lg-6">
+									<div class="form-group">
+										<label>${createdBy}</label>
+										<p>${mObject.createdBy}</p>
+										<sf:hidden path="createdBy" />
+									</div>
+									<div class="form-group">
+										<label>${modifiedBy}</label>
+										<p>${mObject.modifiedBy}</p>
+										<sf:hidden path="modifiedBy" />
+									</div>
+								</div>
+							</div>
+						</c:if>
+						<div class="row">
+							<div class="col-lg-12">
+								<hr />
+								<c:if test="${(ops eq 1) or (ops eq 2) or (ops eq 4)}">
+									<button type="submit" class="btn btn-success">
+										<span class="glyphicon glyphicon-ok-sign pull-left"></span>&nbsp;
+										<spring:message code='page.general.txt43' />
+									</button>
+								</c:if>
+								<button type="button" class="btn btn-default"
+									onclick="return navFormSubmit('navigate','<sec:authentication
 									property='principal.currentUrlDetails.url' />','<sec:authentication
 									property='principal.currentUrlDetails.menuId' />','1','3');">
-								<span
-									class="glyphicon glyphicon glyphicon-remove-sign pull-left"></span>&nbsp;
-								<spring:message code='page.general.txt44' />
-							</button>
-							<input type="hidden" name="CURDOpt" id="CURDOpt" value="${ops}" />
-							<input type="hidden" name="${_csrf.parameterName}"
-								value="${_csrf.token}" />
+									<span
+										class="glyphicon glyphicon glyphicon-remove-sign pull-left"></span>&nbsp;
+									<spring:message code='page.general.txt44' />
+								</button>
+								<input type="hidden" name="CURDOpt" id="CURDOpt" value="${ops}" />
+								<input type="hidden" name="${_csrf.parameterName}"
+									value="${_csrf.token}" />
+							</div>
 						</div>
 					</div>
 				</sf:form>

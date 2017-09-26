@@ -221,12 +221,12 @@
 				<!-- Page Heading -->
 				<div class="row">
 					<div class="col-lg-12">
-						<h1 class="page-header">
+						<h2 class="page-header">
 							<sec:authentication
 								property="principal.currentUrlDetails.menuName" />
 							<small><sec:authentication
 									property="principal.currentUrlDetails.menuDesc" /></small>
-						</h1>
+						</h2>
 						<ol class="breadcrumb">
 							<li><i
 								class="<sec:authentication
@@ -321,22 +321,6 @@
 								<a href="#" class="close" data-dismiss="alert"
 									aria-label="close">&times;</a> <strong><spring:message
 										code="page.general.txt13" />&nbsp;</strong>${errmsg}
-							</div>
-						</c:if>
-						<c:if
-							test="${sessionScope['SPRING_SECURITY_LAST_EXCEPTION'] != null and not empty sessionScope['SPRING_SECURITY_LAST_EXCEPTION'] }">
-							<div class="alert alert-danger alert-dismissable">
-								<a href="#" class="close" data-dismiss="alert"
-									aria-label="close">&times;</a> <strong><spring:message
-										code="page.general.txt13" />&nbsp;</strong>${sessionScope['SPRING_SECURITY_LAST_EXCEPTION']}
-							</div>
-						</c:if>
-						<c:if
-							test="${sessionScope[AUTHENTICATION_EXCEPTION] != null and not empty sessionScope[AUTHENTICATION_EXCEPTION] }">
-							<div class="alert alert-danger alert-dismissable">
-								<a href="#" class="close" data-dismiss="alert"
-									aria-label="close">&times;</a> <strong><spring:message
-										code="page.general.txt13" />&nbsp;</strong>${sessionScope[AUTHENTICATION_EXCEPTION]}
 							</div>
 						</c:if>
 						<c:if test="${infomsg != null and not empty infomsg}">
